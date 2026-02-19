@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abidjan Communes – Population Explorer</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #242836;
+    --border: #2e3345;
+    --text: #e4e6f0;
+    --text-dim: #8b8fa8;
+    --accent: #f59e0b;
+    --accent2: #3b82f6;
+    --green: #22c55e;
+    --red: #ef4444;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, #1a1d27 0%, #242836 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 2rem 1.5rem;
+    text-align: center;
+  }
+  header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), #fbbf24);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+  header p { color: var(--text-dim); font-size: 0.95rem; }
+
+  /* Stats Bar */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1.25rem 2rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .stat-item { text-align: center; }
+  .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.15rem;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 1rem 2rem 0;
+    background: var(--bg);
+  }
+  .tab-btn {
+    padding: 0.6rem 1.25rem;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 0.85rem;
+    border-radius: 8px 8px 0 0;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--text); background: var(--surface2); }
+  .tab-btn.active {
+    background: var(--surface2);
+    color: var(--accent);
+    border-bottom-color: var(--surface2);
+    font-weight: 600;
+  }
+
+  /* Tab content */
+  .tab-content { display: none; padding: 1.5rem 2rem 2rem; }
+  .tab-content.active { display: block; }
+
+  /* Grid */
+  .grid { display: grid; gap: 1.5rem; }
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  /* Card */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+  .card h3 {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+  }
+  .chart-container {
+    position: relative;
+    width: 100%;
+    max-height: 400px;
+  }
+
+  /* Map View */
+  .map-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    aspect-ratio: 4 / 3;
+  }
+  .commune-bubble {
+    position: absolute;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    line-height: 1.1;
+    border: 2px solid rgba(255,255,255,0.15);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+  }
+  .commune-bubble:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+    z-index: 10;
+  }
+  .lagoon {
+    position: absolute;
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px dashed rgba(59, 130, 246, 0.3);
+    border-radius: 60% 40% 50% 50%;
+    width: 65%;
+    height: 18%;
+    top: 45%;
+    left: 18%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(59, 130, 246, 0.4);
+    font-size: 0.8rem;
+    font-style: italic;
+    pointer-events: none;
+  }
+  .map-legend {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+  .map-legend .legend-title {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+
+  /* Tooltip */
+  .tooltip-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 99;
+  }
+  .tooltip-overlay.show { display: block; }
+  .tooltip-panel {
+    position: fixed;
+    z-index: 100;
+    background: var(--surface2);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 1.25rem;
+    min-width: 280px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    display: none;
+  }
+  .tooltip-panel.show { display: block; }
+  .tooltip-panel h4 {
+    font-size: 1.1rem;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  .tooltip-panel .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+  .tooltip-panel .detail-row:last-child { border-bottom: none; }
+  .tooltip-panel .detail-label { color: var(--text-dim); }
+  .tooltip-panel .detail-value { font-weight: 600; }
+  .growth-positive { color: var(--green); }
+  .growth-negative { color: var(--red); }
+
+  /* Table */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .data-table th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    background: var(--surface2);
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .data-table th:hover { color: var(--accent); }
+  .data-table th .sort-arrow { margin-left: 0.3rem; font-size: 0.6rem; }
+  .data-table td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table tr:hover td { background: rgba(245, 158, 11, 0.05); }
+  .data-table .bar-cell { width: 30%; }
+  .mini-bar {
+    height: 8px;
+    border-radius: 4px;
+    background: var(--accent);
+    transition: width 0.5s ease;
+  }
+
+  /* Commune list in overview */
+  .commune-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .commune-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .commune-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .commune-card .cc-name {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .commune-card .cc-pop {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .commune-card .cc-sub {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 0.25rem;
+  }
+  .commune-card .cc-growth {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+
+  /* Source */
+  .source {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+  }
+  .source a { color: var(--accent); text-decoration: none; }
+  .source a:hover { text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    header h1 { font-size: 1.5rem; }
+    .stats-bar { gap: 1rem; }
+  }
+  @media (max-width: 600px) {
+    .tabs { overflow-x: auto; justify-content: flex-start; padding: 0.75rem 1rem 0; }
+    .tab-content { padding: 1rem; }
+    .stat-value { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Abidjan Population Explorer</h1>
+  <p>Interactive visualization of population across the 10 communes &mdash; RGPH 2014 &amp; 2021 Census Data</p>
+</header>
+
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-value" id="total-pop">5,616,633</div>
+    <div class="stat-label">Total Population (2021)</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value">10</div>
+    <div class="stat-label">Communes</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value">565 km&sup2;</div>
+    <div class="stat-label">Total Area</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="avg-growth">+30.9%</div>
+    <div class="stat-label">Avg Growth (2014→2021)</div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" data-tab="overview">Overview</button>
+  <button class="tab-btn" data-tab="map">Map View</button>
+  <button class="tab-btn" data-tab="compare">Compare</button>
+  <button class="tab-btn" data-tab="density">Density</button>
+  <button class="tab-btn" data-tab="table">Data Table</button>
+</div>
+
+<!-- Overview Tab -->
+<div class="tab-content active" id="tab-overview">
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Population by Commune (2021)</h3>
+      <div class="chart-container">
+        <canvas id="chartPopBar"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Population Share</h3>
+      <div class="chart-container">
+        <canvas id="chartPopDoughnut"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:1.5rem">
+    <h3>All Communes</h3>
+    <div class="commune-cards" id="communeCards"></div>
+  </div>
+</div>
+
+<!-- Map Tab -->
+<div class="tab-content" id="tab-map">
+  <div class="card">
+    <h3>Geographic View &mdash; Bubble Size = Population</h3>
+    <div class="map-container" id="mapContainer">
+      <div class="lagoon">Lagune Ébrié</div>
+    </div>
+  </div>
+</div>
+
+<!-- Compare Tab -->
+<div class="tab-content" id="tab-compare">
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>2014 vs 2021 Population</h3>
+      <div class="chart-container">
+        <canvas id="chartCompare"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Growth Rate (2014 → 2021)</h3>
+      <div class="chart-container">
+        <canvas id="chartGrowth"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Density Tab -->
+<div class="tab-content" id="tab-density">
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Population Density (inhabitants / km²)</h3>
+      <div class="chart-container">
+        <canvas id="chartDensity"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Area vs Population</h3>
+      <div class="chart-container">
+        <canvas id="chartScatter"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Data Table Tab -->
+<div class="tab-content" id="tab-table">
+  <div class="card">
+    <h3>Complete Data &mdash; Click headers to sort</h3>
+    <div style="overflow-x:auto">
+      <table class="data-table" id="dataTable">
+        <thead>
+          <tr>
+            <th data-col="name">Commune <span class="sort-arrow"></span></th>
+            <th data-col="pop2014">Pop. 2014 <span class="sort-arrow"></span></th>
+            <th data-col="pop2021">Pop. 2021 <span class="sort-arrow"></span></th>
+            <th data-col="growth">Growth <span class="sort-arrow"></span></th>
+            <th data-col="area">Area (km²) <span class="sort-arrow"></span></th>
+            <th data-col="density">Density <span class="sort-arrow"></span></th>
+            <th>Bar</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Tooltip -->
+<div class="tooltip-overlay" id="tooltipOverlay"></div>
+<div class="tooltip-panel" id="tooltipPanel"></div>
+
+<div class="source">
+  Data: RGPH 2014 &amp; RGPH 2021 &mdash; Institut National de la Statistique, Côte d'Ivoire &middot;
+  <a href="https://data.gouv.ci/datasets/recensement-de-la-population-ivoirienne" target="_blank">data.gouv.ci</a>
+</div>
+
+<script>
+// ── DATA ──
+const communes = [
+  { name: "Yopougon",    pop2014: 1071543, pop2021: 1571065, area: 153,   color: "#f59e0b", mapX: 15, mapY: 38, zone: "West" },
+  { name: "Abobo",       pop2014: 1030658, pop2021: 1340083, area: 90,    color: "#ef4444", mapX: 48, mapY: 12, zone: "North" },
+  { name: "Cocody",      pop2014: 447055,  pop2021: 692583,  area: 136,   color: "#3b82f6", mapX: 68, mapY: 25, zone: "North-East" },
+  { name: "Port-Bouët",  pop2014: 419033,  pop2021: 618795,  area: 77,    color: "#8b5cf6", mapX: 55, mapY: 78, zone: "South" },
+  { name: "Koumassi",    pop2014: 433139,  pop2021: 412282,  area: 19.18, color: "#ec4899", mapX: 52, mapY: 63, zone: "South" },
+  { name: "Adjamé",      pop2014: 372978,  pop2021: 340892,  area: 11.66, color: "#14b8a6", mapX: 42, mapY: 30, zone: "North" },
+  { name: "Attécoubé",   pop2014: 260911,  pop2021: 313135,  area: 46.17, color: "#f97316", mapX: 30, mapY: 28, zone: "North-West" },
+  { name: "Marcory",     pop2014: 249858,  pop2021: 214061,  area: 17.86, color: "#06b6d4", mapX: 45, mapY: 60, zone: "South" },
+  { name: "Treichville", pop2014: 102580,  pop2021: 106552,  area: 8,     color: "#a855f7", mapX: 38, mapY: 58, zone: "South" },
+  { name: "Plateau",     pop2014: 7488,    pop2021: 7186,    area: 6.15,  color: "#64748b", mapX: 48, mapY: 42, zone: "Center" },
+];
+
+// Derived
+communes.forEach(c => {
+  c.growth = ((c.pop2021 - c.pop2014) / c.pop2014 * 100);
+  c.density = Math.round(c.pop2021 / c.area);
+});
+
+const names = communes.map(c => c.name);
+const colors = communes.map(c => c.color);
+const maxPop = Math.max(...communes.map(c => c.pop2021));
+
+// ── FORMATTERS ──
+const fmt = n => n.toLocaleString('en-US');
+const fmtPct = n => (n >= 0 ? '+' : '') + n.toFixed(1) + '%';
+
+// ── TABS ──
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ── TOOLTIP ──
+function showDetail(commune, x, y) {
+  const c = communes.find(d => d.name === commune);
+  if (!c) return;
+  const panel = document.getElementById('tooltipPanel');
+  const overlay = document.getElementById('tooltipOverlay');
+  const growthClass = c.growth >= 0 ? 'growth-positive' : 'growth-negative';
+  panel.innerHTML = `
+    <h4>${c.name}</h4>
+    <div class="detail-row"><span class="detail-label">Zone</span><span class="detail-value">${c.zone}</span></div>
+    <div class="detail-row"><span class="detail-label">Population 2014</span><span class="detail-value">${fmt(c.pop2014)}</span></div>
+    <div class="detail-row"><span class="detail-label">Population 2021</span><span class="detail-value">${fmt(c.pop2021)}</span></div>
+    <div class="detail-row"><span class="detail-label">Change</span><span class="detail-value ${growthClass}">${fmtPct(c.growth)}</span></div>
+    <div class="detail-row"><span class="detail-label">Area</span><span class="detail-value">${c.area} km²</span></div>
+    <div class="detail-row"><span class="detail-label">Density</span><span class="detail-value">${fmt(c.density)} / km²</span></div>
+  `;
+  // Position
+  const vw = window.innerWidth, vh = window.innerHeight;
+  let left = x + 12, top = y - 20;
+  if (left + 300 > vw) left = x - 300;
+  if (top + 250 > vh) top = y - 250;
+  if (top < 10) top = 10;
+  panel.style.left = left + 'px';
+  panel.style.top = top + 'px';
+  panel.classList.add('show');
+  overlay.classList.add('show');
+  overlay.onclick = () => { panel.classList.remove('show'); overlay.classList.remove('show'); };
+}
+
+// ── OVERVIEW: Bar Chart ──
+const sortedByPop = [...communes].sort((a, b) => b.pop2021 - a.pop2021);
+new Chart(document.getElementById('chartPopBar'), {
+  type: 'bar',
+  data: {
+    labels: sortedByPop.map(c => c.name),
+    datasets: [{
+      data: sortedByPop.map(c => c.pop2021),
+      backgroundColor: sortedByPop.map(c => c.color),
+      borderRadius: 6,
+      borderSkipped: false,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: { label: ctx => fmt(ctx.raw) + ' inhabitants' }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: 'rgba(255,255,255,0.05)' },
+        ticks: { color: '#8b8fa8', callback: v => (v / 1e6).toFixed(1) + 'M' }
+      },
+      y: {
+        grid: { display: false },
+        ticks: { color: '#e4e6f0', font: { weight: 600 } }
+      }
+    },
+    onClick: (e, els) => {
+      if (els.length) {
+        const idx = els[0].index;
+        showDetail(sortedByPop[idx].name, e.native.clientX, e.native.clientY);
+      }
+    }
+  }
+});
+
+// ── OVERVIEW: Doughnut ──
+new Chart(document.getElementById('chartPopDoughnut'), {
+  type: 'doughnut',
+  data: {
+    labels: sortedByPop.map(c => c.name),
+    datasets: [{
+      data: sortedByPop.map(c => c.pop2021),
+      backgroundColor: sortedByPop.map(c => c.color),
+      borderColor: '#1a1d27',
+      borderWidth: 2,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '55%',
+    plugins: {
+      legend: {
+        position: 'right',
+        labels: { color: '#e4e6f0', padding: 10, font: { size: 11 }, usePointStyle: true, pointStyleWidth: 10 }
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => {
+            const pct = (ctx.raw / communes.reduce((s, c) => s + c.pop2021, 0) * 100).toFixed(1);
+            return ctx.label + ': ' + fmt(ctx.raw) + ' (' + pct + '%)';
+          }
+        }
+      }
+    }
+  }
+});
+
+// ── OVERVIEW: Commune Cards ──
+const cardsContainer = document.getElementById('communeCards');
+sortedByPop.forEach(c => {
+  const gClass = c.growth >= 0 ? 'growth-positive' : 'growth-negative';
+  const gBg = c.growth >= 0 ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)';
+  const card = document.createElement('div');
+  card.className = 'commune-card';
+  card.innerHTML = `
+    <div class="cc-name" style="color:${c.color}">${c.name}</div>
+    <div class="cc-pop">${fmt(c.pop2021)}</div>
+    <div class="cc-sub">${c.area} km² · ${fmt(c.density)} /km²</div>
+    <span class="cc-growth ${gClass}" style="background:${gBg}">${fmtPct(c.growth)}</span>
+  `;
+  card.addEventListener('click', e => showDetail(c.name, e.clientX, e.clientY));
+  cardsContainer.appendChild(card);
+});
+
+// ── MAP VIEW ──
+function buildMap() {
+  const container = document.getElementById('mapContainer');
+  const popScale = Math.sqrt(maxPop);
+  communes.forEach(c => {
+    const size = Math.max(38, Math.sqrt(c.pop2021) / popScale * 160);
+    const bubble = document.createElement('div');
+    bubble.className = 'commune-bubble';
+    bubble.style.cssText = `
+      left: ${c.mapX}%; top: ${c.mapY}%;
+      width: ${size}px; height: ${size}px;
+      background: radial-gradient(circle at 35% 35%, ${c.color}dd, ${c.color}88);
+      transform: translate(-50%, -50%);
+    `;
+    bubble.textContent = c.name;
+    bubble.addEventListener('click', e => {
+      e.stopPropagation();
+      showDetail(c.name, e.clientX, e.clientY);
+    });
+    container.appendChild(bubble);
+  });
+  // Legend
+  const legend = document.createElement('div');
+  legend.className = 'map-legend';
+  legend.innerHTML = `
+    <div class="legend-title">Bubble Legend</div>
+    <div>Size = Population</div>
+    <div style="margin-top:0.3rem">North = above lagoon</div>
+    <div>South = below lagoon</div>
+  `;
+  container.appendChild(legend);
+}
+buildMap();
+
+// ── COMPARE: Grouped Bar ──
+new Chart(document.getElementById('chartCompare'), {
+  type: 'bar',
+  data: {
+    labels: sortedByPop.map(c => c.name),
+    datasets: [
+      {
+        label: '2014',
+        data: sortedByPop.map(c => c.pop2014),
+        backgroundColor: 'rgba(59,130,246,0.6)',
+        borderRadius: 4,
+      },
+      {
+        label: '2021',
+        data: sortedByPop.map(c => c.pop2021),
+        backgroundColor: 'rgba(245,158,11,0.8)',
+        borderRadius: 4,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#e4e6f0', usePointStyle: true } },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmt(ctx.raw) } }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#8b8fa8', maxRotation: 45 } },
+      y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8b8fa8', callback: v => (v / 1e6).toFixed(1) + 'M' } }
+    }
+  }
+});
+
+// ── COMPARE: Growth Rate ──
+const sortedByGrowth = [...communes].sort((a, b) => b.growth - a.growth);
+new Chart(document.getElementById('chartGrowth'), {
+  type: 'bar',
+  data: {
+    labels: sortedByGrowth.map(c => c.name),
+    datasets: [{
+      data: sortedByGrowth.map(c => c.growth),
+      backgroundColor: sortedByGrowth.map(c => c.growth >= 0 ? 'rgba(34,197,94,0.7)' : 'rgba(239,68,68,0.7)'),
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => fmtPct(ctx.raw) } }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#8b8fa8', maxRotation: 45 } },
+      y: {
+        grid: { color: 'rgba(255,255,255,0.05)' },
+        ticks: { color: '#8b8fa8', callback: v => v + '%' }
+      }
+    }
+  }
+});
+
+// ── DENSITY: Bar ──
+const sortedByDensity = [...communes].sort((a, b) => b.density - a.density);
+new Chart(document.getElementById('chartDensity'), {
+  type: 'bar',
+  data: {
+    labels: sortedByDensity.map(c => c.name),
+    datasets: [{
+      data: sortedByDensity.map(c => c.density),
+      backgroundColor: sortedByDensity.map(c => c.color + 'cc'),
+      borderRadius: 6,
+      borderSkipped: false,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => fmt(ctx.raw) + ' / km²' } }
+    },
+    scales: {
+      x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8b8fa8', callback: v => fmt(v) } },
+      y: { grid: { display: false }, ticks: { color: '#e4e6f0', font: { weight: 600 } } }
+    }
+  }
+});
+
+// ── DENSITY: Scatter ──
+new Chart(document.getElementById('chartScatter'), {
+  type: 'scatter',
+  data: {
+    datasets: communes.map(c => ({
+      label: c.name,
+      data: [{ x: c.area, y: c.pop2021 }],
+      backgroundColor: c.color,
+      pointRadius: Math.max(6, Math.sqrt(c.pop2021 / maxPop) * 30),
+      pointHoverRadius: Math.max(8, Math.sqrt(c.pop2021 / maxPop) * 35),
+    }))
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: { color: '#e4e6f0', usePointStyle: true, font: { size: 10 }, padding: 8 },
+        position: 'bottom'
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => ctx.dataset.label + ': ' + c_area_fmt(ctx) + ' km², ' + fmt(ctx.raw.y) + ' pop'
+        }
+      }
+    },
+    scales: {
+      x: {
+        title: { display: true, text: 'Area (km²)', color: '#8b8fa8' },
+        grid: { color: 'rgba(255,255,255,0.05)' },
+        ticks: { color: '#8b8fa8' }
+      },
+      y: {
+        title: { display: true, text: 'Population (2021)', color: '#8b8fa8' },
+        grid: { color: 'rgba(255,255,255,0.05)' },
+        ticks: { color: '#8b8fa8', callback: v => (v / 1e6).toFixed(1) + 'M' }
+      }
+    }
+  }
+});
+function c_area_fmt(ctx) { return ctx.raw.x; }
+
+// ── DATA TABLE ──
+let sortCol = 'pop2021';
+let sortDir = -1;
+
+function renderTable() {
+  const sorted = [...communes].sort((a, b) => {
+    const va = sortCol === 'name' ? a.name : a[sortCol];
+    const vb = sortCol === 'name' ? b.name : b[sortCol];
+    if (typeof va === 'string') return sortDir * va.localeCompare(vb);
+    return sortDir * (va - vb);
+  });
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = sorted.map(c => {
+    const gClass = c.growth >= 0 ? 'growth-positive' : 'growth-negative';
+    const barW = (c.pop2021 / maxPop * 100).toFixed(1);
+    return `<tr>
+      <td style="font-weight:600;color:${c.color}">${c.name}</td>
+      <td>${fmt(c.pop2014)}</td>
+      <td>${fmt(c.pop2021)}</td>
+      <td class="${gClass}">${fmtPct(c.growth)}</td>
+      <td>${c.area}</td>
+      <td>${fmt(c.density)}</td>
+      <td class="bar-cell"><div class="mini-bar" style="width:${barW}%;background:${c.color}"></div></td>
+    </tr>`;
+  }).join('');
+
+  // Update sort arrows
+  document.querySelectorAll('.data-table th').forEach(th => {
+    const arrow = th.querySelector('.sort-arrow');
+    if (!arrow) return;
+    if (th.dataset.col === sortCol) {
+      arrow.textContent = sortDir === 1 ? '▲' : '▼';
+    } else {
+      arrow.textContent = '';
+    }
+  });
+}
+
+document.querySelectorAll('.data-table th[data-col]').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (sortCol === col) sortDir *= -1;
+    else { sortCol = col; sortDir = col === 'name' ? 1 : -1; }
+    renderTable();
+  });
+});
+renderTable();
+</script>
+</body>
+</html>
