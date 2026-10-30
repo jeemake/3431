@@ -38,14 +38,15 @@ RATIOS = {
     "chambre":    ("Chambres", 600_000, "Pavillon Akpo 2022 - chambres"),
     "eau":        ("Salles d'eau / SdB / WC", 1_500_000, "Pavillon Akpo 2022 - pièces d'eau"),
     "cuisine":    ("Cuisine", 850_000, "Pavillon Akpo 2022 - cuisine"),
-    "dressing":   ("Dressing / vestibule-placard", 850_000, "Résidences Anthurium 2021 - dressing"),
+    "cuis_afr":   ("Cuisine africaine (carrelée, ventilée)", 850_000, "Pavillon Akpo 2022 - cuisine"),
+    "dressing":   ("Dressing / placards", 850_000, "Résidences Anthurium 2021 - dressing"),
     "service":    ("Réserve / buanderie / cellier", 500_000, "Pavillon Akpo 2022 - réserve"),
-    "circ":       ("Circulations (genkan, rōka, palier)", 550_000, "Résidence Les Flamboyants - dégagements"),
+    "circ":       ("Circulations (hall, dégagements, palier)", 550_000, "Résidence Les Flamboyants - dégagements"),
     "escalier":   ("Escalier", 600_000, "Résidences Anthurium 2021 - circulations (haut de fourchette)"),
-    "terrasse":   ("Engawa / terrasse couverte / séchoir", 350_000, "Pavillon Akpo 2022 - terrasse"),
-    "balcon":     ("Balcon-engawa d'étage", 450_000, "Résidences Anthurium 2021 - balcons"),
+    "terrasse":   ("Terrasse couverte / galerie", 350_000, "Pavillon Akpo 2022 - terrasse"),
+    "balcon":     ("Balcon d'étage", 450_000, "Résidences Anthurium 2021 - balcons"),
     "toit_jard":  ("Toit-jardin accessible", 350_000, "Assimilé terrasse (Akpo 2022)"),
-    "patio":      ("Patio / tsubo-niwa / cour", 85_000, "Villa Cacao 6 2023 - patio"),
+    "patio":      ("Cour de service / séchoir / patio", 85_000, "Villa Cacao 6 2023 - patio"),
     "parvis":     ("Parking et allées pavés", 85_000, "Villa Cacao 6 2023 - patio (assimilé)"),
     "jardin":     ("Espaces verts (aménagement)", 20_000, "Résidence Les Flamboyants - jardins et patios"),
     # Locatif (standard appartement)
@@ -54,7 +55,7 @@ RATIOS = {
     "l_eau":      ("Salle d'eau (locatif)", 1_000_000, "Résidence Les Flamboyants - salles de bain"),
     "l_kitch":    ("Kitchenette / bande humide", 850_000, "Pavillon Akpo 2022 - cuisine"),
     "l_circ":     ("Dégagement / placard / bureau", 400_000, "Résidences Anthurium 2021 - circulations (bas)"),
-    "l_coursive": ("Coursive-engawa R+1", 400_000, "Résidences Anthurium 2021 - circulations (bas)"),
+    "l_coursive": ("Coursive R+1", 400_000, "Résidences Anthurium 2021 - circulations (bas)"),
 }
 DIVISEUR = 2  # consigne client : prix de construction divises par 2
 
@@ -74,127 +75,141 @@ def R(nom, niv, rects, code, clos=True, note=""):
             "clos": clos, "surface": surf, "note": note}
 
 
-SEJOUR_L = [(3.2, 8.6, 10.4, 12.2), (3.2, 5.0, 6.8, 8.6)]
-# Noyau de distribution (revue architecte senior) : bande de 1,20 m x 10,4-11,6 reliant
-# genkan, roka, escalier et palier ; escalier en U 2,40 x 3,60 decale en x 11,6-15,2.
-ROKA_RDC = [(10.4, 7.4, 17.6, 8.6), (10.4, 5.0, 11.6, 7.4)]
-PALIER = [(10.4, 7.4, 15.2, 8.6), (10.4, 5.0, 11.6, 7.4)]
-
-
-def suites_etage():
-    """Partie de l'etage commune aux deux options : roka, 2 suites, noyau, salon familial."""
+# ---------------------------------------------------------------------------
+# Villa. Partie jour commune aux deux options, deduite des plans de la base Capitude :
+# salon traversant N/S (maison de ville Anthurium : 7,0 x 6,5 m), SAM entre salon et cuisine,
+# hall + escalier + WC visiteurs groupes cote rue, terrasse couverte au Sud.
+# ---------------------------------------------------------------------------
+def socle_jour():
     return [
-        R("Rōka (couloir)", "R+1", (3.2, 5.0, 10.4, 6.2), "circ"),
-        R("Vestibule ch.2", "R+1", (3.2, 6.2, 4.8, 8.6), "dressing"),
-        R("SE ch.2", "R+1", (4.8, 6.2, 6.8, 8.6), "eau"),
-        R("SE ch.3", "R+1", (6.8, 6.2, 8.8, 8.6), "eau"),
-        R("Vestibule ch.3", "R+1", (8.8, 6.2, 10.4, 8.6), "dressing"),
-        R("Chambre 2", "R+1", (3.2, 8.6, 6.8, 12.2), "chambre"),
-        R("Chambre 3", "R+1", (6.8, 8.6, 10.4, 12.2), "chambre"),
-        R("Escalier", "R+1", (11.6, 5.0, 15.2, 7.4), "escalier"),
-        R("Palier", "R+1", PALIER, "circ"),
-        R("Salon familial", "R+1", (10.4, 8.6, 14.0, 12.2), "sejour"),
+        R("Salon", "RDC", (3.2, 5.0, 8.6, 13.4), "sejour"),
+        R("WC visiteurs", "RDC", (8.6, 5.0, 10.0, 7.0), "eau"),
+        R("Hall d'entrée", "RDC", [(8.6, 7.0, 11.6, 8.6), (10.0, 5.0, 11.6, 7.0)], "circ"),
+        R("Salle à manger", "RDC", (8.6, 8.6, 11.6, 13.4), "sejour"),
+        R("Escalier", "RDC", (11.6, 5.0, 14.0, 8.6), "escalier"),
+        R("Guérite + WC gardien", "RDC", (0.3, 0.3, 2.7, 2.7), "service"),
     ]
 
 
-def socle_jour():
-    """Partie jour et noyau du RDC communs aux deux options."""
+def etage_ouest():
+    """Etage commun : salon familial a l'arrivee de l'escalier, suite parentale a l'Ouest."""
     return [
-        R("Genkan (entrée)", "RDC", (6.8, 5.0, 10.4, 7.4), "circ"),
-        R("WC visiteurs", "RDC", (6.8, 7.4, 8.6, 8.6), "eau"),
-        R("Getabako (placard)", "RDC", (8.6, 7.4, 10.4, 8.6), "dressing"),
-        R("Séjour - SAM", "RDC", SEJOUR_L, "sejour"),
-        R("Rōka (galerie intérieure)", "RDC", ROKA_RDC, "circ"),
-        R("Escalier", "RDC", (11.6, 5.0, 15.2, 7.4), "escalier"),
-        R("Cuisine", "RDC", (10.4, 8.6, 14.0, 12.2), "cuisine"),
-        R("Buanderie / cellier", "RDC", (15.2, 5.0, 17.6, 7.4), "service"),
-        R("Chambre de service", "RDC", (17.6, 5.0, 20.0, 8.6), "chambre"),
-        R("SE service", "RDC", (17.6, 8.6, 20.0, 10.4), "eau"),
-        # Cour de service fermee de claustras dans la bande de recul (revue) : arriere-cuisine + sechoir
-        R("Arrière-cuisine (préau)", "RDC", (15.4, 2.0, 17.6, 5.0), "terrasse", clos=False),
-        R("Cour de service / séchoir", "RDC", (17.6, 2.0, 20.0, 5.0), "patio", clos=False),
+        R("Escalier", "R+1", (11.6, 5.0, 14.0, 8.6), "escalier"),
+        R("Salon familial", "R+1", (8.6, 5.0, 11.6, 8.6), "sejour"),
+        R("Dressing parental", "R+1", (5.6, 5.0, 8.6, 8.6), "dressing"),
+        R("SdB parentale", "R+1", (3.2, 5.0, 5.6, 8.6), "eau"),
+        R("Chambre parentale", "R+1", (3.2, 8.6, 8.6, 13.4), "chambre"),
     ]
 
 
 # Portes : (niveau, x, y, sens, largeur)  sens 'h' = dans un mur horizontal, 'v' = vertical
 PORTES_JOUR = [
-    ("RDC", 7.3, 5.0, "h", 1.0),    # entree genkan (porte blindee)
-    ("RDC", 6.8, 6.2, "v", 1.6),    # genkan -> sejour
-    ("RDC", 10.4, 6.2, "v", 1.0),   # genkan -> roka
-    ("RDC", 7.7, 7.4, "h", 0.7),    # WC
-    ("RDC", 10.4, 10.4, "v", 1.4),  # SAM -> cuisine
-    ("RDC", 11.8, 8.6, "h", 0.9),   # roka -> cuisine
-    ("RDC", 13.4, 7.4, "h", 2.0),   # roka -> escalier (depart)
-    ("RDC", 16.4, 7.4, "h", 0.9),   # roka -> buanderie
-    ("RDC", 16.4, 5.0, "h", 0.9),   # buanderie -> arriere-cuisine
-    ("RDC", 18.8, 5.0, "h", 0.8),   # chambre de service -> cour de service
-    ("RDC", 18.8, 8.6, "h", 0.7),   # ch. service -> SE
-    ("RDC", 6.8, 12.2, "h", 6.0),   # sejour -> engawa (coulissants)
-    ("RDC", 12.2, 12.2, "h", 1.2),  # cuisine -> engawa
-    ("R+1", 4.0, 6.2, "h", 0.8), ("R+1", 4.0, 8.6, "h", 0.8),
-    ("R+1", 9.6, 6.2, "h", 0.8), ("R+1", 9.6, 8.6, "h", 0.8),
-    ("R+1", 4.8, 7.4, "v", 0.7), ("R+1", 8.8, 7.4, "v", 0.7),   # SE depuis les vestibules
-    ("R+1", 13.4, 7.4, "h", 2.0),   # escalier (arrivee) -> palier
-    ("R+1", 12.2, 8.6, "h", 2.4),   # palier -> salon familial
-    ("R+1", 10.4, 5.6, "v", 1.0),   # palier -> roka
-    ("R+1", 5.0, 12.2, "h", 2.4), ("R+1", 8.6, 12.2, "h", 2.4),
+    ("RDC", 10.8, 5.0, "h", 1.2),   # porte d'entree (blindee)
+    ("RDC", 8.6, 7.8, "v", 1.4),    # hall -> salon
+    ("RDC", 9.3, 7.0, "h", 0.7),    # hall -> WC visiteurs
+    ("RDC", 10.1, 8.6, "h", 1.6),   # hall -> salle a manger
+    ("RDC", 11.6, 6.2, "v", 1.0),   # hall -> escalier
+    ("RDC", 8.6, 11.0, "v", 3.0),   # salon <-> SAM (grande ouverture)
+    ("RDC", 5.9, 13.4, "h", 4.0),   # salon -> terrasse
+    ("RDC", 10.1, 13.4, "h", 2.4),  # SAM -> terrasse
+    ("RDC", 11.6, 11.0, "v", 0.9),  # SAM -> cuisine
+    ("RDC", 1.5, 2.7, "h", 0.8),    # guerite
+    ("R+1", 11.6, 6.8, "v", 1.2),   # escalier -> salon familial
+    ("R+1", 8.6, 6.8, "v", 0.9),    # salon familial -> dressing (suite)
+    ("R+1", 5.6, 6.8, "v", 0.8),    # dressing -> SdB
+    ("R+1", 7.1, 8.6, "h", 0.9),    # dressing -> chambre
+    ("R+1", 10.1, 8.6, "h", 1.2),   # salon familial -> degagement
+    ("R+1", 5.9, 13.4, "h", 2.4),   # chambre parentale -> balcon
+    ("R+1", 10.4, 9.8, "h", 0.9),   # degagement -> chambre 2
+    ("R+1", 10.4, 13.4, "h", 1.8),  # chambre 2 -> balcon
 ]
 
 OPTION_A = {
     "code": "A",
-    "nom": "Option A — Maison en L sur cour-jardin",
-    "titre_court": "Maison en L",
-    "parti": ("Suite parentale de plain-pied dans une aile Est qui referme un jardin-cour "
-              "au Sud-Ouest. Engawa en L, toit-jardin sur l'aile de service. Emprise maximale."),
+    "nom": "Option A — Villa compacte, nounou à l'étage",
+    "titre_court": "Villa compacte",
+    "ref": "Maison de ville Anthurium (R+1, 4 ch.), villa ABYA 2",
+    "parti": ("Un seul volume R+1 de 14,4 × 8,4 m. Au RDC, la bande Est regroupe magasin, buanderie et cuisine "
+              "africaine, ouverts sur une cour de service le long de la limite. La chambre de la nounou est à l'étage, "
+              "à côté des chambres d'enfants."),
     "pieces": socle_jour() + [
-        R("Tsubo-niwa", "RDC", (17.6, 10.4, 20.0, 12.2), "patio", clos=False),
-        R("Dressing traversant", "RDC", (14.0, 8.6, 17.6, 12.2), "dressing"),
-        R("Chambre parentale", "RDC", (14.0, 12.2, 20.0, 15.6), "chambre"),
-        R("SdB parentale", "RDC", (14.0, 15.6, 17.6, 18.0), "eau"),
-        R("WC + rangement", "RDC", (17.6, 15.6, 20.0, 18.0), "eau"),
-        R("Engawa", "RDC", [(3.2, 12.2, 14.0, 14.0), (12.2, 14.0, 14.0, 18.0)], "terrasse", clos=False),
-    ] + suites_etage() + [
-        # garde-corps recule a 1,90 m de la limite Est (vues droites, art. 678 C. civ.)
-        R("Toit-jardin", "R+1", [(14.0, 8.6, 18.1, 10.4), (15.2, 5.0, 18.1, 8.6)], "toit_jard", clos=False),
+        R("Cuisine", "RDC", (11.6, 8.6, 14.0, 13.4), "cuisine"),
+        R("Magasin / réserve", "RDC", (14.0, 5.0, 17.6, 7.4), "service"),
+        R("Buanderie", "RDC", (14.0, 7.4, 17.6, 9.8), "service"),
+        R("Cuisine africaine", "RDC", (14.0, 9.8, 17.6, 13.4), "cuis_afr"),
+        R("Cour de service / séchoir", "RDC", (17.6, 5.0, 20.0, 13.4), "patio", clos=False),
+        R("Terrasse couverte", "RDC", (3.2, 13.4, 17.6, 15.8), "terrasse", clos=False),
+    ] + etage_ouest() + [
+        R("Dégagement", "R+1", (8.6, 8.6, 17.6, 9.8), "circ"),
+        R("Chambre 2", "R+1", (8.6, 9.8, 12.2, 13.4), "chambre"),
+        R("SE ch.2", "R+1", (12.2, 9.8, 14.2, 11.6), "eau"),
+        R("SE ch.3", "R+1", (12.2, 11.6, 14.2, 13.4), "eau"),
+        R("Chambre 3", "R+1", (14.2, 9.8, 17.6, 13.4), "chambre"),
+        R("Chambre nounou", "R+1", (14.0, 6.2, 17.6, 8.6), "chambre"),
+        R("SE nounou", "R+1", (14.0, 5.0, 17.6, 6.2), "eau"),
+        R("Balcon", "R+1", (3.2, 13.4, 17.6, 15.2), "balcon", clos=False),
     ],
     "portes": PORTES_JOUR + [
-        ("RDC", 14.7, 8.6, "h", 0.9),   # roka -> dressing (suite)
-        ("RDC", 15.8, 12.2, "h", 0.9),  # dressing -> chambre
-        ("RDC", 15.8, 15.6, "h", 0.8),  # chambre -> SdB
-        ("RDC", 17.6, 16.8, "v", 0.7),  # SdB -> WC
-        ("RDC", 14.0, 13.9, "v", 2.4),  # chambre -> engawa
-        ("R+1", 14.0, 9.5, "v", 1.6),   # salon familial -> toit-jardin
+        ("RDC", 14.0, 12.0, "v", 0.9),  # cuisine -> cuisine africaine
+        ("RDC", 17.6, 6.2, "v", 0.9),   # magasin -> cour
+        ("RDC", 17.6, 8.6, "v", 0.9),   # buanderie -> cour / sechoir
+        ("RDC", 15.8, 9.8, "h", 0.8),   # buanderie -> cuisine africaine
+        ("RDC", 17.6, 11.6, "v", 1.4),  # cuisine africaine -> cour (grande baie a claustra)
+        ("RDC", 15.8, 13.4, "h", 0.9),  # cuisine africaine -> terrasse (service des repas)
+        ("RDC", 19.6, 5.0, "h", 0.8),   # porte de service sur la cour
+        ("R+1", 12.2, 10.7, "v", 0.7),  # ch2 -> SE
+        ("R+1", 14.2, 12.5, "v", 0.7),  # ch3 -> SE
+        ("R+1", 15.9, 9.8, "h", 0.9),   # degagement -> chambre 3
+        ("R+1", 15.9, 13.4, "h", 1.8),  # chambre 3 -> balcon
+        ("R+1", 15.8, 8.6, "h", 0.9),   # degagement -> chambre nounou
+        ("R+1", 15.8, 6.2, "h", 0.7),   # chambre nounou -> SE
     ],
-    "toiture": "Toitures-terrasses : toit-jardin accessible + toiture végétalisée sur l'aile parentale",
+    "toiture": ("Toiture bac acier isolé à faible pente sur charpente, cachée par un acrotère, débords de 1,2 m ; "
+                "la terrasse et le balcon Sud forment une casquette de 2,4 m"),
 }
 
 OPTION_B = {
     "code": "B",
-    "nom": "Option B — Duplex compact sur jardin",
-    "titre_court": "Duplex compact",
-    "parti": ("Volume unique sous une grande toiture débordante, toutes les chambres à l'étage. Au RDC, un "
-              "washitsu avec sa salle d'eau sert de bureau ou de chambre de plain-pied. Emprise minimale, jardin d'un seul tenant."),
+    "nom": "Option B — Villa avec aile de service",
+    "titre_court": "Villa et aile de service",
+    "ref": "Résidence EMIIKA, villa JIK",
+    "parti": ("Un volume R+1 de 12,6 × 8,4 m et, le long de la limite Est, une aile de service de plain-pied reliée par "
+              "une galerie couverte : cuisine africaine, buanderie, séchoir et studio de la nounou avec sa salle d'eau. "
+              "Grande cuisine moderne avec îlot."),
     "pieces": socle_jour() + [
-        R("Washitsu (bureau / chambre)", "RDC", (14.0, 8.6, 17.6, 12.2), "sejour"),
-        R("SE invités", "RDC", (17.6, 10.4, 20.0, 12.2), "eau"),
-        R("Engawa", "RDC", (3.2, 12.2, 20.0, 14.0), "terrasse", clos=False),
-    ] + suites_etage() + [
-        R("Sas-dressing parental", "R+1", (15.2, 5.0, 17.6, 8.6), "dressing"),
-        R("SdB parentale", "R+1", (17.6, 5.0, 20.0, 8.6), "eau"),
-        R("Chambre parentale", "R+1", (14.0, 8.6, 20.0, 12.2), "chambre"),
-        R("Balcon-engawa", "R+1", (3.2, 12.2, 14.0, 13.4), "balcon", clos=False),
+        R("Cuisine (avec îlot)", "RDC", (11.6, 8.6, 15.8, 13.4), "cuisine"),
+        R("Office / cellier", "RDC", (14.0, 5.0, 15.8, 8.6), "service"),
+        R("Galerie de service", "RDC", (15.8, 5.0, 17.0, 13.4), "terrasse", clos=False),
+        R("Cuisine africaine", "RDC", (17.0, 5.0, 20.0, 9.0), "cuis_afr"),
+        R("Buanderie / magasin", "RDC", (17.0, 9.0, 20.0, 11.4), "service"),
+        R("Séchoir / cour de service", "RDC", [(17.0, 11.4, 20.0, 13.6), (15.8, 13.4, 17.0, 18.0)], "patio", clos=False),
+        R("Chambre nounou", "RDC", (17.0, 13.6, 20.0, 16.6), "chambre"),
+        R("SE nounou", "RDC", (17.0, 16.6, 20.0, 18.0), "eau"),
+        R("Terrasse couverte", "RDC", (3.2, 13.4, 15.8, 15.8), "terrasse", clos=False),
+    ] + etage_ouest() + [
+        R("Dégagement", "R+1", (8.6, 8.6, 15.8, 9.8), "circ"),
+        R("Chambre 2", "R+1", (8.6, 9.8, 12.2, 13.4), "chambre"),
+        R("Chambre 3", "R+1", (12.2, 9.8, 15.8, 13.4), "chambre"),
+        R("SE partagée ch.2 / ch.3", "R+1", (14.0, 5.0, 15.8, 8.6), "eau"),
+        R("Balcon", "R+1", (3.2, 13.4, 15.8, 15.2), "balcon", clos=False),
     ],
     "portes": PORTES_JOUR + [
-        ("RDC", 15.8, 8.6, "h", 0.9),   # roka -> washitsu
-        ("RDC", 15.8, 12.2, "h", 2.4),  # washitsu -> engawa (fusuma)
-        ("RDC", 17.6, 11.3, "v", 0.7),  # washitsu -> SE invites
-        ("R+1", 15.2, 8.0, "v", 0.9),   # palier -> sas parental
-        ("R+1", 16.4, 8.6, "h", 0.9),   # sas -> chambre
-        ("R+1", 17.6, 6.8, "v", 0.8),   # sas -> SdB
-        ("R+1", 12.2, 12.2, "h", 1.8),  # salon -> balcon
+        ("RDC", 15.8, 11.0, "v", 0.9),  # cuisine -> galerie de service
+        ("RDC", 13.7, 13.4, "h", 1.2),  # cuisine -> terrasse
+        ("RDC", 14.9, 8.6, "h", 0.8),   # cuisine -> office
+        ("RDC", 15.8, 6.8, "v", 0.8),   # office -> galerie
+        ("RDC", 17.0, 7.0, "v", 1.2),   # galerie -> cuisine africaine
+        ("RDC", 19.4, 5.0, "h", 0.9),   # cuisine africaine -> aire de livraison (Nord)
+        ("RDC", 17.0, 10.2, "v", 0.9),  # galerie -> buanderie
+        ("RDC", 18.5, 11.4, "h", 0.9),  # buanderie -> sechoir
+        ("RDC", 17.0, 15.1, "v", 0.8),  # sechoir -> chambre nounou
+        ("RDC", 18.5, 16.6, "h", 0.7),  # chambre nounou -> SE
+        ("R+1", 14.0, 9.8, "h", 0.9),   # degagement -> chambre 3
+        ("R+1", 14.0, 13.4, "h", 1.8),  # chambre 3 -> balcon
+        ("R+1", 14.9, 8.6, "h", 0.8),   # degagement -> SE partagee
     ],
-    "toiture": ("Grande toiture bac acier isolé sur charpente bois, débords de 1,8 m au Nord, au Sud et à l'Ouest ; "
-                "côté Est, mur pignon et acrotère en limite avec chéneau encaissé (pas de débord sur le lot 1730)"),
+    "toiture": ("Toiture bac acier isolé sur charpente, débords de 1,2 m ; aile de service sous toiture basse en limite "
+                "(mur pignon et chéneau encaissé côté lot 1730)"),
 }
 
 # ---------------------------------------------------------------------------
@@ -253,7 +268,7 @@ LOCATIF = {
     "code": "L",
     "portes": [d for niv in ("RDC", "R+1") for c, t, a, b in LOGEMENTS_X
                for d in portes_logement(a, b, t, niv)],
-    "nom": "Bâtiment locatif R+1 — « Nagaya » de 6 logements",
+    "nom": "Bâtiment locatif R+1 — barrette de 6 logements",
     "pieces": (
         [r for c, t, a, b in LOGEMENTS_X for r in logement(c, t, a, b, "RDC")]
         + [r for c, t, a, b in LOGEMENTS_X for r in logement(c, t, a, b, "R+1")]
@@ -261,8 +276,8 @@ LOCATIF = {
             # escalier droit le long de la facade Nord, garde-corps plein cote villa (revue)
             R("Escalier extérieur", "RDC", (5.6, 19.6, 10.7, 20.8), "escalier"),
             R("Guérite (gardien commun)", "RDC", (0.2, 18.0, 2.6, 20.0), "service"),
-            R("Coursive-engawa", "R+1", (5.6, 20.8, 20.0, 22.0), "l_coursive", clos=False),
-            R("Patios privés (tsubo-niwa)", "RDC", (5.6, 31.0, 20.0, 33.0), "patio", clos=False),
+            R("Coursive", "R+1", (5.6, 20.8, 20.0, 22.0), "l_coursive", clos=False),
+            R("Patios privés / séchoirs", "RDC", (5.6, 31.0, 20.0, 33.0), "patio", clos=False),
         ]
     ),
 }
@@ -281,41 +296,39 @@ LOYERS = {
 # divise = False : prix de marche direct (hypothese), non divise
 # ---------------------------------------------------------------------------
 EXTERIEURS = [
-    ("Parking, allées et cour de service pavés (pavés drainants)", "m2", 85_000,
-     "Villa Cacao 6 - patio (assimilé)", {"A": 62, "B": 62, "L": 75}, True),
-    ("Jardins plantés (terre végétale, gazon, arbres)", "m2", 20_000, "Les Flamboyants - jardins",
-     {"A": 115, "B": 145, "L": 45}, True),
+    ("Parking, allée et aire de livraison pavés (pavés drainants)", "m2", 85_000,
+     "Villa Cacao 6 - patio (assimilé)", {"A": 65, "B": 65, "L": 75}, True),
+    ("Jardins plantés (terre végétale, gazon, arbres d'ombrage)", "m2", 20_000, "Les Flamboyants - jardins",
+     {"A": 100, "B": 85, "L": 45}, True),
     ("Bâche à eau + surpresseur", "ens", 4_047_076, "Pavillon Akpo 2022 - bâche + surpresseur",
      {"A": 1, "B": 1, "L": 1}, True),
     ("Réfection clôture existante + portail coulissant + portillon", "ens", 3_000_000, "Prix de marché (hypothèse)",
      {"A": 1, "B": 1, "L": 1}, False),
-    ("Mur séparatif villa / locatif (h 2,5 m, BTC) + claustras de la cour de service", "ml", 60_000,
+    ("Mur séparatif villa / locatif (h 2,5 m) + claustras de la cour de service", "ml", 60_000,
      "Prix de marché (hypothèse)", {"A": 28, "B": 28, "L": 0}, False),
     ("Assainissement autonome (fosse + puisard) + branchements CIE / SODECI", "ens", 3_500_000,
      "Prix de marché (hypothèse)", {"A": 1, "B": 1, "L": 1.5}, False),
     ("Traitement anti-termites du sol + remblai de plateforme", "m2", 8_000, "Prix de marché (hypothèse)",
-     {"A": 160, "B": 125, "L": 145}, False),
-    ("Volets coulissants bois à caisson (amado) + moustiquaires", "m2", 110_000, "Prix de marché (hypothèse)",
-     {"A": 30, "B": 34, "L": 0}, False),
+     {"A": 125, "B": 150, "L": 145}, False),
+    ("Grilles de défense + moustiquaires", "m2", 45_000, "Prix de marché (hypothèse)",
+     {"A": 45, "B": 45, "L": 30}, False),
     ("Chauffe-eau solaires + attentes climatisation (par logement)", "u", 900_000, "Prix de marché (hypothèse)",
      {"A": 2.5, "B": 2.5, "L": 6}, False),
+    ("Cuisine africaine : hotte d'extraction, évier double bac, cage à bouteilles de gaz", "ens", 900_000,
+     "Prix de marché (hypothèse)", {"A": 1, "B": 1, "L": 0}, False),
 ]
 
 PLUS_VALUES = [
-    ("Panneaux coulissants bois massif (fusuma / shoji à lames)", "m2", 125_000, "Prix de marché (hypothèse)",
-     {"A": 22, "B": 26, "L": 0}, False),
-    ("Claustras en terre cuite / BTC ajourée (dont rive de coursive)", "m2", 30_000, "Prix de marché (hypothèse)",
-     {"A": 30, "B": 30, "L": 60}, False),
-    ("Mur d'accent en pisé (terre crue stabilisée, sous abri)", "m2", 45_000, "Prix de marché (hypothèse)",
-     {"A": 20, "B": 18, "L": 0}, False),
-    ("Brise-soleil à lames bois (façades Ouest)", "m2", 60_000, "Prix de marché (hypothèse)",
-     {"A": 14, "B": 18, "L": 12}, False),
-    ("Grande toiture débordante : charpente + couverture hors clos", "m2", 60_000, "Prix de marché (hypothèse)",
-     {"A": 0, "B": 100, "L": 0}, False),
-    ("Toiture végétalisée extensive (aile parentale)", "m2", 45_000, "Prix de marché (hypothèse)",
-     {"A": 35, "B": 0, "L": 0}, False),
-    ("Moins-value murs BTC apparents (vs agglos enduits 2 faces)", "m2", -5_000, "Prix de marché (hypothèse)",
-     {"A": 260, "B": 240, "L": 320}, False),
+    ("Menuiseries bois persiennées (jalousies) sur séjour et chambres", "m2", 120_000, "Prix de marché (hypothèse)",
+     {"A": 30, "B": 28, "L": 0}, False),
+    ("Claustras en terre cuite / BTC ajourée (cour de service, façades Ouest, coursive)", "m2", 30_000,
+     "Prix de marché (hypothèse)", {"A": 35, "B": 35, "L": 60}, False),
+    ("Brise-soleil à lames (façades Ouest)", "m2", 60_000, "Prix de marché (hypothèse)",
+     {"A": 14, "B": 14, "L": 12}, False),
+    ("Débords de toiture et casquettes (hors clos)", "m2", 60_000, "Prix de marché (hypothèse)",
+     {"A": 50, "B": 55, "L": 0}, False),
+    ("Moins-value murs BTC (vs agglos enduits 2 faces)", "m2", -5_000, "Prix de marché (hypothèse)",
+     {"A": 250, "B": 270, "L": 320}, False),
 ]
 
 FRAIS = [  # % du montant travaux HT (base Eco-donnees, recap Pavillon Akpo)
@@ -338,9 +351,9 @@ def surfaces(opt):
     out["ext_couvert"] = round(sum(r["surface"] for r in p if not r["clos"] and r["code"] in
                                    ("terrasse", "balcon", "l_coursive")), 2)
     out["emprise"] = round(sum(r["surface"] for r in p if r["niveau"] == "RDC"
-                               and r["nom"] not in ("Engawa", "Arrière-cuisine (préau)",
-                                                    "Cour de service / séchoir")
-                               and not r["nom"].startswith("Patios privés")), 2)
+                               and r["code"] not in ("terrasse", "patio")
+                               and r["nom"] != "Guérite + WC gardien"), 2) + round(sum(
+        r["surface"] for r in p if r["nom"] == "Galerie de service"), 2)
     return out
 
 

@@ -11,7 +11,7 @@ FILL = {
     "circ": "#faf8f4", "ext": "#e5ecd9", "bois": "#e9d3b5", "patio": "#cfe0bf",
 }
 CAT = {
-    "sejour": "jour", "cuisine": "jour", "chambre": "nuit", "eau": "eau", "dressing": "nuit",
+    "sejour": "jour", "cuisine": "jour", "cuis_afr": "service", "chambre": "nuit", "eau": "eau", "dressing": "nuit",
     "service": "service", "circ": "circ", "escalier": "circ", "terrasse": "bois",
     "balcon": "bois", "toit_jard": "patio", "patio": "patio", "l_sejour": "jour",
     "l_chambre": "nuit", "l_eau": "eau", "l_kitch": "jour", "l_circ": "circ",
@@ -220,34 +220,30 @@ def cars(c, x0, y0, n, w=2.5, d=5.0, vertical=True):
 
 def villa_exterieurs(c, opt, niveau):
     # parking + portail
-    cars(c, 7.9, 0.0, 3)
-    c.text(11.65, -0.25, "portail coulissant 7,5 m · 3 places", size=7, fill=MUTED)
-    # roji : pas japonais du portillon au genkan
-    stones(c, [(5.6, 0.6), (5.9, 1.5), (6.4, 2.4), (6.8, 3.4), (7.2, 4.4)])
-    c.text(5.6, -0.25, "portillon", size=7, fill=MUTED)
-    c.text(17.6, 1.4, "claustras", size=6.5, fill=MUTED)
-    c.line(15.4, 2.0, 20.0, 2.0, stroke=MUTED, sw=1.6, dash="1 1.5")
-    c.line(15.4, 2.0, 15.4, 5.0, stroke=MUTED, sw=1.6, dash="1 1.5")
-    # jardin d'entree
-    tree(c, 2.4, 2.4, 1.3)
-    # jardin
+    cars(c, 11.6, 0.0, 3)
+    c.text(15.35, -0.25, "portail coulissant 7,5 m · 3 places", size=7, fill=MUTED)
+    # allee pietonne du portillon (angle, pres de la guerite) a la porte d'entree
+    c.rect(2.9, 3.4, 11.6, 4.6, fill="#ece7dd", stroke="none")
+    c.rect(2.9, 0.0, 4.1, 3.4, fill="#ece7dd", stroke="none")
+    c.text(3.5, -0.25, "portillon", size=7, fill=MUTED)
+    c.text(7.2, 4.15, "allée piétonne couverte d'une pergola", size=6.5, fill=MUTED)
+    tree(c, 6.6, 1.7, 1.2)
+    tree(c, 9.4, 1.6, 0.8, "#c4d4a8")
+    tree(c, 1.4, 9.0, 1.1)
     if opt["code"] == "A":
-        tree(c, 5.0, 16.0, 1.6)
-        tree(c, 9.6, 16.4, 1.2, "#c4d4a8")
-        tree(c, 1.4, 9.0, 1.1)
-        c.text(7.2, 15.5, "JARDIN-COUR (niwa)", size=9, fill="#4f6b3a", weight=600)
-        c.text(7.2, 16.2, "abrité N/E, ouvert aux vents SO", size=7, fill="#4f6b3a")
-        c.text(7.2, 16.8, "≈ 78 m² en L + jardin d'entrée", size=7, fill="#4f6b3a")
+        c.text(19.0, 4.3, "service", size=6.5, fill=MUTED)
+        tree(c, 4.5, 16.8, 1.3)
+        tree(c, 11.5, 16.9, 1.1, "#c4d4a8")
+        c.text(9.0, 16.75, "JARDIN · ≈ 100 m² avec la bande Ouest", size=7.5, fill="#4f6b3a", weight=600)
     else:
-        tree(c, 4.0, 16.0, 1.6)
-        tree(c, 11.0, 16.5, 1.3, "#c4d4a8")
-        tree(c, 17.6, 15.8, 1.2)
-        tree(c, 1.4, 9.0, 1.1)
-        c.text(8.0, 15.4, "JARDIN (niwa)", size=9, fill="#4f6b3a", weight=600)
-        c.text(8.0, 16.1, "d'un seul tenant en L : 20 x 4 m + 3,2 m à l'Ouest", size=7, fill="#4f6b3a")
-        c.text(8.0, 16.7, "≈ 109 m² + jardin d'entrée", size=7, fill="#4f6b3a")
+        c.text(18.5, 4.3, "livraisons", size=6.5, fill=MUTED)
+        c.line(15.8, 13.4, 15.8, 18.0, stroke=MUTED, sw=1.6, dash="1 1.5")
+        tree(c, 4.5, 16.8, 1.3)
+        tree(c, 11.0, 16.9, 1.1, "#c4d4a8")
+        c.text(8.6, 16.75, "JARDIN · ≈ 85 m² avec la bande Ouest", size=7.5, fill="#4f6b3a", weight=600)
+        c.text(15.0, 17.2, "claustra", size=6.5, fill=MUTED, rot=-90)
     c.line(0, 18, 20, 18, stroke=INK, sw=1.2)
-    c.text(10, 18.55, "mur séparatif + haie de bambous (vers parcelle locative)", size=7, fill=MUTED)
+    c.text(10, 18.55, "mur séparatif + haie (vers la parcelle locative)", size=7, fill=MUTED)
 
 
 def plan_villa(opt, niveau, s=24):
@@ -261,12 +257,6 @@ def plan_villa(opt, niveau, s=24):
             if r["niveau"] == "RDC" and r["clos"]:
                 for x0, y0, x1, y1 in r["rects"]:
                     c.rect(x0, y0, x1, y1, fill="#f4f1ec", stroke=LINE, sw=0.4, dash="2 2")
-        if opt["code"] == "A":
-            c.rect(14.0, 10.4, 20.0, 18.0, fill=FILL["patio"], stroke=MUTED, sw=0.5, dash="3 2")
-            c.rect(18.1, 5.0, 20.0, 10.4, fill=FILL["patio"], stroke=MUTED, sw=0.5, dash="3 2")
-            c.text(19.05, 7.6, "jardinière 1,9 m", size=6.5, fill="#4f6b3a", rot=-90)
-            c.text(17.0, 16.3, "toiture végétalisée", size=7.5, fill="#4f6b3a")
-            c.text(17.0, 16.9, "(non accessible)", size=7, fill="#4f6b3a")
     draw_rooms(c, opt["pieces"], niveau, portes=opt["portes"])
     north_arrow(c, 19.6, 1.4, 0.7)
     return c.svg()
@@ -385,38 +375,38 @@ def plan_site(s=15):
 
 
 def coupe_B(s=26):
-    """Coupe de principe N-S sur l'option B : ventilation, debords, engawa."""
+    """Coupe de principe N-S sur la villa : ventilation, debords, terrasse."""
     c = Canvas(-1.5, -1.0, 21.0, 9.8, s=s, pad=14)
     g = 8.5  # niveau sol
     Y = lambda z: g - z  # noqa: E731
     c.line(-1.5, Y(0), 21, Y(0), stroke=INK, sw=1.2)
     # socle +0,45
-    c.rect(5.0, Y(0.45), 12.2, Y(0), fill="#d9d2c4", stroke=INK, sw=0.8)
+    c.rect(5.0, Y(0.45), 13.4, Y(0), fill="#d9d2c4", stroke=INK, sw=0.8)
     # RDC
-    c.rect(5.0, Y(3.45), 12.2, Y(0.45), fill="#faf8f4", stroke=INK, sw=1.0)
-    c.rect(5.0, Y(3.75), 12.2, Y(3.45), fill="#b8b2a6", stroke=INK, sw=0.6)
+    c.rect(5.0, Y(3.45), 13.4, Y(0.45), fill="#faf8f4", stroke=INK, sw=1.0)
+    c.rect(5.0, Y(3.75), 13.4, Y(3.45), fill="#b8b2a6", stroke=INK, sw=0.6)
     # etage
-    c.rect(5.0, Y(6.65), 12.2, Y(3.75), fill="#faf8f4", stroke=INK, sw=1.0)
-    c.rect(5.0, Y(6.85), 12.2, Y(6.65), fill="#b8b2a6", stroke=INK, sw=0.6)
+    c.rect(5.0, Y(6.65), 13.4, Y(3.75), fill="#faf8f4", stroke=INK, sw=1.0)
+    c.rect(5.0, Y(6.85), 13.4, Y(6.65), fill="#b8b2a6", stroke=INK, sw=0.6)
     # toiture debordante ventilee
-    c.raw(f'<polygon points="{c.X(3.0):.1f},{c.Y(Y(6.95)):.1f} {c.X(8.6):.1f},{c.Y(Y(8.3)):.1f} '
-          f'{c.X(14.2):.1f},{c.Y(Y(6.95)):.1f}" fill="none" stroke="{INK}" stroke-width="1.4"/>')
-    c.text(14.6, Y(7.3), "toiture bac acier isolé + lame d'air ventilée, débords 1,8 m", size=7.5,
+    c.raw(f'<polygon points="{c.X(3.8):.1f},{c.Y(Y(6.95)):.1f} {c.X(9.2):.1f},{c.Y(Y(8.1)):.1f} '
+          f'{c.X(15.8):.1f},{c.Y(Y(6.95)):.1f}" fill="none" stroke="{INK}" stroke-width="1.4"/>')
+    c.text(16.2, Y(7.3), "toiture bac acier isolé + lame d'air ventilée, débords 1,2 m", size=7.5,
            fill=MUTED, anchor="start")
-    # engawa
-    c.rect(12.2, Y(0.45), 14.0, Y(0.2), fill="#e9d3b5", stroke=INK, sw=0.6)
-    c.text(13.1, Y(0.75), "engawa", size=7.5)
-    c.rect(12.2, Y(3.75), 13.4, Y(3.55), fill="#e9d3b5", stroke=INK, sw=0.6)
-    c.text(12.8, Y(4.0), "balcon", size=7)
-    c.line(14.0, Y(0.45), 14.0, Y(3.45), stroke=MUTED, sw=0.6, dash="3 2")
+    # terrasse
+    c.rect(13.4, Y(0.45), 15.8, Y(0.2), fill="#e9d3b5", stroke=INK, sw=0.6)
+    c.text(14.6, Y(0.75), "terrasse", size=7.5)
+    c.rect(13.4, Y(3.75), 15.2, Y(3.55), fill="#e9d3b5", stroke=INK, sw=0.6)
+    c.text(14.3, Y(4.0), "balcon", size=7)
+    c.line(15.8, Y(0.45), 15.8, Y(3.45), stroke=MUTED, sw=0.6, dash="3 2")
     # labels
-    c.text(8.6, Y(2.0), "séjour traversant  HSP 3,00", size=8.5, weight=600)
-    c.text(8.6, Y(5.2), "chambres traversantes + ranma", size=8.5, weight=600)
+    c.text(9.2, Y(2.0), "salon traversant Nord-Sud · HSP 3,00", size=8.5, weight=600)
+    c.text(9.2, Y(5.2), "chambres ventilées par impostes à persiennes", size=8.5, weight=600)
     # fleches ventilation (SO -> N)
     for z in (1.6, 4.9):
         c.raw(f'<line x1="{c.X(17.5):.1f}" y1="{c.Y(Y(z)):.1f}" x2="{c.X(1.0):.1f}" y2="{c.Y(Y(z)):.1f}" '
               f'stroke="#2f4a6d" stroke-width="1.1" stroke-dasharray="6 3" marker-end="url(#arr2)"/>')
-    c.raw(f'<line x1="{c.X(8.6):.1f}" y1="{c.Y(Y(6.5)):.1f}" x2="{c.X(8.6):.1f}" y2="{c.Y(Y(8.8)):.1f}" '
+    c.raw(f'<line x1="{c.X(9.2):.1f}" y1="{c.Y(Y(6.5)):.1f}" x2="{c.X(9.2):.1f}" y2="{c.Y(Y(8.8)):.1f}" '
           f'stroke="#b5653a" stroke-width="1.1" marker-end="url(#arr3)"/>')
     c.text(9.0, Y(8.9), "air chaud évacué en faîtage", size=7, fill="#b5653a", anchor="start")
     c.raw('<defs><marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">'

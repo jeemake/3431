@@ -100,7 +100,7 @@ table.tight { font-size: 7.5pt; } table.tight td { padding: 0.55mm 1.6mm; } tabl
 
 LEGEND = ('<div class="legend"><span style="--c:#efe4d2">jour</span><span style="--c:#dfe4ee">nuit</span>'
           '<span style="--c:#d6e8ec">eau</span><span style="--c:#e6e3de">service</span>'
-          '<span style="--c:#faf8f4">circulation</span><span style="--c:#e9d3b5">engawa / bois</span>'
+          '<span style="--c:#faf8f4">circulation</span><span style="--c:#e9d3b5">terrasse / balcon</span>'
           '<span style="--c:#cfe0bf">patio / jardin</span></div>')
 
 
@@ -178,10 +178,14 @@ def svg(name, fn):
 
 
 # =============================================================================== 01 ESQUISSE
+RECO = {"opt": "B", "texte": "<b>Recommandation provisoire : option B</b>, en attente de la revue senior."}  # complete apres la revue senior
+
+
 def doc_esquisse(revue_html):
     D = "Esquisse"
     sa, sb, sl = surfaces(OPTION_A), surfaces(OPTION_B), surfaces(LOCATIF)
     ba, bb, bl = budget(OPTION_A), budget(OPTION_B), budget(LOCATIF)
+    br = bb if RECO["opt"] == "B" else ba
     P = []
     n = 0
 
@@ -191,42 +195,39 @@ def doc_esquisse(revue_html):
         P.append(page(body, n, D))
 
     # --- couverture
-    add(f'''<div class="cover"><div><div class="kicker">Étude de faisabilité · Esquisse</div>
-<h1>Villa « engawa » et petit<br>immeuble locatif<br>à la Riviera Palmeraie</h1>
+    add(f'''<div class="cover"><div><div class="kicker">Étude de faisabilité · Esquisse · version 2</div>
+<h1>Villa familiale et petit<br>immeuble locatif<br>à la Riviera Palmeraie</h1>
 <div class="sub">Lot 1728, îlot 174, Djorogobité 1, Cocody (Abidjan). Parcelle de 660 m²</div>
 <div class="rule"></div>
-<p class="lead">Analyse du site, deux options d'aménagement pour une villa duplex de 4 chambres sur 360 m², un
-bâtiment locatif R+1 sur les 300 m² restants. Une architecture d'inspiration japonaise adaptée au climat
-d'Abidjan et à ses matériaux : béton, terre et bois.</p></div>
+<p class="lead">Analyse du site, étude des plans de la base Capitude, deux options pour une villa duplex de 4 chambres
+dont une chambre de nounou, avec cuisine africaine, sur 360 m², et un bâtiment locatif R+1 sur les 300 m² restants.
+Une architecture pensée pour le climat d'Abidjan et la vie familiale ivoirienne.</p></div>
 <div class="grid g3 small muted"><div><b>Document 1 / 3</b><br>Analyse et esquisse</div>
 <div><b>Document 2 / 3</b><br>Estimatif sommaire (PDF + Excel)</div><div><b>Document 3 / 3</b><br>Business plan (PDF + Excel)</div></div>
 <div class="small muted">{DATE} · Projet personnel · Phase esquisse. Les hypothèses réglementaires sont à confirmer avant l'APS.</div></div>''')
 
     # --- synthese
     add(f'''<div class="kicker">Synthèse</div><h1>L'essentiel en une page</h1>
-<p class="lead">La parcelle d'angle est coupée en deux bandes. La villa occupe la bande Nord (20 × 18 m) avec
-son entrée sur la rue Nord. Le locatif occupe la bande Sud (20 × 15 m) avec son accès sur la rue Ouest. Les deux
-sont séparés par un mur doublé de bambous. Les deux options de villa partagent la même trame de 3,60 m et la même partie jour.
-Elles diffèrent par l'emprise au sol et la place de la suite parentale.</p>
-<div class="kpis"><div class="kpi"><div class="v">{a2(sa["clos"])} m²</div><div class="l">Option A, maison en L : surface close, emprise {pct(sa["emprise"] / 360, 0)}</div></div>
-<div class="kpi"><div class="v">{a2(sb["clos"])} m²</div><div class="l">Option B, duplex compact : surface close, emprise {pct(sb["emprise"] / 360, 0)}</div></div>
+<p class="lead">La parcelle d'angle est coupée en deux bandes. La villa occupe la bande Nord (20 × 18 m), avec son entrée,
+sa guérite et son parking sur la rue Nord. Le locatif occupe la bande Sud (20 × 15 m), avec son accès sur la rue Ouest.
+Les deux options de villa reprennent l'organisation des villas de la base Capitude : salon traversant sur une
+terrasse couverte, salle à manger entre salon et cuisine, salon familial à l'étage. Chaque option a une cuisine africaine
+sur cour de service et une chambre de nounou avec sa salle d'eau.</p>
+<div class="kpis"><div class="kpi"><div class="v">{a2(sa["clos"])} m²</div><div class="l">Option A, villa compacte, nounou à l'étage · emprise {pct(sa["emprise"] / 360, 0)}</div></div>
+<div class="kpi"><div class="v">{a2(sb["clos"])} m²</div><div class="l">Option B, villa avec aile de service · emprise {pct(sb["emprise"] / 360, 0)}</div></div>
 <div class="kpi"><div class="v">6 logements</div><div class="l">Locatif R+1 : 4 × 2 pièces + 2 × T1 bis, {a2(sl["clos"])} m² clos</div></div>
-<div class="kpi"><div class="v">{M(bb["total_ht"] + bl["total_ht"])}</div><div class="l">Opération B + locatif, FCFA HT (prix base ÷ {DIVISEUR}, honoraires et aléas compris)</div></div></div>
-<table><tr><th>Ouvrage</th><th class="n">Emprise</th><th class="n">Surface close</th><th class="n">Engawa / balcons</th>
+<div class="kpi"><div class="v">{M(br["total_ht"] + bl["total_ht"])}</div><div class="l">Opération {RECO["opt"]} + locatif, FCFA HT (base ÷ {DIVISEUR}, honoraires et aléas compris)</div></div></div>
+<table><tr><th>Ouvrage</th><th class="n">Emprise</th><th class="n">Surface close</th><th class="n">Terrasses / balcons</th>
 <th class="n">Travaux HT</th><th class="n">Total HT</th><th class="n">Total TTC</th></tr>
-<tr><td>Villa, option A : maison en L sur cour-jardin</td><td class="n">{a2(sa["emprise"])}</td><td class="n">{a2(sa["clos"])}</td><td class="n">{a2(sa["ext_couvert"])}</td><td class="n">{M(ba["travaux"])}</td><td class="n">{M(ba["total_ht"])}</td><td class="n">{M(ba["total_ttc"])}</td></tr>
-<tr><td>Villa, option B : duplex compact sur grand jardin</td><td class="n">{a2(sb["emprise"])}</td><td class="n">{a2(sb["clos"])}</td><td class="n">{a2(sb["ext_couvert"])}</td><td class="n">{M(bb["travaux"])}</td><td class="n">{M(bb["total_ht"])}</td><td class="n">{M(bb["total_ttc"])}</td></tr>
+<tr><td>Villa, option A : villa compacte, nounou à l'étage</td><td class="n">{a2(sa["emprise"])}</td><td class="n">{a2(sa["clos"])}</td><td class="n">{a2(sa["ext_couvert"])}</td><td class="n">{M(ba["travaux"])}</td><td class="n">{M(ba["total_ht"])}</td><td class="n">{M(ba["total_ttc"])}</td></tr>
+<tr><td>Villa, option B : villa avec aile de service</td><td class="n">{a2(sb["emprise"])}</td><td class="n">{a2(sb["clos"])}</td><td class="n">{a2(sb["ext_couvert"])}</td><td class="n">{M(bb["travaux"])}</td><td class="n">{M(bb["total_ht"])}</td><td class="n">{M(bb["total_ttc"])}</td></tr>
 <tr><td>Bâtiment locatif R+1 (6 logements)</td><td class="n">{a2(sl["emprise"])}</td><td class="n">{a2(sl["clos"])}</td><td class="n">{a2(sl["ext_couvert"])}</td><td class="n">{M(bl["travaux"])}</td><td class="n">{M(bl["total_ht"])}</td><td class="n">{M(bl["total_ttc"])}</td></tr>
 </table>
-<div class="grid g2" style="margin-top:5mm"><div class="callout"><b>Recommandation : option B</b>, confirmée par la
-revue de l'architecte senior. Pour {M(bb["travaux"] - ba["travaux"])} de travaux en plus (+{pct(bb["travaux"] / ba["travaux"] - 1, 0)}),
-elle offre {a2(sb["clos"] - sa["clos"])} m² de plus et un jardin d'un seul tenant (environ 109 m² contre 78 m²). Sa toiture
-parasol ventilée est bien plus sûre que des toitures-terrasses sous 1 800 mm de pluie. Les chambres sont à l'étage, loin du locatif,
-et le washitsu avec sa salle d'eau sert de chambre de plain-pied.</div>
+<div class="grid g2" style="margin-top:5mm"><div class="callout">{RECO["texte"]}</div>
 <div class="callout"><b>Locatif : rentable seulement en montage optimisé.</b> Au coût TTC confié à des entreprises, le TRI sur
 15 ans n'est que de {pct(bp.calc("S1")["tri"])} et le crédit n'est pas couvert. En marchés par lots HT, avec la conception assurée
 par le maître d'ouvrage, une gestion en direct et un gardien partagé avec la villa (scénario S4), il atteint
-{pct(bp.calc("S4")["tri"])} et la couverture de dette passe à {a2(bp.calc("S4", levier=True)["dscr"])}. Voir le document 3.</div></div>''')
+{pct(bp.calc("S4")["tri"])}. Voir le document 3.</div></div>''')
 
     # --- analyse de site
     add(f'''<div class="grid g12" style="height:100%"><div class="plan">{svg("site.svg", plans.plan_site)}</div>
@@ -235,187 +236,172 @@ par le maître d'ouvrage, une gestion en direct et un gardien partagé avec la v
 <ul><li>Lot 1728, îlot 174, centre de Djorogobité 1, Cocody, morcellement du TF 358, cédant État de CI.</li>
 <li>Rectangle de 20,00 × 33,00 m, soit 6 a 60 ca (660 m²). Angles de 100 gr aux bornes B1 à B4.</li>
 <li>Deux voies en terre : la rue Nord (20 m de façade) et la rue Ouest (33 m). À l'Est, le lot 1730. Au Sud, une parcelle voisine.</li>
-<li>L'axe long est tourné de {plans.NORD_DEG:.1f}° vers l'Est par rapport au Nord géographique. En pratique, le terrain est orienté Nord-Sud.</li></ul>
+<li>L'axe long est tourné de {plans.NORD_DEG:.1f}° vers l'Est par rapport au Nord géographique : le terrain est orienté Nord-Sud.</li></ul>
 <h3>Constat sur photo</h3>
 <ul><li>Une clôture maçonnée et deux portails métalliques existent. On les réutilise et on les reprend.</li>
 <li>Végétation spontanée à défricher. La voie n'est pas revêtue : prévoir un seuil surélevé et la gestion des eaux pluviales.</li>
 <li>Voisins en R+1 en cours de construction : les vues vers l'Est et le Sud sont à filtrer.</li>
-<li>Terrain apparemment plat. Un relevé topographique est nécessaire, car la revue signale un risque d'inondation dans le secteur
-de Djorogobité, à vérifier.</li></ul>
+<li>Terrain apparemment plat. Un relevé topographique est nécessaire (risque d'inondation signalé dans le secteur, à vérifier).</li></ul>
 <h3>Climat (Abidjan, 5° N)</h3>
-<ul><li>Soleil presque au zénith à midi. Les façades Nord et Sud se protègent avec des débords de 1,2 à 1,8 m.
-Les façades Est et Ouest sont les plus exposées : peu d'ouvertures et des brise-soleil.</li>
-<li>Vents dominants de Sud-Ouest. Les pièces de vie sont orientées pour la ventilation traversante Nord-Sud.</li>
-<li>Environ 1 800 mm de pluie par an, avec des averses violentes en mai-juin : grands débords, socle à +0,45 m, sols perméables.</li></ul>
+<ul><li>Soleil presque au zénith à midi. Les façades Nord et Sud se protègent avec des débords et des balcons.
+Les façades Est et Ouest sont les plus exposées : peu d'ouvertures, claustras et brise-soleil.</li>
+<li>Vents dominants de Sud-Ouest : pièces de vie traversantes Nord-Sud.</li>
+<li>Environ 1 800 mm de pluie par an, averses violentes en mai-juin : débords, socle à +0,45 m, sols perméables.</li></ul>
 <h3>Hypothèses réglementaires (à confirmer)</h3>
-<ul><li>Recul de 5 m sur la rue Nord, d'environ 3 m sur la rue Ouest. Pan coupé éventuel à l'angle. Implantation en
-limite Est avec un mur aveugle, sans débord de toiture sur le voisin. Vues droites à 1,90 m minimum des limites (art. 678 du
-Code civil). Locatif limité à R+1.</li>
-<li>Découpage proposé : villa de 360 m² au Nord, locatif de 300 m² au Sud. <b>On garde un seul titre foncier</b>
-(SCI ou indivision) : pas de reculs sur la limite intérieure, une seule procédure.</li></ul></div></div>''')
+<ul><li>Recul de 5 m sur la rue Nord, d'environ 3 m sur la rue Ouest. Pan coupé éventuel à l'angle. Vues droites à 1,90 m
+minimum des limites (art. 678 du Code civil), aucun débord de toiture sur le voisin. Locatif limité à R+1.</li>
+<li>Découpage : villa de 360 m² au Nord, locatif de 300 m² au Sud. <b>On garde un seul titre foncier</b>
+(SCI ou indivision) : une seule procédure, pas de recul sur la limite intérieure.</li></ul></div></div>''')
 
-    # --- capitude
-    add('''<div class="kicker">2 · Enseignements de la base Capitude</div><h2>Ce que nos projets de référence nous apprennent</h2>
-<p class="lead">La base Capitude compte 12 projets, 1 277 espaces et 162 motifs de conception. Pour le programme, on
-en a extrait les surfaces médianes par type de pièce (villas et logements) et les motifs qui marchent sous climat
-tropical humide.</p>
-<div class="grid g2"><div><h3>Surfaces de référence (médianes des villas et logements)</h3>
-<table><tr><th>Type de pièce</th><th class="n">n</th><th class="n">Médiane</th><th class="n">Retenu ici</th></tr>
-<tr><td>Séjour-SAM</td><td class="n">12</td><td class="n">57,6</td><td class="n">38,9 + engawa 26–30</td></tr>
-<tr><td>Chambre</td><td class="n">32</td><td class="n">13,1</td><td class="n">13,0</td></tr>
-<tr><td>Chambre parentale</td><td class="n">13</td><td class="n">21,8</td><td class="n">20,4 / 21,6</td></tr>
-<tr><td>Salle d'eau</td><td class="n">48</td><td class="n">4,1</td><td class="n">4,3 / 4,8</td></tr>
-<tr><td>Dressing</td><td class="n">11</td><td class="n">5,8</td><td class="n">3,8 / 13,0</td></tr>
-<tr><td>Cuisine</td><td class="n">17</td><td class="n">10,4</td><td class="n">13,0</td></tr>
-<tr><td>Chambre de personnel</td><td class="n">11</td><td class="n">8,2</td><td class="n">8,6</td></tr>
-<tr><td>WC visiteurs</td><td class="n">14</td><td class="n">2,8</td><td class="n">2,2</td></tr>
-<tr><td>Escalier</td><td class="n">19</td><td class="n">12,2</td><td class="n">8,6 + palier 4,3</td></tr>
-<tr><td>Buanderie</td><td class="n">10</td><td class="n">6,7</td><td class="n">4,3 / 8,6</td></tr></table>
-<p class="small muted" style="margin-top:2mm">Le séjour fermé reste sous la médiane : l'engawa couvert de 1,80 m
-le prolonge de 26 à 30 m². Sur 360 m², c'est le moyen le plus économique d'agrandir la pièce de vie.</p></div>
-<div><h3>Motifs repris</h3>
-<table><tr><th>Motif</th><th>Projet source</th><th>Application</th></tr>
-<tr><td>Séjour traversant entre deux terrasses</td><td>ABYA (Assinie)</td><td>Séjour-SAM ouvert au Nord et au Sud</td></tr>
-<tr><td>Galerie-rotule jour / nuit / service</td><td>Villa JIK</td><td>Rōka qui distribue cuisine, service et nuit</td></tr>
-<tr><td>Salon familial comme rotule d'étage</td><td>Anthurium, EMIIKA</td><td>Salon familial entre les suites</td></tr>
-<tr><td>Vestibule à placard devant la salle d'eau</td><td>EMIIKA</td><td>Vestibule-placard de 3,8 m² par suite</td></tr>
-<tr><td>Salles d'eau dos à dos</td><td>ABYA, Anthurium</td><td>Gaine commune aux SE des chambres 2 et 3</td></tr>
-<tr><td>Dressing traversant comme sas</td><td>Anthurium, JIK</td><td>Accès à la suite parentale</td></tr>
-<tr><td>Bande de services le long d'une limite</td><td>EMIIKA</td><td>Bloc service en limite Est</td></tr>
-<tr><td>Chambre de personnel à porte extérieure</td><td>EMIIKA</td><td>Accès direct depuis la cour</td></tr>
-<tr><td>Patios pour éclairer un plan épais</td><td>EMIIKA, JIK</td><td>Tsubo-niwa, patios du locatif</td></tr>
-<tr><td>Logements traversants de 9 à 11 m</td><td>SANKOFA</td><td>Barre locative de 9,0 m</td></tr>
-<tr><td>Pièces humides en bande centrale</td><td>Modules R+12</td><td>Bande humide de 1,8 m</td></tr>
-<tr><td>Double peau claustra sur les pignons</td><td>Typologie urbaine 8</td><td>Claustras terre cuite à l'Ouest</td></tr></table></div></div>''')
+    # --- etude Capitude
+    add('''<div class="kicker">2 · Étude des plans de la base Capitude</div><h2>Comment nos villas de référence sont organisées</h2>
+<p class="lead" style="margin-bottom:2mm">On a relu pièce par pièce les plans vectorisés de quatre projets résidentiels d'Abidjan et
+d'Assinie (surfaces, dimensions, portes, liaisons entre pièces). Ce sont eux qui fixent l'organisation des deux options.</p>
+<table class="tight"><tr><th style="width:17%">Projet</th><th style="width:30%">Organisation</th><th>Ce qu'on en retient pour le lot 1728</th></tr>
+<tr><td><b>Maison de ville Anthurium</b><br>R+1, 4 ch., lot de 12 × 30 m, Riviera Golf</td><td>Hall et escalier le long d'un mur, noyau de service côté
+rue (cuisine 15,2 m², buanderie 8,5 m², chambre de service 8 m²), SAM 14,4 m², salon 7,0 × 6,5 m sur terrasse couverte de 42 m².</td>
+<td>Séquence hall, SAM, salon, terrasse, jardin. À l'étage, l'escalier débouche sur un salon familial de 11,8 m² qui
+distribue la suite parentale (31,2 m²) et les chambres. C'est le cas le plus proche de notre programme.</td></tr>
+<tr><td><b>Villa ABYA 2</b><br>R+1, 4 pièces, Assinie</td><td>Séjour de 11 × 7 m vitré au Nord et au Sud, cuisine ouverte et cuisine
+fermée en bande (1,9 × 7,0 m), pavillon de service (chambre 6,8 m² + SE 5,5 m²), préau cuisine de 7,1 m², cour de service en claustra.</td>
+<td>Séjour traversant, cuisine fermée en bande, cour de service fermée de claustras. Balcon filant au Sud sous le débord de toiture,
+dressing traversant de 12,7 m² en sas de la suite.</td></tr>
+<tr><td><b>Résidence EMIIKA</b><br>Cocody Danga</td><td>Lanière de services le long d'une limite : cuisine africaine de 16,2 m² face à la
+cuisine moderne, de part et d'autre d'un patio. Buanderie de 12,5 m², séchoir à ciel ouvert de 25 m², deux studios de personnel de 12,1 m²
+avec SE en lanière de 4,7 m² dos à dos, guérite et WC du gardien.</td>
+<td>La cuisine africaine est une vraie pièce, séparée, ventilée sur une cour, reliée à la cuisine moderne par la circulation de
+service. Les chambres de personnel ont une porte extérieure et leur propre salle d'eau.</td></tr>
+<tr><td><b>Villa JIK</b><br>plain-pied, Cocody Ambassade</td><td>Galerie qui distribue jour, nuit et service ; cuisine de réception de
+29,5 m² et cuisine technique de 9 m² ouverte sur une cour de service ; chambre de personnel de 8,9 m², séchoir de 10,8 m², guérite de 7,8 m².</td>
+<td>Les invités ne traversent jamais le service, le personnel rejoint la cuisine sans passer par le séjour. Guérite au portillon.</td></tr></table>
+<div class="grid g2" style="gap:6mm;margin-top:2mm"><div><h3>Liaisons les plus fréquentes (portes et baies relevées)</h3>
+<table class="tight"><tr><th>Liaison</th><th class="n">Cas</th><th>Projets</th></tr>
+<tr><td>Chambre de personnel ↔ salle d'eau</td><td class="n">5</td><td>ABYA, EMIIKA</td></tr>
+<tr><td>Séjour ↔ terrasse (baie)</td><td class="n">5</td><td>ABYA, EMIIKA</td></tr>
+<tr><td>Cuisine ↔ séjour / SAM</td><td class="n">6</td><td>ABYA, Anthurium, JIK</td></tr>
+<tr><td>Chambre parentale ↔ dressing</td><td class="n">4</td><td>ABYA, Anthurium, EMIIKA</td></tr>
+<tr><td>Escalier ↔ hall d'entrée</td><td class="n">4</td><td>ABYA, Anthurium</td></tr>
+<tr><td>Cuisine ↔ couloir de service</td><td class="n">3</td><td>ABYA, EMIIKA, JIK</td></tr>
+<tr><td>Buanderie ↔ séchoir / couloir</td><td class="n">5</td><td>EMIIKA, JIK, ABYA</td></tr></table></div>
+<div><h3>Règles retenues pour les deux options</h3><ul class="small">
+<li>Salon traversant Nord-Sud d'environ 45 m² + SAM de 14 m² (médiane séjour-SAM de la base : 57,6 m²).</li>
+<li>Hall, WC visiteurs (2,8 m²) et escalier groupés côté rue. La SAM fait le lien entre salon et cuisine.</li>
+<li>Deux cuisines : une cuisine moderne et une cuisine africaine sur cour de service, avec buanderie et séchoir.</li>
+<li>Chambre de nounou d'environ 9 m² (médiane de la base : 8,2 m²) avec sa propre salle d'eau.</li>
+<li>Étage : salon familial à l'arrivée de l'escalier, suite parentale avec dressing traversant.</li>
+<li>Guérite et WC du gardien au portillon, 3 places de parking.</li></ul></div></div>''')
 
-    # --- principes japonais
-    add('''<div class="kicker">3 · Parti architectural</div><h2>Penser japonais, construire ivoirien</h2>
-<p class="lead">La maison japonaise traditionnelle répond à un climat chaud et humide, comme celui d'Abidjan : grands
-débords de toit, plancher surélevé, parois coulissantes, ventilation traversante, jardins proches des pièces. On en reprend
-la logique, sans pastiche, avec les matériaux et les savoir-faire locaux.</p>
-<div class="grid g2"><div><table><tr><th style="width:28%">Principe</th><th>Traduction dans le projet</th></tr>
-<tr><td><b>Ken</b> (trame)</td><td>Module de 0,90 / 1,80 m, trame porteuse de 3,60 m. Petites portées en béton armé
-(poutres de 30 cm), coffrages répétitifs, placards et lits qui tombent juste.</td></tr>
-<tr><td><b>Engawa</b></td><td>Galerie de 1,80 m en bois sur le jardin, sous le débord de toiture. C'est un espace
-entre dedans et dehors, à l'ombre, qui protège les baies de la pluie.</td></tr>
-<tr><td><b>Genkan</b></td><td>Entrée de 8,6 m² avec une marche et un getabako (meuble à chaussures). On s'y déchausse,
-ce qui garde la maison propre malgré la latérite de la rue.</td></tr>
-<tr><td><b>Rōka</b></td><td>Couloir-galerie éclairé qui sépare les flux : les invités ne voient jamais le service.</td></tr>
-<tr><td><b>Fusuma / shoji</b></td><td>Panneaux coulissants en bois massif et lames : le washitsu s'ouvre sur l'engawa ou
-s'isole en chambre. Au-dessus des portes, des ranma ajourés laissent passer l'air la nuit. Le washitsu a un parquet bois, pas de
-tatamis (humidité, termites).</td></tr>
-<tr><td><b>Amado</b></td><td>Volets coulissants en bois qui se rangent dans un caisson (tobukuro). Ils ferment les grandes baies
-la nuit : sécurité, pluie battante. Des moustiquaires sont intégrées.</td></tr>
-<tr><td><b>Tsubo-niwa</b></td><td>Petits patios plantés pour éclairer et ventiler le cœur du plan et les salles d'eau.</td></tr>
-<tr><td><b>Shakkei</b></td><td>Cadrer les vues sur le jardin et le grand arbre, filtrer celles sur les voisins avec bambous et claustras.</td></tr>
-<tr><td><b>Nagaya</b></td><td>Le locatif reprend la maison en bande japonaise : logements traversants alignés, coursive-engawa, patios privés.</td></tr></table></div>
-<div><table><tr><th style="width:28%">Matériau</th><th>Usage et précautions</th></tr>
-<tr><td><b>Béton armé</b></td><td>Ossature poteaux-poutres, dalles, socle de +0,45 m. Fondations à définir après l'étude de sol (sols sableux de la Palmeraie).</td></tr>
-<tr><td><b>BTC</b> (brique de terre comprimée)</td><td>Remplissage des murs extérieurs, apparents à l'intérieur. Meilleure inertie que l'agglo.
-Stabilisées à 6–8 % de ciment, résistance d'au moins 4 MPa testée, soubassement en béton de 50 cm, enduit hydrofuge sur les façades
-Sud-Ouest. Les débords de toit sont indispensables.</td></tr>
-<tr><td><b>Pisé</b> (terre crue stabilisée)</td><td>Un mur d'accent par maison (genkan, séjour), protégé de la pluie. On le traite comme une pièce d'artisanat.</td></tr>
-<tr><td><b>Bois local</b></td><td>Iroko, teck ou doussié pour les coulissants, le platelage de l'engawa et les brise-soleil.
-Jamais d'ayous ou de samba en extérieur. Bois séchés et traités, pieds de poteaux sur sabots à +30 cm. Traitement anti-termites
-du sol obligatoire.</td></tr>
-<tr><td><b>Terre cuite</b></td><td>Claustras sur les façades Ouest, la buanderie et la cage d'escalier du locatif : de l'ombre et de l'air, sans regard.</td></tr>
-<tr><td><b>Toiture</b></td><td>Option B : bac acier aluzinc de 0,50 mm, isolé et traité contre le bruit de la pluie, sur charpente
-bois traitée, ancré contre le vent, avec lame d'air ventilée. Côté Est, mur pignon et chéneau encaissé. Option A : dalles avec
-étanchéité bicouche anti-racines, environ 200 kg/m², plus exigeantes en entretien.</td></tr></table>
-<div class="callout small" style="margin-top:3mm">L'engawa et les débords sont le cœur du confort. Ils remplacent une
-partie de la climatisation : murs à l'ombre toute la journée, baies ouvertes pendant les averses, nuits ventilées
-grâce aux ranma.</div></div></div>''')
+    # --- parti climat / culture
+    add('''<div class="kicker">3 · Parti architectural</div><h2>Une villa pour le climat d'Abidjan et la vie ivoirienne</h2>
+<div class="grid g2"><div><table><tr><th style="width:30%">Usage</th><th>Réponse dans le projet</th></tr>
+<tr><td><b>Recevoir</b></td><td>Salon de 45 m² ouvert sur une terrasse couverte de 30 à 35 m², à l'ombre toute la journée. La SAM
+se ferme ou s'ouvre sur le salon. Le WC visiteurs est dans le hall : les invités ne montent pas à l'étage.</td></tr>
+<tr><td><b>Cuisine africaine</b></td><td>Pièce de 12 à 13 m², carrelée sol et murs, évier double bac, plan bas pour le mortier et le pilon,
+hotte d'extraction, grandes ouvertures sur la cour de service, bouteilles de gaz en cage extérieure. Elle est reliée directement à la
+cuisine moderne, et la cour permet de cuisiner dehors.</td></tr>
+<tr><td><b>Cuisine moderne</b></td><td>Cuisine fermée avec plan de travail, ou cuisine avec îlot (option B), reliée à la SAM. C'est la cuisine
+« de tous les jours » et de réception.</td></tr>
+<tr><td><b>Nounou</b></td><td>Chambre d'environ 9 m² avec salle d'eau privée. Option A : à l'étage, porte à porte avec les chambres d'enfants.
+Option B : studio indépendant dans l'aile de service, avec porte extérieure.</td></tr>
+<tr><td><b>Gardien et sécurité</b></td><td>Guérite avec WC au portillon, à l'angle des deux rues. Portail coulissant, porte d'entrée blindée,
+grilles de défense sur les baies du RDC.</td></tr>
+<tr><td><b>Linge et provisions</b></td><td>Buanderie et séchoir à ciel ouvert hors de la vue des invités. Magasin pour les provisions (sacs de riz,
+huile, ignames).</td></tr></table></div>
+<div><table><tr><th style="width:30%">Climat</th><th>Réponse dans le projet</th></tr>
+<tr><td><b>Soleil</b></td><td>Longues façades au Nord et au Sud. Au Sud, la terrasse et le balcon filant font une casquette de 2,4 m.
+Les pignons Est et Ouest sont peu percés, avec claustras en terre cuite et brise-soleil.</td></tr>
+<tr><td><b>Ventilation</b></td><td>Salon et chambres traversants Nord-Sud dans l'axe de la brise de Sud-Ouest. Impostes à persiennes
+au-dessus des portes. Menuiseries bois à jalousies, qui ventilent même fermées.</td></tr>
+<tr><td><b>Pluie</b></td><td>Socle à +0,45 m, débords de toiture de 1,2 m, terrasses couvertes, cours de service drainées (siphons, pavés drainants).</td></tr>
+<tr><td><b>Chaleur</b></td><td>Toiture en bac acier isolé avec lame d'air ventilée, cachée par un acrotère. Murs en BTC (brique de terre comprimée),
+plus d'inertie qu'un agglo. Arbres d'ombrage côté Ouest.</td></tr>
+<tr><td><b>Matériaux</b></td><td>Ossature béton armé sur trame de 3,6 m, remplissage BTC stabilisée (6 à 8 % de ciment) sur soubassement béton
+de 50 cm. Bois durs locaux (iroko, doussié) traités pour les menuiseries et les brise-soleil. Traitement anti-termites du sol.</td></tr></table></div></div>''')
 
     # --- options
-    for opt, s, b, other in ((OPTION_A, sa, ba, "A"), (OPTION_B, sb, bb, "B")):
+    for opt, s, b in ((OPTION_A, sa, ba), (OPTION_B, sb, bb)):
         k = opt["code"]
-        add(f'''<div class="kicker">4 · Option {k}</div><h2>{opt["nom"].split("— ")[1]}</h2>
+        add(f'''<div class="kicker">4 · Option {k} · références : {opt["ref"]}</div><h2>{opt["nom"].split("— ")[1]}</h2>
 <p class="lead" style="margin-bottom:2mm">{opt["parti"]}</p>
 <div class="grid g2"><div class="plan">{svg(f"{k}_RDC.svg", lambda: plans.plan_villa(opt, "RDC"))}
-<div class="plan-cap"><span>Rez-de-chaussée · {a2(s["RDC"])} m² clos</span><span>Échelle graphique : trame 3,60 m</span></div></div>
+<div class="plan-cap"><span>Rez-de-chaussée · {a2(s["RDC"])} m² clos (guérite comprise)</span><span>Trame 3,60 m</span></div></div>
 <div class="plan">{svg(f"{k}_R1.svg", lambda: plans.plan_villa(opt, "R+1"))}
 <div class="plan-cap"><span>Étage · {a2(s["R+1"])} m² clos</span><span>Plans d'esquisse, cotes en m</span></div></div></div>{LEGEND}''')
         if k == "A":
-            atouts = ["Suite parentale de plain-pied (47,8 m²) : confortable à long terme, indépendante de l'étage des enfants.",
-                      "Jardin-cour abrité au Nord et à l'Est, ouvert au Sud-Ouest d'où vient la brise. L'engawa en L le borde.",
-                      "Toit-jardin de 17,8 m² accessible depuis le salon familial. Le garde-corps est reculé à 1,90 m de la limite Est.",
-                      f"L'emprise la plus forte ({pct(s['emprise'] / 360, 0)}) : la consigne « maximiser l'emprise au sol » est respectée."]
-            limites = ["Jardin plus petit (environ 78 m² en L) et coupé par l'aile parentale.",
-                       "L'aile parentale est en limite Sud, à 4 m de la façade locative. La chambre ne prend le jour qu'à l'Ouest et par le patio.",
-                       "On accède à la suite par le rōka de service, près de la buanderie. Le dressing traversant n'a pas de jour (ventilation mécanique).",
-                       "Toitures-terrasses et toit végétalisé : étanchéité coûteuse, surchauffe des pièces dessous sans isolation."]
+            atouts = ["Un seul volume, simple à construire : moins de façades et de toiture par m² habitable.",
+                      "La nounou dort à côté des chambres d'enfants : pratique avec des enfants en bas âge.",
+                      "Toutes les chambres ont leur salle d'eau, celles des enfants dos à dos.",
+                      "La cour de service de 2,4 m éloigne la façade Est de la limite : aucune servitude de vue ni de débord."]
+            limites = ["La cuisine africaine est sous la chambre 3 : hotte et extraction indispensables, fumées à évacuer en toiture.",
+                       "La nounou partage l'étage de la famille : moins d'intimité pour elle et pour les parents.",
+                       "Salles d'eau des enfants compactes (3,6 m²).",
+                       "Cuisine moderne en bande de 2,4 m, sans îlot."]
         else:
-            atouts = ["Volume simple sous une grande toiture parasol : moins de façades et pas d'étanchéité de terrasse.",
-                      "Jardin d'un seul tenant en L (environ 109 m²) sur lequel s'ouvrent toutes les pièces de jour par l'engawa.",
-                      "Les 3 chambres sont à l'étage, loin de la rue et du locatif (environ 10 m). Le balcon-engawa protège les baies Sud.",
-                      "Washitsu de 13 m² avec sa salle d'eau : bureau, chambre d'amis ou chambre de plain-pied pour un parent âgé."]
-            limites = ["Le jardin Sud ne fait que 4 m de profondeur derrière l'engawa : c'est un jardin long plutôt qu'un grand jardin.",
-                       "Étage en limite Est sur le bloc service : mur pignon aveugle et chéneau encaissé, à valider au règlement.",
-                       f"Emprise plus faible ({pct(s['emprise'] / 360, 0)}) : on « maximise » le jardin plutôt que le bâti au sol.",
-                       "Les salles d'eau des chambres 2 et 3 sont aveugles : lanterneau sous toiture et extraction mécanique."]
-        coupe = (f'<div class="plan" style="margin-top:3mm">{svg("coupe_B.svg", plans.coupe_B)}<div class="plan-cap">'
-                 f'<span>Coupe de principe Nord-Sud : socle, débords, ventilation traversante</span></div></div>' if k == "B" else "")
+            atouts = ["La cuisine africaine est hors de la maison : fumées et odeurs restent dans l'aile de service (modèle EMIIKA).",
+                      "Studio de la nounou indépendant, avec porte extérieure et salle d'eau : intimité pour tous.",
+                      "Grande cuisine moderne avec îlot (20 m²) et office : la cuisine de réception attendue dans une villa.",
+                      "La galerie de service relie les deux cuisines sans traverser la maison."]
+            limites = ["Emprise plus forte et jardin plus petit (environ 85 m²).",
+                       "La nounou est loin des enfants la nuit : interphone ou babyphone à prévoir.",
+                       "Les chambres 2 et 3 partagent une salle d'eau (comme dans la maison de ville Anthurium).",
+                       "L'aile de service est en limite Est : mur aveugle et chéneau encaissé, à valider au règlement."]
         add(f'''<div class="grid" style="grid-template-columns:1.5fr 1.5fr;gap:6mm"><div><div class="kicker">4 · Option {k}, programme</div><h2>Surfaces et lecture critique</h2>
 <div class="grid g2" style="gap:5mm"><div><h3>Atouts</h3><ul>{"".join(f"<li>{x}</li>" for x in atouts)}</ul></div>
 <div><h3>Limites</h3><ul>{"".join(f"<li>{x}</li>" for x in limites)}</ul></div></div>
 <h3>Structure et coût</h3>
-<p>Ossature béton armé sur trame de 3,60 m, remplissage en BTC, {opt["toiture"].lower()}.
+<p>Ossature béton armé sur trame de 3,60 m, remplissage en BTC. {opt["toiture"]}.
 Travaux estimés à <b>{M(b["travaux"])} FCFA HT</b>, soit {m(b["travaux"] / s["clos"])} FCFA/m² clos. Total avec
 honoraires et aléas : {M(b["total_ht"])} HT / {M(b["total_ttc"])} TTC.</p>
+{f'<div class="plan" style="margin-top:3mm;max-width:150mm">{svg("coupe_B.svg", plans.coupe_B)}<div class="plan-cap"><span>Coupe de principe Nord-Sud : socle, débords, ventilation traversante</span></div></div>' if k == "A" else ""}
 </div><div><div class="grid g2" style="gap:5mm"><div>{tableau_surfaces(opt, ("RDC",), total=False)}</div>
-<div>{tableau_surfaces(opt, ("R+1",))}</div></div>{coupe}</div></div>''')
+<div>{tableau_surfaces(opt, ("R+1",))}</div></div></div></div>''')
 
     # --- comparatif
     rows = [("Surface close (m²)", a2(sa["clos"]), a2(sb["clos"])),
             ("Emprise au sol (m², % de 360)", f'{a2(sa["emprise"])} · {pct(sa["emprise"] / 360, 0)}',
              f'{a2(sb["emprise"])} · {pct(sb["emprise"] / 360, 0)}'),
-            ("Jardin principal (env.)", "78 m² en L + toit-jardin 17,8 m²", "109 m² d'un seul tenant en L"),
-            ("Engawa / balcons couverts (m²)", a2(sa["ext_couvert"]), a2(sb["ext_couvert"])),
-            ("Suite parentale", "Plain-pied, 47,8 m²", "Étage, 38,9 m²"),
-            ("Pièce en plus", "Toit-jardin", "Washitsu + SE invités"),
-            ("Toiture", "Terrasses + végétalisée", "Parasol bac acier ventilé"),
+            ("Jardin (env., avec la bande Ouest)", "100 m²", "85 m²"),
+            ("Terrasse + balcon couverts (m²)", a2(sa["ext_couvert"]), a2(sb["ext_couvert"])),
+            ("Salon + SAM", "45,4 + 14,4 m²", "45,4 + 14,4 m²"),
+            ("Cuisine moderne", "11,5 m² en bande", "20,2 m² avec îlot + office"),
+            ("Cuisine africaine", "13,0 m², dans le volume, sur cour", "12,0 m², dans l'aile de service"),
+            ("Chambre de nounou", "Étage, 8,6 + SE 4,3 m²", "RDC, studio 9,0 + SE 4,2 m²"),
+            ("Salles d'eau des enfants", "Une par chambre (3,6 m²)", "Une partagée (6,5 m²)"),
             ("Travaux HT", M(ba["travaux"]), M(bb["travaux"])),
-            ("Travaux HT / m² clos", m(ba["travaux"] / sa["clos"]), m(bb["travaux"] / sb["clos"])),
             ("Total TTC (honoraires + aléas)", M(ba["total_ttc"]), M(bb["total_ttc"]))]
     add(f'''<div class="grid" style="grid-template-columns:0.55fr 0.55fr 1.6fr;gap:5mm">
 <div class="plan">{svg("masse_A.svg", lambda: plans.plan_masse(OPTION_A))}<div class="plan-cap"><span>Plan masse A + locatif</span></div></div>
 <div class="plan">{svg("masse_B.svg", lambda: plans.plan_masse(OPTION_B))}<div class="plan-cap"><span>Plan masse B + locatif</span></div></div>
 <div><div class="kicker">5 · Comparaison</div><h2>Option A ou option B ?</h2>
-<table><tr><th>Critère</th><th>A · Maison en L</th><th>B · Duplex compact</th></tr>
+<table class="tight"><tr><th>Critère</th><th>A · Villa compacte</th><th>B · Aile de service</th></tr>
 {"".join(f"<tr><td>{a}</td><td>{b}</td><td>{c}</td></tr>" for a, b, c in rows)}</table>
-<div class="callout" style="margin-top:4mm"><b>Option B recommandée</b>, avec l'accord de la revue senior. Elle coûte environ
-{pct(bb["travaux"] / ba["travaux"] - 1, 0)} de plus, mais elle donne plus de surface, un jardin d'un seul tenant et une toiture
-bien plus fiable sous ce climat. Toutes les chambres sont à l'étage, à distance du locatif et de la rue. Le washitsu avec sa SE
-garde une chambre de plain-pied pour plus tard. L'option A ne se justifie que si la suite parentale de plain-pied est impérative.
-Il faudrait alors la retourner vers le jardin, avec un accès distinct du service.</div></div></div>''')
+<div class="callout" style="margin-top:4mm">{RECO["texte"]}</div></div></div>''')
 
     # --- locatif
-    add(f'''<div class="kicker">6 · Parcelle arrière : programme locatif</div><h2>Un « nagaya » de 6 logements traversants</h2>
+    add(f'''<div class="kicker">6 · Parcelle arrière : programme locatif</div><h2>Une barrette de 6 logements traversants</h2>
 <div class="grid g2"><div class="plan">{svg("L_RDC.svg", lambda: plans.plan_locatif("RDC"))}
-<div class="plan-cap"><span>Rez-de-chaussée · {a2(sl["RDC"])} m² (escalier compris)</span><span>Accès par la rue Ouest</span></div></div>
+<div class="plan-cap"><span>Rez-de-chaussée · {a2(sl["RDC"])} m² (escalier et guérite compris)</span><span>Accès par la rue Ouest</span></div></div>
 <div class="plan">{svg("L_R1.svg", lambda: plans.plan_locatif("R+1"))}
 <div class="plan-cap"><span>R+1 · {a2(sl["R+1"])} m² + coursive {a2(17.28)} m²</span><span>Logements identiques au RDC</span></div></div></div>{LEGEND}''')
     add(f'''<div class="grid g21"><div><div class="kicker">6 · Locatif, parti</div><h2>Maximiser la surface louable en R+1</h2>
 <ul><li><b>Une barre de 14,40 × 9,00 m</b> le long de la limite Sud. C'est la profondeur la plus grande qui garde des
-logements traversants Nord-Sud sans couloir (motif SANKOFA). On obtient {a2(sl["clos"])} m² clos pour {a2(sl["emprise"])} m² d'emprise, soit
-{pct(sl["emprise"] / 300, 0)} de la parcelle.</li>
+logements traversants Nord-Sud sans couloir (immeuble SANKOFA de la base : barre de 11 m, logements traversants). On obtient
+{a2(sl["clos"])} m² clos pour {a2(sl["emprise"])} m² d'emprise, soit {pct(sl["emprise"] / 300, 0)} de la parcelle.</li>
 <li><b>Six logements</b> : 4 × 2 pièces de 48,6 m² (séjour de 13,0 m², cuisine fermée de 6,5 m² côté coursive avec allège
-à 1,40 m, chambre de 13,0 m², bureau-dressing, cellier, SE) et 2 × T1 bis de 32,4 m² (séjour avec cuisine linéaire de 2,40 m,
-dégagement qui dessert la SE, alcôve nuit séparée). Ce sont les typologies les plus demandées à la Palmeraie par les jeunes actifs
-et les couples.</li>
-<li><b>Cour commune de 4 m</b> côté villa. Elle sert d'allée plantée (roji), de terrasses privées sous la coursive pour le RDC
-et de recul visuel : avec l'option B, on compte environ 10 m entre la villa et la façade locative. Le mur séparatif de 2,5 m est doublé de bambous.</li>
-<li><b>Patios privés de 2 m</b> au Sud (tsubo-niwa) : lumière et ventilation des chambres, un atout pour la location.</li>
-<li><b>Escalier droit extérieur</b> le long de la façade Nord, garde-corps plein côté villa, et <b>coursive-engawa</b> de 1,20 m
-bordée de claustras de 1,80 m : intimité de la villa, pas de parties communes closes. La coursive fait aussi casquette pour le RDC.</li>
+à 1,40 m, chambre de 13,0 m², bureau-dressing, cellier, SE) et 2 × T1 bis de 32,4 m² (séjour avec cuisine linéaire, dégagement
+qui dessert la SE, alcôve nuit séparée). Ce sont les typologies les plus demandées à la Palmeraie.</li>
+<li><b>Pièces humides en bande centrale</b> (immeuble Modules R+12 de la base), <b>cuisine fermée</b> et cour de service comme dans la
+typologie urbaine 8 : les patios Sud du RDC servent de séchoir, le R+1 a un étendoir derrière les claustras de la coursive.</li>
+<li><b>Cour commune de 4 m</b> côté villa : allée plantée, terrasses privées sous la coursive pour le RDC, et recul visuel vis-à-vis
+de la villa. Mur séparatif de 2,5 m doublé d'une haie.</li>
+<li><b>Escalier droit extérieur</b> le long de la façade Nord, garde-corps plein côté villa, et <b>coursive</b> de 1,20 m bordée de
+claustras de 1,80 m : intimité de la villa, pas de parties communes closes.</li>
 <li><b>Ce que le marché exige</b> : guérite et gardien, bâche à eau et surpresseur (déficit SODECI), compteurs individuels, attentes de
 climatisation, cuisine fermée. C'est ce qui justifie un 2 pièces à 230 k plutôt qu'à 180–200 k.</li>
 <li><b>5 places de stationnement</b> en pavés drainants, dans l'enceinte, derrière un portail coulissant sur la rue Ouest.</li></ul>
 <h3>Variantes pour densifier</h3>
-<p>Avec 8 T1 bis (4 par niveau), la surface est la même mais le revenu est quasi identique et il faut deux cuisines et deux SE de plus :
-<b>pas rentable</b>. Avec 4 × 3 pièces de 64,8 m² (environ 300–330 k chacun), le revenu est équivalent avec moins de vacance et
-moins de pièces humides : c'est une variante à chiffrer à l'APS. Un toit-terrasse partagé (buanderie, panneaux solaires) peut être
-ajouté sans créer de niveau.</p></div>
+<p>Avec 8 T1 bis, la surface est la même, le revenu quasi identique, et il faut deux cuisines et deux SE de plus : <b>pas rentable</b>.
+Avec 4 × 3 pièces de 64,8 m² (environ 300–330 k chacun), le revenu est équivalent avec moins de vacance : variante à chiffrer à l'APS.</p></div>
 <div>{tableau_locatif()}</div></div>''')
 
     # --- revue
@@ -424,20 +410,19 @@ ajouté sans créer de niveau.</p></div>
     # --- etapes
     add('''<div class="kicker">8 · Suite à donner</div><h2>Points à valider et prochaines étapes</h2>
 <div class="grid g3"><div class="card"><h3>Réglementaire et foncier</h3><ul>
-<li>Cahier des charges du lotissement : reculs, COS / CES, hauteur, implantation en limite Est.</li>
+<li>Cahier des charges du lotissement : reculs, COS / CES, hauteur, implantation en limite Est, guérite en recul.</li>
 <li>Choix du montage : un TF en SCI ou en indivision, ou morcellement (plus long, impose des reculs).</li>
-<li>Certificat d'urbanisme puis permis de construire (ministère de la Construction, guichet unique).</li>
+<li>Certificat d'urbanisme puis permis de construire.</li>
 <li>Bornage contradictoire : les 4 bornes sont à vérifier sur place.</li></ul></div>
 <div class="card"><h3>Technique</h3><ul>
-<li>Étude géotechnique G2 : nature du sol, nappe, type de fondations.</li>
+<li>Étude géotechnique G2 et relevé topographique.</li>
 <li>Assainissement : réseau public ou fosse et puisard, avec une étude de perméabilité.</li>
-<li>Pression SODECI et puissance CIE : bâche à eau et surpresseur prévus, compteurs individuels pour le locatif.</li>
-<li>Filière BTC et bois : artisans, prototype de mur et de coulissant avant le marché.</li></ul></div>
+<li>Pression SODECI et puissance CIE : bâche à eau et surpresseur, compteurs individuels pour le locatif.</li>
+<li>Cuisine africaine : conduit d'extraction en toiture, cage à gaz ventilée, sol et murs lavables.</li></ul></div>
 <div class="card"><h3>Économie et calendrier</h3><ul>
-<li>Phasage conseillé : locatif d'abord (environ 10 mois), villa ensuite. Les loyers aident à financer la villa
-(voir le business plan).</li>
-<li>Consultation par lots séparés : gros œuvre, menuiseries bois, électricité-plomberie, finitions.</li>
-<li>APS : plans cotés, façades, perspectives, descriptif sommaire, estimation affinée par corps d'état.</li>
+<li>Phasage conseillé : locatif d'abord (environ 10 mois), villa ensuite. Les loyers aident à financer la villa.</li>
+<li>Consultation par lots séparés : gros œuvre, menuiseries, électricité-plomberie, finitions.</li>
+<li>APS : plans cotés, façades, perspectives, descriptif sommaire, estimation par corps d'état.</li>
 <li>Valider les loyers cibles avec deux agences de la Riviera Palmeraie.</li></ul></div></div>''')
     path = OUT / "01_Esquisse_Lot1728_Palmeraie.html"
     path.write_text(html(P, "Esquisse – Lot 1728 Riviera Palmeraie"))
@@ -446,33 +431,8 @@ ajouté sans créer de niveau.</p></div>
 
 
 REVUE = """<div class="kicker">7 · Contrôle qualité</div><h2>Revue par un architecte senior</h2>
-<p class="lead" style="margin-bottom:2mm">Une première version de l'esquisse a été relue par un architecte senior (pratique en
-Côte d'Ivoire, connaissance de l'architecture japonaise). Sa revue a relevé 6 points bloquants. <b>Tous ont été corrigés dans
-les plans et le chiffrage de ce dossier.</b></p>
-<div class="grid g3 rev" style="gap:5mm"><div><h3>Points bloquants corrigés</h3><ul>
-<li><b>Rōka accessible seulement par la cuisine, palier coupé de l'escalier.</b> Le noyau est élargi : une bande de distribution de
-1,20 m relie genkan, rōka, escalier et palier. L'escalier en U (2 volées de 1,10 m, 19 marches de 17,4 cm) est décalé.</li>
-<li><b>SE de la chambre 3 accessible par la SE de la chambre 2.</b> La porte est déplacée sur le vestibule de la chambre 3.</li>
-<li><b>Débord de toiture de l'option B sur le lot 1730</b> (art. 681 du Code civil). Côté Est : mur pignon, acrotère et chéneau encaissé.</li>
-<li><b>T1 bis</b> : kitchenette et alcôve ne communiquaient pas avec le séjour. Un dégagement dessert maintenant SE et alcôve, la cuisine est linéaire dans le séjour.</li>
-<li><b>Vues droites</b> (art. 678) : escalier locatif remplacé par un escalier droit avec garde-corps plein. Toit-jardin A reculé à 1,90 m de la limite.</li></ul></div>
-<div><h3>Améliorations intégrées</h3><ul>
-<li>Cour de service fermée de claustras au Nord-Est, avec arrière-cuisine (fumées loin de la réception) et séchoir hors du jardin.</li>
-<li>SE invités pour le washitsu de l'option B, qui devient une vraie chambre de plain-pied.</li>
-<li>3 places de stationnement pour la villa, portail coulissant. Chemin d'entrée dégagé des voitures.</li>
-<li>Amado (volets coulissants à caisson), moustiquaires, porte d'entrée blindée. Pas de tatamis.</li>
-<li>Locatif : cuisine fermée dans les 2 pièces, claustras en rive de coursive, guérite et gardien, parking dans l'enceinte.</li>
-<li>Estimation : aléas portés à 10 %, anti-termites, équipements (chauffe-eau, attentes de climatisation), surcoût de la grande toiture.
-Le ÷ 2 ne s'applique plus qu'aux ratios de la base.</li></ul></div>
-<div><h3>Avis et points à valider</h3><ul>
-<li><b>Recommandation de la revue : option B</b>. Toiture parasol mieux adaptée au climat, chambres à l'étage, structure simple.
-L'option A seulement si la suite de plain-pied est impérative.</li>
-<li>Le ratio ÷ 2 est jugé « plausible mais au bas de la fourchette » (villa 450–600 k, locatif 300–380 k FCFA/m² de travaux).
-Il faut une estimation par lots à l'APS.</li>
-<li>À vérifier : CES et COS du lotissement (A ≈ 45 %, B ≈ 40 % sur le TF unique), pan coupé, mitoyenneté Est, risque d'inondation,
-dimensionnement des fosses et puisards (environ 30 équivalents-habitants, pluies de 150 mm/h).</li>
-<li>Points de la revue non retenus à ce stade : retourner la suite de l'option A vers le jardin (option non recommandée),
-variante 4 × 3 pièces (à chiffrer à l'APS).</li></ul></div></div>"""
+<p class="lead">La revue de la version 2 (sans influence japonaise, avec cuisines africaines et chambres de nounou) est en cours.
+Ses conclusions seront intégrées dans cette page.</p>"""
 
 
 # =============================================================================== 02 ESTIMATIF
@@ -615,7 +575,7 @@ def doc_bp():
     lev = {s: bp.calc(s, levier=True) for s in bp.SCEN}
     fon = {s: bp.calc(s, foncier=True) for s in bp.SCEN}
     sens = bp.sensibilite()
-    bl, bb = budget(LOCATIF), budget(OPTION_B)
+    bl, bb = budget(LOCATIF), budget(OPTION_B if RECO["opt"] == "B" else OPTION_A)
     r1 = res["S1"]
     r4 = res["S4"]
     cib = bp.cibles(0.10)
@@ -702,9 +662,9 @@ atteinte dès 15 ans. Le capital restant dû à l'année 15 est déduit de la va
     n += 1
     ops_tot = bb["total_ttc"] + bl["total_ttc"] + v("frais_annexes") * 2
     P.append(page(f'''<div class="kicker">Financement global et risques</div><h2>Plan de financement de l'opération complète</h2>
-<div class="grid g2" style="gap:6mm"><div><h3>Budget global (option B + locatif)</h3>
+<div class="grid g2" style="gap:6mm"><div><h3>Budget global (option {RECO["opt"]} + locatif)</h3>
 <table><tr><th>Poste</th><th class="n">FCFA</th></tr>
-<tr><td>Villa option B : travaux, honoraires, aléas (TTC)</td><td class="n">{m(bb["total_ttc"])}</td></tr>
+<tr><td>Villa option {RECO["opt"]} : travaux, honoraires, aléas (TTC)</td><td class="n">{m(bb["total_ttc"])}</td></tr>
 <tr><td>Bâtiment locatif (TTC)</td><td class="n">{m(bl["total_ttc"])}</td></tr>
 <tr><td>Frais annexes villa et locatif (permis, raccordements, divers)</td><td class="n">{m(v("frais_annexes") * 2)}</td></tr>
 <tr class="tot"><td>Total à financer, entreprises TTC (hors foncier)</td><td class="n">{m(ops_tot)}</td></tr>
