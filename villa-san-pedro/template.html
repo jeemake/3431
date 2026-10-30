@@ -1,0 +1,290 @@
+<title>Villa-Atelier San-Pédro</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap">
+<style>
+  /* Layout: architect's sketch-design sheet set. Title block, brief, then drawings full width, schedule last. */
+  :root {
+    --noir: #0B0C12;
+    --gris: #66747C;
+    --vert: #7AB648;
+    --gris-cl: #F2F2F2;
+    --gris-f: #333333;
+    --blanc: #FFFFFF;
+    --rule: #DCE0E2;
+    --font: "Century Gothic", CenturyGothic, "Didact Gothic", sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--blanc);
+    color: var(--noir);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .wrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding-block: 28px 64px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    display: grid;
+    gap: 44px;
+  }
+  header.titleblock {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+    align-items: end;
+    border-bottom: 2px solid var(--vert);
+    padding-bottom: 18px;
+  }
+  header.titleblock img { width: 210px; height: auto; display: block; }
+  header h1 {
+    margin: 0;
+    font-size: clamp(24px, 3.4vw, 34px);
+    font-weight: 700;
+    color: var(--gris);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  header .sub { color: var(--vert); font-size: 16px; margin-top: 4px; }
+  header .ref { color: var(--gris); font-size: 12px; text-align: right; line-height: 1.7; font-variant-numeric: tabular-nums; }
+  @media (max-width: 760px) {
+    header.titleblock { grid-template-columns: 1fr; align-items: start; }
+    header .ref { text-align: left; }
+  }
+  h2 {
+    font-size: 20px;
+    color: var(--gris);
+    margin: 0 0 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-wrap: balance;
+  }
+  h2 small { color: var(--vert); font-weight: 400; letter-spacing: 0; font-size: 14px; margin-left: 8px; }
+  h3 { font-size: 15px; color: var(--vert); margin: 0 0 6px; letter-spacing: 0.05em; }
+  p { margin: 0 0 10px; max-width: 70ch; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .two > * { min-width: 0; }
+  @media (max-width: 900px) { .two { grid-template-columns: 1fr; } }
+  .figs {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .fig { padding: 14px 12px; border-left: 1px solid var(--rule); display: grid; gap: 2px; }
+  .fig:first-child { border-left: 0; }
+  .fig b { font-size: 22px; color: var(--noir); font-variant-numeric: tabular-nums; font-weight: 700; }
+  .fig span { font-size: 12px; color: var(--gris); }
+  @media (max-width: 900px) { .figs { grid-template-columns: repeat(3, 1fr); } .fig:nth-child(4) { border-left: 0; } .fig:nth-child(n+4) { border-top: 1px solid var(--rule); } }
+  @media (max-width: 480px) { .figs { grid-template-columns: repeat(2, 1fr); } .fig { border-left: 0; border-top: 1px solid var(--rule); } .fig:nth-child(even) { border-left: 1px solid var(--rule); } .fig:nth-child(-n+2) { border-top: 0; } }
+  ul.dash { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; max-width: 72ch; }
+  ul.dash li { padding-left: 22px; position: relative; }
+  ul.dash li::before { content: "—"; position: absolute; left: 0; color: var(--gris); }
+  ul.dash b { color: var(--noir); }
+  .bands { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--rule); }
+  .bands > div { padding: 16px; border-left: 1px solid var(--rule); min-width: 0; }
+  .bands > div:first-child { border-left: 0; }
+  .bands p { font-size: 14px; color: var(--gris); }
+  @media (max-width: 760px) { .bands { grid-template-columns: 1fr; } .bands > div { border-left: 0; border-top: 1px solid var(--rule); } .bands > div:first-child { border-top: 0; } }
+  figure { margin: 0; display: grid; gap: 8px; }
+  figure .sheet { border: 1px solid var(--rule); background: var(--blanc); overflow-x: auto; }
+  figure svg { display: block; width: 100%; height: auto; min-width: 560px; }
+  figcaption { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 13px; color: var(--gris); }
+  figcaption b { color: var(--noir); letter-spacing: 0.06em; }
+  .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .plans > * { min-width: 0; }
+  @media (max-width: 1000px) { .plans { grid-template-columns: 1fr; } }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+  th { background: var(--vert); color: var(--blanc); text-align: left; padding: 7px 10px; font-weight: 700; letter-spacing: 0.04em; }
+  td { padding: 6px 10px; border-bottom: 1px solid var(--rule); }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  tr.sub td { background: var(--gris-cl); font-weight: 700; }
+  tr.tot td { background: var(--gris-f); color: var(--blanc); font-weight: 700; }
+  .tables { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start; }
+  .tables > * { min-width: 0; }
+  @media (max-width: 980px) { .tables { grid-template-columns: 1fr; } }
+  .tablewrap { overflow-x: auto; }
+  .refs td:first-child { font-weight: 700; color: var(--noir); }
+  .refs td:nth-child(2) { color: var(--gris); white-space: nowrap; }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 12.5px; color: var(--gris); }
+  .legend i { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; margin-right: 6px; border: 1px solid var(--gris); }
+  .note { font-size: 13px; color: var(--gris); }
+  footer { border-top: 1px solid var(--rule); padding-top: 14px; font-size: 12px; color: var(--gris); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+</style>
+
+<div class="wrap">
+
+<header class="titleblock">
+  <img src="data:image/jpeg;base64,{{LOGO}}" alt="Koffi &amp; Diabaté architectes">
+  <div>
+    <h1>Villa-Atelier San-Pédro</h1>
+    <div class="sub">House and studio for a sculptor's family · Sketch design: plans, sections, elevations</div>
+  </div>
+  <div class="ref">
+    PHASE ESQ<br>
+    San-Pédro, Côte d'Ivoire<br>
+    30 / 10 / 2026<br>
+    Scale indicative · dimensions in metres
+  </div>
+</header>
+
+<section>
+  <h2>BRIEF</h2>
+  <div class="two">
+    <div>
+      <p>A family home for a sculptor, his wife, their four children and Matt, the dog, on an 800 m² rectangular plot of 25.00 x 32.00 m with its short side on the street.</p>
+      <p>The sculptor works with heavy, dusty and noisy materials: stone, wood and clay. The studio has to take deliveries from the street and give him light and height. It also has to stay far enough from the bedrooms that dust and noise never reach the family.</p>
+    </div>
+    <ul class="dash">
+      <li><b>Parents:</b> suite with walk-through dressing, bathroom and a drawing studio overlooking the patio.</li>
+      <li><b>4 children:</b> four bedrooms of about 12 m², two shared bathrooms, a family room and a homework library.</li>
+      <li><b>Sculptor:</b> 6 m high studio with north light, a mezzanine, a tool store and an outdoor work yard with a hoist.</li>
+      <li><b>Matt:</b> a kennel and shaded run on the service alley, with a gate to the garden and a dog shower.</li>
+      <li><b>Household:</b> guest room, two kitchens, laundry, a staff room, a 2-car carport and an 11 m pool.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="figs" aria-label="Key figures">{{FIGS}}</section>
+
+<section>
+  <h2>CONCEPT <small>three bands around a sculpture patio</small></h2>
+  <div class="bands">
+    <div>
+      <h3>WEST · ART</h3>
+      <p>The studio sits on the street and on the west boundary. Deliveries come straight in through a 4.50 m gate and a 2 t monorail hoist. Its blind west wall shields the house from the low afternoon sun, and three north-facing sheds give it even daylight.</p>
+    </div>
+    <div>
+      <h3>CENTRE · FAMILY</h3>
+      <p>A covered gallery of the sculptor's work leads from the gate to the front door. The living room runs right through the house, from the patio on one side to the terrace and pool on the other. Upstairs, all bedrooms face south over the garden, behind a balcony and wooden shutters.</p>
+    </div>
+    <div>
+      <h3>EAST · SERVICE</h3>
+      <p>The carport, staff room, laundry and Ivorian kitchen open onto a service alley along the east boundary. Staff and deliveries never cross the living rooms. Matt guards the alley and joins the children in the garden.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>PLANS</h2>
+  <div class="plans">
+    <figure>
+      <div class="sheet">{{PLAN_GF}}</div>
+      <figcaption><b>GROUND FLOOR + SITE</b><span>±0.00</span></figcaption>
+    </figure>
+    <figure>
+      <div class="sheet">{{PLAN_R1}}</div>
+      <figcaption><b>FIRST FLOOR (R+1)</b><span>+3.60</span></figcaption>
+    </figure>
+  </div>
+  <div class="legend" style="margin-top:12px">
+    <span><i style="background:#3A3F44"></i>walls (cut)</span>
+    <span><i style="background:#E6F0DC"></i>garden</span>
+    <span><i style="background:#DCE6F1"></i>water / glazing</span>
+    <span><i style="background:#F4F4F2"></i>paving / roofs below</span>
+    <span><i style="background:#fff;border-color:#7AB648"></i>Matt's areas, hoist, breeze</span>
+  </div>
+</section>
+
+<section>
+  <h2>SECTIONS</h2>
+  <div style="display:grid;gap:28px">
+    <figure>
+      <div class="sheet">{{SEC_A}}</div>
+      <figcaption><b>SECTION A-A</b><span>north-south through patio, living room and child 4, looking west at the studio</span></figcaption>
+    </figure>
+    <figure>
+      <div class="sheet">{{SEC_B}}</div>
+      <figcaption><b>SECTION B-B</b><span>west-east through the living band and the bedrooms, looking north</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <h2>ELEVATIONS</h2>
+  <div style="display:grid;gap:28px">
+    <figure>
+      <div class="sheet">{{EL_N}}</div>
+      <figcaption><b>NORTH ELEVATION · STREET</b><span>compressed-earth-block studio, clay claustra, timber gates</span></figcaption>
+    </figure>
+    <figure>
+      <div class="sheet">{{EL_S}}</div>
+      <figcaption><b>SOUTH ELEVATION · GARDEN</b><span>terrace under the balcony, louvred shutters, deep roof overhang</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <h2>CLIMATE AND MATERIALS <small>hot, humid coastal climate, latitude 4.7° N</small></h2>
+  <div class="two">
+    <ul class="dash">
+      <li><b>Cross ventilation:</b> the living band is one room deep. The south-west sea breeze crosses the terrace and the living room, and warm air leaves through the patio.</li>
+      <li><b>Sun:</b> the long façades face north and south. A 1.50 m balcony and a 2.50 m roof overhang shade the south glazing. East and west walls are blind or screened.</li>
+      <li><b>Studio light:</b> three north-facing sheds give even, glare-free light for modelling, with no direct sun on the work.</li>
+      <li><b>Rain:</b> roofs drain into a buried 20 m³ cistern under the carport for the garden and the studio wash-down.</li>
+    </ul>
+    <ul class="dash">
+      <li><b>Structure:</b> reinforced-concrete frame and slabs on a 4.50 / 8.00 m bay rhythm. Ground floor 3.35 m clear, R+1 3.00 m, studio 6.00 m.</li>
+      <li><b>Walls:</b> stabilised compressed-earth blocks (BTC) for the studio and the street front. Rendered blocks for the house.</li>
+      <li><b>Screens:</b> terracotta claustra for the patio, the work yard and the kitchen. Iroko louvred shutters on the bedrooms.</li>
+      <li><b>Coastal durability:</b> hot-dip galvanised steel, stainless fixings and marine-grade aluminium joinery, because the site is near the sea.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>AREA SCHEDULE <small>net areas measured inside the walls</small></h2>
+  <div class="tables">
+    <div class="tablewrap">{{T_GF}}</div>
+    <div class="tablewrap">{{T_R1}}</div>
+    <div class="tablewrap">{{T_EXT}}
+      <table style="margin-top:16px"><tbody>
+        <tr class="tot"><td>Total net floor area</td><td class="num">{{TOTAL}}</td></tr>
+        <tr class="sub"><td>Gross floor area</td><td class="num">{{GROSS}}</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>REFERENCES <small>patterns reused from the KDA plan database (Supabase “capitude”)</small></h2>
+  <div class="tablewrap">
+  <table class="refs">
+    <thead><tr><th>PATTERN</th><th>SOURCE</th><th>HOW IT IS USED HERE</th></tr></thead>
+    <tbody>
+      <tr><td>Day / night / service zoning in bands</td><td>Villa JIK, Cocody</td><td>Art, family and service bands. One gallery splits the visitor, family and staff routes, as JIK's entrance gallery does.</td></tr>
+      <tr><td>Through living room between two outdoor rooms</td><td>ABYA 2, Assinie · JIK</td><td>Living room 8 m deep, with full-width glazing onto the patio and onto the terrace.</td></tr>
+      <tr><td>Day downstairs, night upstairs</td><td>ABYA 2, Assinie</td><td>Bedrooms on the R+1 bar, a south balcony along the full width, and 3.60 m floor-to-floor.</td></tr>
+      <tr><td>Family room as a hinge</td><td>Anthurium, Riviera Golf</td><td>The family room at the top of the stairs separates the children's wing from the parents' suite.</td></tr>
+      <tr><td>Suite reached through the dressing</td><td>Anthurium · ABYA 2</td><td>Parents enter their bedroom through a 2.50 m walk-through dressing.</td></tr>
+      <tr><td>Wet rooms back to back</td><td>ABYA · JIK</td><td>The children's bathrooms share one service duct, and so do the staff and guest shower rooms.</td></tr>
+      <tr><td>Two kitchens</td><td>EMIIKA, Cocody Danga</td><td>An open family kitchen, plus a separate Ivorian kitchen for heavy cooking. It is ventilated on two sides and opens onto the service alley.</td></tr>
+      <tr><td>Services strung along one boundary</td><td>EMIIKA</td><td>Carport, staff room, laundry, drying area and Matt's kennel line the east alley.</td></tr>
+      <tr><td>Patios to light a deep plan</td><td>EMIIKA · JIK</td><td>The sculpture patio lights the living room, the gallery, the family room and the drawing studio.</td></tr>
+      <tr><td>Sculpture workshop</td><td>École des Beaux-Arts, Cotonou</td><td>The EBA sculpture workshop (about 106 m², 6.9 x 15.5 m) sets the studio's size and its double doors onto an outdoor yard.</td></tr>
+      <tr><td>Long pool parallel to the terrace</td><td>ABYA · JIK</td><td>An 11 x 3 m pool parallel to the terrace, with a child-safety fence.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2>ASSUMPTIONS TO CONFIRM</h2>
+  <ul class="dash">
+    <li><b>Orientation:</b> the street is assumed to be on the north side. If it is on the south, the scheme flips: the studio stays on the street and the bedrooms keep their garden side.</li>
+    <li><b>Plot proportions:</b> 25.00 m of street frontage by 32.00 m deep. A 20 x 40 m plot would need the bands reorganised.</li>
+    <li><b>Planning rules:</b> the scheme assumes a 5.00 m front setback and blind walls built on the west boundary. Both need checking against the San-Pédro rules for this lotissement.</li>
+    <li><b>Ground:</b> a soil survey is needed before foundations are designed. The pool and the cistern depend on the water table, and coastal sand is likely.</li>
+    <li><b>Children's rooms:</b> four rooms of about 12 m² are planned. Two shared double rooms of 16 m² are an alternative that frees space for a playroom.</li>
+  </ul>
+</section>
+
+<footer>
+  <span>Koffi &amp; Diabaté architectes · Villa-Atelier San-Pédro · ESQ</span>
+  <span>Drawings generated from one geometric model · areas computed</span>
+</footer>
+
+</div>
