@@ -25,7 +25,10 @@ Changements :
 - Supprimer le spa complet, remplacé par un espace massage compact.
 - Les autres surfaces peuvent être optimisées.
 
-## 4. Points restants (à préciser, rien n'est inventé ici)
-- Surfaces par fonction et par unité.
-- Application de ces points à l'option C du plan : le plan lui-même n'est pas encore dans ce dépôt.
-- Estimatif à recaler sur 1120 m² et sur la fourchette 250 à 300 M F CFA (Mr Adicko).
+## 4. Variante C-R1 produite le 31 octobre 2026
+- Ancienne option C retrouvée dans la branche `claude/great-gates-cp292d`, dossier `hotel-jacqueville` ; elle était en R+2.
+- Nouvelle esquisse R+1 : 12 unités, 4 au RDC et 8 à l'étage, de 22,69 m² nets chacune avec salle d'eau incluse.
+- Plans PDF/DXF/SVG et maquette IFC4 dans `output/` ; voir [la notice de livraison](README.md).
+- Budget cible de 250 à 300 M F CFA maintenu, mais compatibilité économique non démontrée. Allocation cible de 300 M, à chiffrer par Mr Adicko.
+- Évolution R+3 inscrite dans le brief IFC ; sections et fondations à dimensionner par le BET. La maquette ne constitue pas un calcul structurel.
+- Escaliers droits et certains blocs absents : réservations identifiées, conformément aux règles Supabase. Accessibilité, stationnement, évacuation et urbanisme à compléter en APS.

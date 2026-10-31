@@ -1,0 +1,40 @@
+﻿code;name;level;category;unit;area_m2
+GAL0;Coursive ouverte 1.80 m;0;circulation;;58.32
+CORE0;Noyau escalier / palier;0;circulation;;23.12
+CH01-SDE;Salle eau;0;sde;CH01;4.4
+CH01;CH01;0;chambre;CH01;18.29
+CH02-SDE;Salle eau;0;sde;CH02;4.4
+CH02;CH02;0;chambre;CH02;18.29
+CH03-SDE;Salle eau;0;sde;CH03;4.4
+CH03;CH03;0;chambre;CH03;18.29
+CH04-SDE;Salle eau;0;sde;CH04;4.4
+CH04;CH04;0;chambre;CH04;18.29
+ACC;Accueil / lounge;0;commun;;23.12
+SPORT;Salle de sport;0;commun;;23.12
+REUN;Salle de reunion;0;commun;;23.12
+BOH;Lingerie / office / personnel;0;commun;;23.12
+GAL1;Coursive ouverte 1.80 m;1;circulation;;58.32
+CORE1;Noyau escalier / palier;1;circulation;;23.12
+CH05-SDE;Salle eau;1;sde;CH05;4.4
+CH05;CH05;1;chambre;CH05;18.29
+CH06-SDE;Salle eau;1;sde;CH06;4.4
+CH06;CH06;1;chambre;CH06;18.29
+CH07-SDE;Salle eau;1;sde;CH07;4.4
+CH07;CH07;1;chambre;CH07;18.29
+CH08-SDE;Salle eau;1;sde;CH08;4.4
+CH08;CH08;1;chambre;CH08;18.29
+CH09-SDE;Salle eau;1;sde;CH09;4.4
+CH09;CH09;1;chambre;CH09;18.29
+CH10-SDE;Salle eau;1;sde;CH10;4.4
+CH10;CH10;1;chambre;CH10;18.29
+CH11-SDE;Salle eau;1;sde;CH11;4.4
+CH11;CH11;1;chambre;CH11;18.29
+CH12-SDE;Salle eau;1;sde;CH12;4.4
+CH12;CH12;1;chambre;CH12;18.29
+REST;Restaurant 28 couverts;0;restaurant;;52.8
+CUIS;Cuisine / plonge;0;service;;8.61
+RES;Reserve / froid;0;service;;8.61
+MASS;Massage compact;0;massage;;8.48
+WC;Sanitaires publics;0;sde;;8.48
+PASS1;Passerelle vers E2;1;circulation;;12.48
+PASS2;Palier E2;1;circulation;;0.96
