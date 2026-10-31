@@ -230,7 +230,7 @@ def cars(c, x0, y0, n, w=2.5, d=5.0, vertical=True):
 FRONT = {  # stationnement et acces sur la rue Nord, par option
     "A": {"cars": [(11.6, 2), (4.6, 1)], "allee": (10.2, 11.4), "service": (16.6, 20.0), "portail": (11.6, 16.6)},
     "B": {"cars": [(11.6, 2), (4.6, 1)], "allee": (10.2, 11.4), "service": (16.6, 20.0), "portail": (11.6, 16.6)},
-    "C": {"cars": [(8.4, 3)], "allee": (7.0, 8.0), "service": (15.9, 20.0), "portail": (8.4, 15.9)},
+    "C": {"cars": [(8.4, 3)], "allee": (7.0, 8.0), "service": (15.9, 20.0), "portail": (8.4, 15.9)},  # portillon de service x 17-19,5
 }
 
 
@@ -247,6 +247,8 @@ def front_parking(c, opt, labels=True):
         c.text((p0 + p1) / 2, -0.25, f"portail coulissant {p1 - p0:.1f} m".replace(".", ","), size=7, fill=MUTED)
         c.text((a0 + a1) / 2, -0.25, "portillon", size=7, fill=MUTED)
         c.text((s0 + s1) / 2, 1.4, "aire de livraison", size=6.5, fill=MUTED)
+        if opt["code"] == "C":
+            c.text(18.25, -0.25, "portillon de service", size=7, fill=MUTED)
         if opt["code"] in ("A", "B"):
             c.text(5.85, -0.25, "2e portail existant", size=7, fill=MUTED)
 
@@ -291,8 +293,9 @@ def plan_villa(opt, niveau, s=24):
         tree(c, 12.0, 15.4, 1.8)
         c.raw(f'<rect x="{c.X(10.8):.1f}" y="{c.Y(11.4):.1f}" width="{2.8 * c.s:.1f}" height="{0.9 * c.s:.1f}" '
               f'rx="4" fill="#bcd6e0" stroke="{MUTED}" stroke-width="0.5"/>')
-        c.text(12.2, 12.75, "bassin", size=6.5, fill=MUTED)
-        for x, y in ((9.9, 13.2), (14.1, 12.6), (14.2, 17.3), (9.9, 17.3)):
+        c.text(11.0, 13.25, "bassin", size=6.5, fill=MUTED)
+        c.line(9.2, 18.0, 14.9, 18.0, stroke="#7c9566", sw=3.0)
+        for x, y in ((9.9, 15.8), (14.2, 12.3)):
             tree(c, x, y, 0.45, "#c4d4a8")
     north_arrow(c, 19.6, 1.4, 0.7)
     return c.svg()

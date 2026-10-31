@@ -178,7 +178,7 @@ def svg(name, fn):
 
 
 # =============================================================================== 01 ESQUISSE
-RECO = {"opt": "C", "texte": "<b>Recommandation provisoire</b>, en attente de la revue senior de l'option C."}  # complete apres la revue senior
+RECO = {"opt": "B", "texte": ""}  # texte calcule dans doc_esquisse
 
 
 def doc_esquisse(revue_html):
@@ -186,6 +186,12 @@ def doc_esquisse(revue_html):
     sa, sb, sc, sl = surfaces(OPTION_A), surfaces(OPTION_B), surfaces(OPTION_C), surfaces(LOCATIF)
     ba, bb, bc, bl = budget(OPTION_A), budget(OPTION_B), budget(OPTION_C), budget(LOCATIF)
     br = {"A": ba, "B": bb, "C": bc}[RECO["opt"]]
+    RECO["texte"] = (f"<b>Recommandation : option B</b>, retenue par les deux revues senior. C'est la plus robuste : "
+                     f"cuisine africaine vraiment détachée avec préau et livraisons, studio de nounou autonome relié par "
+                     f"une galerie couverte, grande cuisine moderne avec îlot, {a2(sb['ext_couvert'])} m² d'extérieurs couverts. "
+                     f"<b>L'option C</b> offre la plus belle qualité d'espace autour du patio pour un coût proche "
+                     f"({M(bc['total_ttc'])} contre {M(bb['total_ttc'])} TTC). Corrigée selon sa revue, elle reste un bon choix "
+                     f"si le patio est votre priorité. L'option A est à écarter : cuisine trop petite, nounou à l'étage.")
     P = []
     n = 0
 
@@ -348,13 +354,13 @@ de 50 cm. Bois durs locaux (iroko, doussié) traités pour les menuiseries et le
                        "Les chambres 2 et 3 partagent une salle d'eau (comme dans la maison de ville Anthurium).",
                        "Aile en limite Est (toiture vers l'Ouest, acrotère) : à valider au cahier des charges."]
         else:
-            atouts = ["Le patio planté de 43 m² est le cœur de la maison : salon, SAM, cuisine, chambres et coursive s'ouvrent dessus.",
-                      "Patio ouvert au Sud : la brise de Sud-Ouest le traverse, l'arbre et le bassin rafraîchissent l'air.",
-                      "Passage de 1,50 m tout autour : fenêtres et ventilation sur toutes les faces, entretien facile.",
-                      "Service, nounou et cuisine africaine regroupés à l'Est, avec préau et livraisons au Nord."]
-            limites = ["Les chambres de l'étage sont desservies par une coursive couverte mais ouverte sur le patio.",
-                       "Chambre 2 compacte (10,3 m²) ; pas de terrasse couverte en dehors de la galerie Nord.",
-                       "Le jardin se limite au patio, à la bande Ouest et aux passages.",
+            atouts = ["Environ 50 m² d'espace central : patio planté à ciel ouvert (28 m²), terrasse couverte (13,7 m²) et pergola (8,6 m²).",
+                      "Salon, salle à manger et cuisine s'ouvrent sur le patio ; arbre (frangipanier) et bassin à recirculation.",
+                      "Patio fermé au Sud par une claustra de 4 m et une pergola plantée : à l'abri des vues du locatif.",
+                      "Passage de 1,50 m autour de la maison ; nounou, service et cuisine africaine à l'Est, portillon de service."]
+            limites = ["Patio réduit par rapport à la première esquisse : la revue a imposé une vraie terrasse couverte et la fermeture Sud.",
+                       "Patio bordé de R+1 sur trois côtés : une cour fraîche plus qu'un jardin ; la brise vient surtout de l'Ouest.",
+                       "Coursive ouverte vers les chambres 2 et 3 : grilles et éclairage de nuit nécessaires.",
                        "Façade Est à 1,50 m de la limite : seulement des jours hauts (vues droites à 1,90 m)."]
         add(f'''<div class="grid" style="grid-template-columns:1.5fr 1.5fr;gap:6mm"><div><div class="kicker">4 · Option {k}, programme</div><h2>Surfaces et lecture critique</h2>
 <div class="grid g2" style="gap:5mm"><div><h3>Atouts</h3><ul>{"".join(f"<li>{x}</li>" for x in atouts)}</ul></div>
@@ -370,12 +376,13 @@ honoraires et aléas : {M(b["total_ht"])} HT / {M(b["total_ttc"])} TTC.</p>
     # --- comparatif
     rows = [("Surface close (m²)", a2(sa["clos"]), a2(sb["clos"]), a2(sc["clos"])),
             ("Emprise au sol (% de 360)", pct(sa["emprise"] / 360, 0), pct(sb["emprise"] / 360, 0), pct(sc["emprise"] / 360, 0)),
-            ("Espace vert principal", "jardin ≈ 95 m²", "jardin ≈ 80 m²", "patio 43 m² + bande Ouest"),
+            ("Espace vert principal", "jardin ≈ 95 m²", "jardin ≈ 80 m²", "patio 28 m² + terrasse 14 + pergola 9"),
             ("Salon + SAM", "45,4 + 14,4 m²", "45,4 + 14,4 m²", "43,1 + 15,1 m²"),
             ("Cuisine moderne", "9,4 m²", "18,0 m² + office", "13,9 m²"),
-            ("Cuisine africaine", "pavillon 8,6 m²", "aile 12,0 m² + préau", "aile 13,0 m² + préau"),
+            ("Cuisine africaine", "pavillon 8,6 m²", "aile 12,0 m² + préau", "aile 13,0 m² + préau, sas buanderie"),
             ("Nounou", "étage, 8,6 + SE 4,3", "studio RDC 9,0 + SE 4,2", "studio RDC 11,9 + SE 5,8"),
             ("SE des enfants", "une par chambre", "une partagée", "une par chambre"),
+            ("Extérieurs couverts", f'{a2(sa["ext_couvert"])} m²', f'{a2(sb["ext_couvert"])} m²', f'{a2(sc["ext_couvert"])} m²'),
             ("Total TTC", M(ba["total_ttc"]), M(bb["total_ttc"]), M(bc["total_ttc"]))]
     add(f'''<div class="grid" style="grid-template-columns:0.42fr 0.42fr 0.42fr 1.6fr;gap:4mm">
 <div class="plan">{svg("masse_A.svg", lambda: plans.plan_masse(OPTION_A))}<div class="plan-cap"><span>Masse A</span></div></div>
@@ -439,9 +446,32 @@ Avec 4 × 3 pièces de 64,8 m² (environ 300–330 k chacun), le revenu est équ
     return path
 
 
-REVUE = """<div class="kicker">7 · Contrôle qualité</div><h2>Revue par un architecte senior</h2>
-<p class="lead">La revue de la version 2 (sans influence japonaise, avec cuisines africaines et chambres de nounou) est en cours.
-Ses conclusions seront intégrées dans cette page.</p>"""
+REVUE = """<div class="kicker">7 · Contrôle qualité</div><h2>Revues par un architecte senior</h2>
+<p class="lead" style="margin-bottom:2mm">Chaque version a été relue par un architecte senior (25 ans de villas à Abidjan). Les points
+bloquants ont été corrigés dans les plans et le chiffrage de ce dossier.</p>
+<div class="grid g3 rev" style="gap:5mm"><div><h3>Revue V2 · options A et B</h3><ul>
+<li><b>Escalier trop court</b> pour 3,30 m d'étage : cage portée à 2,40 × 4,50 m, portes sur les paliers.</li>
+<li><b>Cuisine africaine dans le volume habité (A)</b> : sortie en pavillon de claustra dans la cour. En B, préau de 7,2 m² et cage à gaz
+côté livraisons. Conduits remontés au-dessus des toitures.</li>
+<li><b>Livraisons bloquées</b> par la 3e voiture : aire de livraison libre ; 3e place par le 2e portail existant.</li>
+<li><b>Porte SAM-cuisine</b> au milieu de la table : déplacée côté hall ; en B, office relié à l'escalier.</li>
+<li>Galerie couverte jusqu'au studio de la nounou (B), séchoirs couverts, grilles à l'étage, guérite à côté du portillon,
+aile B en monopente vers l'Ouest avec acrotère sur la limite.</li></ul></div>
+<div><h3>Revue de l'option C · patio</h3><ul>
+<li><b>Patio exposé au locatif</b> et abrité du vent par lui : fermé au Sud par une claustra de 4 m et une pergola plantée.</li>
+<li><b>Pas de vraie terrasse</b> : galerie Nord élargie à 2,40 m (13,7 m²). Branche Ouest de la coursive supprimée, patio à ciel ouvert,
+balcon privé à l'Ouest pour la suite.</li>
+<li><b>Chambre 2 de 1,80 m de large</b> : recomposée (12,6 m² + SE 6,3 m²), palier fusionné avec le salon familial.</li>
+<li><b>Eaux pluviales</b> : toitures vers l'extérieur, caniveau grillé et exutoire autour du patio.</li>
+<li>Cuisine africaine sans porte directe sur la maison (sas par la buanderie), SE ch.3 au-dessus de la SE nounou, portillon de service,
+bassin à recirculation, imposte haute au Sud du salon.</li></ul></div>
+<div><h3>Avis et points à valider</h3><ul>
+<li><b>Les deux revues recommandent l'option B</b> : la plus robuste pour les usages (cuisines, nounou, livraisons, réception).
+C est la plus belle spatialement, A est à écarter.</li>
+<li>Le ratio ÷ 2 est jugé « plausible mais au bas de la fourchette » : estimation par lots dès l'APS.</li>
+<li>À vérifier : cahier des charges (emprise, implantation en limite Est, préaux et guérite en recul), cote d'inondation,
+dimensionnement de l'assainissement, besoin d'un ou deux gardiens (villa et locatif).</li>
+<li>Non retenu à ce stade : chambre d'amis au RDC pour les parents de passage (à arbitrer avec vous).</li></ul></div></div>"""
 
 
 # =============================================================================== 02 ESTIMATIF
