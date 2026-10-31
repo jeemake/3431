@@ -1,6 +1,6 @@
 """Generation des plans d'esquisse en SVG a partir de projet.py."""
 import math
-from projet import (OPTION_A, OPTION_B, LOCATIF, PARCELLE, RECUL_NORD, RECUL_OUEST,
+from projet import (OPTION_A, OPTION_B, OPTION_C, LOCATIF, PARCELLE, RECUL_NORD, RECUL_OUEST,
                     VILLA_Y, LOCATIF_Y)
 
 INK = "#23262b"
@@ -154,14 +154,23 @@ def draw_rooms(c, pieces, niveau, small=False, portes=None):
             for x0, y0, x1, y1 in r["rects"]:
                 c.rect(x0, y0, x1, y1, stroke=INK, sw=0.9)
     for r in rs:
-        if r["clos"] and len(r["rects"]) > 1:
-            a, b = r["rects"][0], r["rects"][1]
-            fill = FILL[CAT[r["code"]]]
-            # arete commune horizontale
-            if abs(a[1] - b[3]) < 1e-6 or abs(a[3] - b[1]) < 1e-6:
-                yy = a[1] if abs(a[1] - b[3]) < 1e-6 else a[3]
-                xa, xb = max(a[0], b[0]), min(a[2], b[2])
-                c.line(xa + 0.04, yy, xb - 0.04, yy, stroke=fill, sw=2.2)
+        if len(r["rects"]) < 2:
+            continue
+        fill = FILL[CAT[r["code"]]]
+        rr = r["rects"]
+        for i in range(len(rr)):
+            for j in range(len(rr)):
+                if i == j:
+                    continue
+                a, b = rr[i], rr[j]
+                if abs(a[3] - b[1]) < 1e-6:  # arete horizontale commune
+                    xa, xb = max(a[0], b[0]), min(a[2], b[2])
+                    if xb - xa > 0.05:
+                        c.line(xa + 0.04, a[3], xb - 0.04, a[3], stroke=fill, sw=2.2)
+                if abs(a[2] - b[0]) < 1e-6:  # arete verticale commune
+                    ya, yb = max(a[1], b[1]), min(a[3], b[3])
+                    if yb - ya > 0.05:
+                        c.line(a[2], ya + 0.04, a[2], yb - 0.04, stroke=fill, sw=2.2)
     if portes:
         draw_doors(c, portes, niveau)
     for r in rs:
@@ -218,30 +227,50 @@ def cars(c, x0, y0, n, w=2.5, d=5.0, vertical=True):
                   f'height="{1.8 * c.s:.1f}" rx="6" fill="none" stroke="{LINE}" stroke-width="0.8"/>')
 
 
+FRONT = {  # stationnement et acces sur la rue Nord, par option
+    "A": {"cars": [(11.6, 2), (4.6, 1)], "allee": (10.2, 11.4), "service": (16.6, 20.0), "portail": (11.6, 16.6)},
+    "B": {"cars": [(11.6, 2), (4.6, 1)], "allee": (10.2, 11.4), "service": (16.6, 20.0), "portail": (11.6, 16.6)},
+    "C": {"cars": [(8.4, 3)], "allee": (7.0, 8.0), "service": (15.9, 20.0), "portail": (8.4, 15.9)},
+}
+
+
+def front_parking(c, opt, labels=True):
+    f = FRONT[opt["code"]]
+    for x0, n in f["cars"]:
+        cars(c, x0, 0.0, n)
+    a0, a1 = f["allee"]
+    c.rect(a0, 0.0, a1, 5.0, fill="#ece7dd", stroke="none")
+    s0, s1 = f["service"]
+    c.rect(s0, 0.0, s1, 2.6 if opt["code"] in ("B", "C") else 5.0, fill="#f1ede6", stroke=MUTED, sw=0.4, dash="2 2")
+    if labels:
+        p0, p1 = f["portail"]
+        c.text((p0 + p1) / 2, -0.25, f"portail coulissant {p1 - p0:.1f} m".replace(".", ","), size=7, fill=MUTED)
+        c.text((a0 + a1) / 2, -0.25, "portillon", size=7, fill=MUTED)
+        c.text((s0 + s1) / 2, 1.4, "aire de livraison", size=6.5, fill=MUTED)
+        if opt["code"] in ("A", "B"):
+            c.text(5.85, -0.25, "2e portail existant", size=7, fill=MUTED)
+
+
 def villa_exterieurs(c, opt, niveau):
-    # parking + portail
-    cars(c, 11.6, 0.0, 3)
-    c.text(15.35, -0.25, "portail coulissant 7,5 m · 3 places", size=7, fill=MUTED)
-    # allee pietonne du portillon (angle, pres de la guerite) a la porte d'entree
-    c.rect(2.9, 3.4, 11.6, 4.6, fill="#ece7dd", stroke="none")
-    c.rect(2.9, 0.0, 4.1, 3.4, fill="#ece7dd", stroke="none")
-    c.text(3.5, -0.25, "portillon", size=7, fill=MUTED)
-    c.text(7.2, 4.15, "allée piétonne couverte d'une pergola", size=6.5, fill=MUTED)
-    tree(c, 6.6, 1.7, 1.2)
-    tree(c, 9.4, 1.6, 0.8, "#c4d4a8")
+    front_parking(c, opt)
+    tree(c, 1.6, 2.2, 1.2)
     tree(c, 1.4, 9.0, 1.1)
-    if opt["code"] == "A":
-        c.text(19.0, 4.3, "service", size=6.5, fill=MUTED)
-        tree(c, 4.5, 16.8, 1.3)
-        tree(c, 11.5, 16.9, 1.1, "#c4d4a8")
-        c.text(9.0, 16.75, "JARDIN · ≈ 100 m² avec la bande Ouest", size=7.5, fill="#4f6b3a", weight=600)
+    tree(c, 1.5, 14.5, 1.0, "#c4d4a8")
+    k = opt["code"]
+    if k == "A":
+        tree(c, 4.5, 16.9, 1.1)
+        tree(c, 11.5, 16.9, 1.0, "#c4d4a8")
+        c.text(9.0, 16.75, "JARDIN · ≈ 95 m² avec la bande Ouest", size=7.5, fill="#4f6b3a", weight=600)
+    elif k == "B":
+        tree(c, 4.5, 16.9, 1.1)
+        tree(c, 11.0, 16.9, 1.0, "#c4d4a8")
+        c.text(8.6, 16.75, "JARDIN · ≈ 80 m² avec la bande Ouest", size=7.5, fill="#4f6b3a", weight=600)
+        c.line(15.8, 16.0, 15.8, 18.0, stroke=MUTED, sw=1.6, dash="1 1.5")
     else:
-        c.text(18.5, 4.3, "livraisons", size=6.5, fill=MUTED)
-        c.line(15.8, 13.4, 15.8, 18.0, stroke=MUTED, sw=1.6, dash="1 1.5")
-        tree(c, 4.5, 16.8, 1.3)
-        tree(c, 11.0, 16.9, 1.1, "#c4d4a8")
-        c.text(8.6, 16.75, "JARDIN · ≈ 85 m² avec la bande Ouest", size=7.5, fill="#4f6b3a", weight=600)
-        c.text(15.0, 17.2, "claustra", size=6.5, fill=MUTED, rot=-90)
+        c.line(3.2, 16.5, 18.5, 16.5, stroke=MUTED, sw=0.5, dash="1 2")
+        c.text(6.4, 17.35, "passage 1,50 m", size=6.5, fill=MUTED)
+        c.text(19.25, 15.0, "passage 1,50 m", size=6.5, fill=MUTED, rot=-90)
+        c.line(18.5, 5.0, 20.0, 5.0, stroke=MUTED, sw=1.6, dash="1 1.5")
     c.line(0, 18, 20, 18, stroke=INK, sw=1.2)
     c.text(10, 18.55, "mur séparatif + haie (vers la parcelle locative)", size=7, fill=MUTED)
 
@@ -258,6 +287,13 @@ def plan_villa(opt, niveau, s=24):
                 for x0, y0, x1, y1 in r["rects"]:
                     c.rect(x0, y0, x1, y1, fill="#f4f1ec", stroke=LINE, sw=0.4, dash="2 2")
     draw_rooms(c, opt["pieces"], niveau, portes=opt["portes"])
+    if opt["code"] == "C" and niveau == "RDC":
+        tree(c, 12.0, 15.4, 1.8)
+        c.raw(f'<rect x="{c.X(10.8):.1f}" y="{c.Y(11.4):.1f}" width="{2.8 * c.s:.1f}" height="{0.9 * c.s:.1f}" '
+              f'rx="4" fill="#bcd6e0" stroke="{MUTED}" stroke-width="0.5"/>')
+        c.text(12.2, 12.75, "bassin", size=6.5, fill=MUTED)
+        for x, y in ((9.9, 13.2), (14.1, 12.6), (14.2, 17.3), (9.9, 17.3)):
+            tree(c, x, y, 0.45, "#c4d4a8")
     north_arrow(c, 19.6, 1.4, 0.7)
     return c.svg()
 
@@ -271,7 +307,7 @@ def plan_locatif(niveau, s=24):
         c.text(3.9, 19.3, "portillon", size=7, fill=MUTED)
         c.text(2.6, 33.0 - 0.15, "5 places", size=7, fill=MUTED)
         stones(c, [(11.6, 19.6), (13.2, 19.8), (14.8, 19.6), (16.4, 19.8), (18.0, 19.6)])
-        c.text(14.0, 18.75, "cour commune plantée (roji) – bambous le long du mur", size=7, fill="#4f6b3a")
+        c.text(14.0, 18.75, "cour commune plantée – haie le long du mur", size=7, fill="#4f6b3a")
         for x in (8.3, 12.8, 17.3):
             c.rect(x - 1.5, 20.8, x + 1.5, 22.0, fill=FILL["patio"], stroke=MUTED, sw=0.4, dash="2 2")
         c.text(12.8, 20.55, "terrasses privées sous coursive", size=6.5, fill="#4f6b3a")
@@ -317,7 +353,7 @@ def plan_masse(opt, s=15):
         if r["niveau"] == "RDC" and r["clos"]:
             for x0, y0, x1, y1 in r["rects"]:
                 c.rect(x0, y0, x1, y1, stroke="#8c7f6c", sw=0.4)
-    cars(c, 7.9, 0, 3)
+    front_parking(c, opt, labels=False)
     cars(c, 0.2, 20.0, 5, vertical=False)
     c.text(10, 9.0, "VILLA 360 m²", size=9, weight=700)
     c.text(12.8, 27.0, "LOCATIF 300 m²", size=9, weight=700)
@@ -416,7 +452,7 @@ def coupe_B(s=26):
     # soleil zenithal
     c.raw(f'<line x1="{c.X(16.5):.1f}" y1="{c.Y(Y(9.6)):.1f}" x2="{c.X(13.8):.1f}" y2="{c.Y(Y(6.95)):.1f}" '
           f'stroke="#c98a2b" stroke-width="1" stroke-dasharray="4 3"/>')
-    c.text(16.7, Y(9.4), "soleil de midi (~75-85°)", size=7, fill="#c98a2b", anchor="start")
+    c.text(16.7, Y(9.4), "soleil de midi : 62° au Sud (déc.), 72° au Nord (juin)", size=7, fill="#c98a2b", anchor="start")
     # rue / jardin
     c.text(1.5, Y(-0.6), "RUE / parking (N)", size=7.5, fill=MUTED)
     c.text(17.0, Y(-0.6), "JARDIN (S)", size=7.5, fill="#4f6b3a")
@@ -440,6 +476,8 @@ if __name__ == "__main__":
         "site.svg": plan_site(),
         "A_RDC.svg": plan_villa(OPTION_A, "RDC"), "A_R1.svg": plan_villa(OPTION_A, "R+1"),
         "B_RDC.svg": plan_villa(OPTION_B, "RDC"), "B_R1.svg": plan_villa(OPTION_B, "R+1"),
+        "C_RDC.svg": plan_villa(OPTION_C, "RDC"), "C_R1.svg": plan_villa(OPTION_C, "R+1"),
+        "masse_C.svg": plan_masse(OPTION_C),
         "L_RDC.svg": plan_locatif("RDC"), "L_R1.svg": plan_locatif("R+1"),
         "masse_A.svg": plan_masse(OPTION_A), "masse_B.svg": plan_masse(OPTION_B),
         "coupe_B.svg": coupe_B(),

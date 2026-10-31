@@ -3,7 +3,7 @@ import json
 import pathlib
 import subprocess
 
-from projet import (DIVISEUR, EXTERIEURS, FRAIS, IMPREVUS, LOCATIF, LOYERS, OPTION_A, OPTION_B,
+from projet import (DIVISEUR, EXTERIEURS, FRAIS, IMPREVUS, LOCATIF, LOYERS, OPTION_A, OPTION_B, OPTION_C,
                     PLUS_VALUES, RATIOS, TVA, budget, pu, pu_ligne, surfaces)
 import plans
 import bp
@@ -178,14 +178,14 @@ def svg(name, fn):
 
 
 # =============================================================================== 01 ESQUISSE
-RECO = {"opt": "B", "texte": "<b>Recommandation provisoire : option B</b>, en attente de la revue senior."}  # complete apres la revue senior
+RECO = {"opt": "C", "texte": "<b>Recommandation provisoire</b>, en attente de la revue senior de l'option C."}  # complete apres la revue senior
 
 
 def doc_esquisse(revue_html):
     D = "Esquisse"
-    sa, sb, sl = surfaces(OPTION_A), surfaces(OPTION_B), surfaces(LOCATIF)
-    ba, bb, bl = budget(OPTION_A), budget(OPTION_B), budget(LOCATIF)
-    br = bb if RECO["opt"] == "B" else ba
+    sa, sb, sc, sl = surfaces(OPTION_A), surfaces(OPTION_B), surfaces(OPTION_C), surfaces(LOCATIF)
+    ba, bb, bc, bl = budget(OPTION_A), budget(OPTION_B), budget(OPTION_C), budget(LOCATIF)
+    br = {"A": ba, "B": bb, "C": bc}[RECO["opt"]]
     P = []
     n = 0
 
@@ -199,7 +199,7 @@ def doc_esquisse(revue_html):
 <h1>Villa familiale et petit<br>immeuble locatif<br>à la Riviera Palmeraie</h1>
 <div class="sub">Lot 1728, îlot 174, Djorogobité 1, Cocody (Abidjan). Parcelle de 660 m²</div>
 <div class="rule"></div>
-<p class="lead">Analyse du site, étude des plans de la base Capitude, deux options pour une villa duplex de 4 chambres
+<p class="lead">Analyse du site, étude des plans de la base Capitude, trois options pour une villa duplex de 4 chambres
 dont une chambre de nounou, avec cuisine africaine, sur 360 m², et un bâtiment locatif R+1 sur les 300 m² restants.
 Une architecture pensée pour le climat d'Abidjan et la vie familiale ivoirienne.</p></div>
 <div class="grid g3 small muted"><div><b>Document 1 / 3</b><br>Analyse et esquisse</div>
@@ -210,17 +210,19 @@ Une architecture pensée pour le climat d'Abidjan et la vie familiale ivoirienne
     add(f'''<div class="kicker">Synthèse</div><h1>L'essentiel en une page</h1>
 <p class="lead">La parcelle d'angle est coupée en deux bandes. La villa occupe la bande Nord (20 × 18 m), avec son entrée,
 sa guérite et son parking sur la rue Nord. Le locatif occupe la bande Sud (20 × 15 m), avec son accès sur la rue Ouest.
-Les deux options de villa reprennent l'organisation des villas de la base Capitude : salon traversant sur une
-terrasse couverte, salle à manger entre salon et cuisine, salon familial à l'étage. Chaque option a une cuisine africaine
-sur cour de service et une chambre de nounou avec sa salle d'eau.</p>
-<div class="kpis"><div class="kpi"><div class="v">{a2(sa["clos"])} m²</div><div class="l">Option A, villa compacte, nounou à l'étage · emprise {pct(sa["emprise"] / 360, 0)}</div></div>
-<div class="kpi"><div class="v">{a2(sb["clos"])} m²</div><div class="l">Option B, villa avec aile de service · emprise {pct(sb["emprise"] / 360, 0)}</div></div>
+Les trois options de villa reprennent l'organisation des villas de la base Capitude : salon ouvert sur une
+terrasse ou un patio, salle à manger entre salon et cuisine, salon familial à l'étage. Chaque option a une cuisine africaine
+hors du volume habité, avec préau ou cour, et une chambre de nounou avec sa salle d'eau.</p>
+<div class="kpis" style="grid-template-columns:repeat(5,1fr)"><div class="kpi"><div class="v">{a2(sa["clos"])} m²</div><div class="l">A · villa compacte, nounou à l'étage · emprise {pct(sa["emprise"] / 360, 0)}</div></div>
+<div class="kpi"><div class="v">{a2(sb["clos"])} m²</div><div class="l">B · villa avec aile de service · emprise {pct(sb["emprise"] / 360, 0)}</div></div>
+<div class="kpi"><div class="v">{a2(sc["clos"])} m²</div><div class="l">C · maison à patio central · emprise {pct(sc["emprise"] / 360, 0)}</div></div>
 <div class="kpi"><div class="v">6 logements</div><div class="l">Locatif R+1 : 4 × 2 pièces + 2 × T1 bis, {a2(sl["clos"])} m² clos</div></div>
 <div class="kpi"><div class="v">{M(br["total_ht"] + bl["total_ht"])}</div><div class="l">Opération {RECO["opt"]} + locatif, FCFA HT (base ÷ {DIVISEUR}, honoraires et aléas compris)</div></div></div>
 <table><tr><th>Ouvrage</th><th class="n">Emprise</th><th class="n">Surface close</th><th class="n">Terrasses / balcons</th>
 <th class="n">Travaux HT</th><th class="n">Total HT</th><th class="n">Total TTC</th></tr>
 <tr><td>Villa, option A : villa compacte, nounou à l'étage</td><td class="n">{a2(sa["emprise"])}</td><td class="n">{a2(sa["clos"])}</td><td class="n">{a2(sa["ext_couvert"])}</td><td class="n">{M(ba["travaux"])}</td><td class="n">{M(ba["total_ht"])}</td><td class="n">{M(ba["total_ttc"])}</td></tr>
 <tr><td>Villa, option B : villa avec aile de service</td><td class="n">{a2(sb["emprise"])}</td><td class="n">{a2(sb["clos"])}</td><td class="n">{a2(sb["ext_couvert"])}</td><td class="n">{M(bb["travaux"])}</td><td class="n">{M(bb["total_ht"])}</td><td class="n">{M(bb["total_ttc"])}</td></tr>
+<tr><td>Villa, option C : maison à patio central</td><td class="n">{a2(sc["emprise"])}</td><td class="n">{a2(sc["clos"])}</td><td class="n">{a2(sc["ext_couvert"])}</td><td class="n">{M(bc["travaux"])}</td><td class="n">{M(bc["total_ht"])}</td><td class="n">{M(bc["total_ttc"])}</td></tr>
 <tr><td>Bâtiment locatif R+1 (6 logements)</td><td class="n">{a2(sl["emprise"])}</td><td class="n">{a2(sl["clos"])}</td><td class="n">{a2(sl["ext_couvert"])}</td><td class="n">{M(bl["travaux"])}</td><td class="n">{M(bl["total_ht"])}</td><td class="n">{M(bl["total_ttc"])}</td></tr>
 </table>
 <div class="grid g2" style="margin-top:5mm"><div class="callout">{RECO["texte"]}</div>
@@ -294,15 +296,15 @@ service. Les chambres de personnel ont une porte extérieure et leur propre sall
     # --- parti climat / culture
     add('''<div class="kicker">3 · Parti architectural</div><h2>Une villa pour le climat d'Abidjan et la vie ivoirienne</h2>
 <div class="grid g2"><div><table><tr><th style="width:30%">Usage</th><th>Réponse dans le projet</th></tr>
-<tr><td><b>Recevoir</b></td><td>Salon de 45 m² ouvert sur une terrasse couverte de 30 à 35 m², à l'ombre toute la journée. La SAM
+<tr><td><b>Recevoir</b></td><td>Salon de 43 à 45 m² ouvert sur une terrasse couverte (A, B) ou sur le patio (C), à l'ombre. La SAM
 se ferme ou s'ouvre sur le salon. Le WC visiteurs est dans le hall : les invités ne montent pas à l'étage.</td></tr>
-<tr><td><b>Cuisine africaine</b></td><td>Pièce de 12 à 13 m², carrelée sol et murs, évier double bac, plan bas pour le mortier et le pilon,
-hotte d'extraction, grandes ouvertures sur la cour de service, bouteilles de gaz en cage extérieure. Elle est reliée directement à la
-cuisine moderne, et la cour permet de cuisiner dehors.</td></tr>
+<tr><td><b>Cuisine africaine</b></td><td>Pièce carrelée sol et murs, évier double bac, plan bas pour le mortier et le pilon, hotte et
+conduit remonté au-dessus des toitures, cage à bouteilles de gaz accessible depuis l'aire de livraison. Toujours hors du volume habité
+(pas de chambre au-dessus), reliée à la cuisine moderne, prolongée par un préau ou une cour pour cuisiner dehors.</td></tr>
 <tr><td><b>Cuisine moderne</b></td><td>Cuisine fermée avec plan de travail, ou cuisine avec îlot (option B), reliée à la SAM. C'est la cuisine
 « de tous les jours » et de réception.</td></tr>
-<tr><td><b>Nounou</b></td><td>Chambre d'environ 9 m² avec salle d'eau privée. Option A : à l'étage, porte à porte avec les chambres d'enfants.
-Option B : studio indépendant dans l'aile de service, avec porte extérieure.</td></tr>
+<tr><td><b>Nounou</b></td><td>Chambre de 9 à 12 m² avec salle d'eau privée. A : à l'étage, près des chambres d'enfants.
+B et C : studio indépendant dans l'aile de service, avec porte extérieure.</td></tr>
 <tr><td><b>Gardien et sécurité</b></td><td>Guérite avec WC au portillon, à l'angle des deux rues. Portail coulissant, porte d'entrée blindée,
 grilles de défense sur les baies du RDC.</td></tr>
 <tr><td><b>Linge et provisions</b></td><td>Buanderie et séchoir à ciel ouvert hors de la vue des invités. Magasin pour les provisions (sacs de riz,
@@ -319,7 +321,7 @@ plus d'inertie qu'un agglo. Arbres d'ombrage côté Ouest.</td></tr>
 de 50 cm. Bois durs locaux (iroko, doussié) traités pour les menuiseries et les brise-soleil. Traitement anti-termites du sol.</td></tr></table></div></div>''')
 
     # --- options
-    for opt, s, b in ((OPTION_A, sa, ba), (OPTION_B, sb, bb)):
+    for opt, s, b in ((OPTION_A, sa, ba), (OPTION_B, sb, bb), (OPTION_C, sc, bc)):
         k = opt["code"]
         add(f'''<div class="kicker">4 · Option {k} · références : {opt["ref"]}</div><h2>{opt["nom"].split("— ")[1]}</h2>
 <p class="lead" style="margin-bottom:2mm">{opt["parti"]}</p>
@@ -328,23 +330,32 @@ de 50 cm. Bois durs locaux (iroko, doussié) traités pour les menuiseries et le
 <div class="plan">{svg(f"{k}_R1.svg", lambda: plans.plan_villa(opt, "R+1"))}
 <div class="plan-cap"><span>Étage · {a2(s["R+1"])} m² clos</span><span>Plans d'esquisse, cotes en m</span></div></div></div>{LEGEND}''')
         if k == "A":
-            atouts = ["Un seul volume, simple à construire : moins de façades et de toiture par m² habitable.",
-                      "La nounou dort à côté des chambres d'enfants : pratique avec des enfants en bas âge.",
+            atouts = ["Un seul volume, simple à construire, avec la plus petite emprise.",
+                      "La nounou dort à côté des chambres d'enfants : pratique avec un nourrisson.",
                       "Toutes les chambres ont leur salle d'eau, celles des enfants dos à dos.",
-                      "La cour de service de 2,4 m éloigne la façade Est de la limite : aucune servitude de vue ni de débord."]
-            limites = ["La cuisine africaine est sous la chambre 3 : hotte et extraction indispensables, fumées à évacuer en toiture.",
-                       "La nounou partage l'étage de la famille : moins d'intimité pour elle et pour les parents.",
-                       "Salles d'eau des enfants compactes (3,6 m²).",
-                       "Cuisine moderne en bande de 2,4 m, sans îlot."]
-        else:
-            atouts = ["La cuisine africaine est hors de la maison : fumées et odeurs restent dans l'aile de service (modèle EMIIKA).",
-                      "Studio de la nounou indépendant, avec porte extérieure et salle d'eau : intimité pour tous.",
-                      "Grande cuisine moderne avec îlot (20 m²) et office : la cuisine de réception attendue dans une villa.",
+                      "Grande terrasse couverte de 34,6 m² et jardin d'environ 95 m²."]
+            limites = ["Cuisine moderne réduite à 9,4 m² par l'escalier allongé.",
+                       "La cuisine africaine, en pavillon de 8,6 m² dans la cour, reste petite.",
+                       "La nounou partage l'étage de la famille et traverse la maison pour rejoindre le service.",
+                       "SE des enfants compactes (3,6 m²), dont une enclavée : conduit de ventilation naturelle."]
+        elif k == "B":
+            atouts = ["Cuisine africaine dans l'aile de service, avec préau et porte de livraison (modèle EMIIKA, ABYA 2).",
+                      "Studio de la nounou indépendant, relié à la maison par la galerie couverte.",
+                      "Cuisine moderne avec îlot (18 m²) et office : la cuisine de réception attendue dans une villa.",
                       "La galerie de service relie les deux cuisines sans traverser la maison."]
-            limites = ["Emprise plus forte et jardin plus petit (environ 85 m²).",
-                       "La nounou est loin des enfants la nuit : interphone ou babyphone à prévoir.",
+            limites = ["Emprise la plus forte et jardin plus petit (environ 80 m²).",
+                       "La nounou est loin des enfants la nuit : babyphone à prévoir.",
                        "Les chambres 2 et 3 partagent une salle d'eau (comme dans la maison de ville Anthurium).",
-                       "L'aile de service est en limite Est : mur aveugle et chéneau encaissé, à valider au règlement."]
+                       "Aile en limite Est (toiture vers l'Ouest, acrotère) : à valider au cahier des charges."]
+        else:
+            atouts = ["Le patio planté de 43 m² est le cœur de la maison : salon, SAM, cuisine, chambres et coursive s'ouvrent dessus.",
+                      "Patio ouvert au Sud : la brise de Sud-Ouest le traverse, l'arbre et le bassin rafraîchissent l'air.",
+                      "Passage de 1,50 m tout autour : fenêtres et ventilation sur toutes les faces, entretien facile.",
+                      "Service, nounou et cuisine africaine regroupés à l'Est, avec préau et livraisons au Nord."]
+            limites = ["Les chambres de l'étage sont desservies par une coursive couverte mais ouverte sur le patio.",
+                       "Chambre 2 compacte (10,3 m²) ; pas de terrasse couverte en dehors de la galerie Nord.",
+                       "Le jardin se limite au patio, à la bande Ouest et aux passages.",
+                       "Façade Est à 1,50 m de la limite : seulement des jours hauts (vues droites à 1,90 m)."]
         add(f'''<div class="grid" style="grid-template-columns:1.5fr 1.5fr;gap:6mm"><div><div class="kicker">4 · Option {k}, programme</div><h2>Surfaces et lecture critique</h2>
 <div class="grid g2" style="gap:5mm"><div><h3>Atouts</h3><ul>{"".join(f"<li>{x}</li>" for x in atouts)}</ul></div>
 <div><h3>Limites</h3><ul>{"".join(f"<li>{x}</li>" for x in limites)}</ul></div></div>
@@ -352,29 +363,27 @@ de 50 cm. Bois durs locaux (iroko, doussié) traités pour les menuiseries et le
 <p>Ossature béton armé sur trame de 3,60 m, remplissage en BTC. {opt["toiture"]}.
 Travaux estimés à <b>{M(b["travaux"])} FCFA HT</b>, soit {m(b["travaux"] / s["clos"])} FCFA/m² clos. Total avec
 honoraires et aléas : {M(b["total_ht"])} HT / {M(b["total_ttc"])} TTC.</p>
-{f'<div class="plan" style="margin-top:3mm;max-width:150mm">{svg("coupe_B.svg", plans.coupe_B)}<div class="plan-cap"><span>Coupe de principe Nord-Sud : socle, débords, ventilation traversante</span></div></div>' if k == "A" else ""}
+{f'<div class="plan" style="margin-top:3mm;max-width:150mm">{svg("coupe_B.svg", plans.coupe_B)}<div class="plan-cap"><span>Coupe de principe Nord-Sud (options A et B) : socle, débords, ventilation traversante</span></div></div>' if k == "A" else ""}
 </div><div><div class="grid g2" style="gap:5mm"><div>{tableau_surfaces(opt, ("RDC",), total=False)}</div>
 <div>{tableau_surfaces(opt, ("R+1",))}</div></div></div></div>''')
 
     # --- comparatif
-    rows = [("Surface close (m²)", a2(sa["clos"]), a2(sb["clos"])),
-            ("Emprise au sol (m², % de 360)", f'{a2(sa["emprise"])} · {pct(sa["emprise"] / 360, 0)}',
-             f'{a2(sb["emprise"])} · {pct(sb["emprise"] / 360, 0)}'),
-            ("Jardin (env., avec la bande Ouest)", "100 m²", "85 m²"),
-            ("Terrasse + balcon couverts (m²)", a2(sa["ext_couvert"]), a2(sb["ext_couvert"])),
-            ("Salon + SAM", "45,4 + 14,4 m²", "45,4 + 14,4 m²"),
-            ("Cuisine moderne", "11,5 m² en bande", "20,2 m² avec îlot + office"),
-            ("Cuisine africaine", "13,0 m², dans le volume, sur cour", "12,0 m², dans l'aile de service"),
-            ("Chambre de nounou", "Étage, 8,6 + SE 4,3 m²", "RDC, studio 9,0 + SE 4,2 m²"),
-            ("Salles d'eau des enfants", "Une par chambre (3,6 m²)", "Une partagée (6,5 m²)"),
-            ("Travaux HT", M(ba["travaux"]), M(bb["travaux"])),
-            ("Total TTC (honoraires + aléas)", M(ba["total_ttc"]), M(bb["total_ttc"]))]
-    add(f'''<div class="grid" style="grid-template-columns:0.55fr 0.55fr 1.6fr;gap:5mm">
-<div class="plan">{svg("masse_A.svg", lambda: plans.plan_masse(OPTION_A))}<div class="plan-cap"><span>Plan masse A + locatif</span></div></div>
-<div class="plan">{svg("masse_B.svg", lambda: plans.plan_masse(OPTION_B))}<div class="plan-cap"><span>Plan masse B + locatif</span></div></div>
-<div><div class="kicker">5 · Comparaison</div><h2>Option A ou option B ?</h2>
-<table class="tight"><tr><th>Critère</th><th>A · Villa compacte</th><th>B · Aile de service</th></tr>
-{"".join(f"<tr><td>{a}</td><td>{b}</td><td>{c}</td></tr>" for a, b, c in rows)}</table>
+    rows = [("Surface close (m²)", a2(sa["clos"]), a2(sb["clos"]), a2(sc["clos"])),
+            ("Emprise au sol (% de 360)", pct(sa["emprise"] / 360, 0), pct(sb["emprise"] / 360, 0), pct(sc["emprise"] / 360, 0)),
+            ("Espace vert principal", "jardin ≈ 95 m²", "jardin ≈ 80 m²", "patio 43 m² + bande Ouest"),
+            ("Salon + SAM", "45,4 + 14,4 m²", "45,4 + 14,4 m²", "43,1 + 15,1 m²"),
+            ("Cuisine moderne", "9,4 m²", "18,0 m² + office", "13,9 m²"),
+            ("Cuisine africaine", "pavillon 8,6 m²", "aile 12,0 m² + préau", "aile 13,0 m² + préau"),
+            ("Nounou", "étage, 8,6 + SE 4,3", "studio RDC 9,0 + SE 4,2", "studio RDC 11,9 + SE 5,8"),
+            ("SE des enfants", "une par chambre", "une partagée", "une par chambre"),
+            ("Total TTC", M(ba["total_ttc"]), M(bb["total_ttc"]), M(bc["total_ttc"]))]
+    add(f'''<div class="grid" style="grid-template-columns:0.42fr 0.42fr 0.42fr 1.6fr;gap:4mm">
+<div class="plan">{svg("masse_A.svg", lambda: plans.plan_masse(OPTION_A))}<div class="plan-cap"><span>Masse A</span></div></div>
+<div class="plan">{svg("masse_B.svg", lambda: plans.plan_masse(OPTION_B))}<div class="plan-cap"><span>Masse B</span></div></div>
+<div class="plan">{svg("masse_C.svg", lambda: plans.plan_masse(OPTION_C))}<div class="plan-cap"><span>Masse C</span></div></div>
+<div><div class="kicker">5 · Comparaison</div><h2>Quelle option retenir ?</h2>
+<table class="tight"><tr><th>Critère</th><th>A · Compacte</th><th>B · Aile de service</th><th>C · Patio central</th></tr>
+{"".join(f"<tr><td>{a}</td><td>{b}</td><td>{c}</td><td>{d}</td></tr>" for a, b, c, d in rows)}</table>
 <div class="callout" style="margin-top:4mm">{RECO["texte"]}</div></div></div>''')
 
     # --- locatif
@@ -439,7 +448,8 @@ Ses conclusions seront intégrées dans cette page.</p>"""
 def doc_estimatif():
     D = "Estimatif sommaire"
     P = []
-    ops = [(OPTION_A, "Villa, option A"), (OPTION_B, "Villa, option B"), (LOCATIF, "Bâtiment locatif R+1")]
+    ops = [(OPTION_A, "Villa, option A"), (OPTION_B, "Villa, option B"), (OPTION_C, "Villa, option C"),
+           (LOCATIF, "Bâtiment locatif R+1")]
 
     def detail_rows(opt):
         k = opt["code"]
@@ -497,7 +507,7 @@ def doc_estimatif():
         f'<td class="n">{m(budget(o)["total_ht"] + budget(LOCATIF)["total_ht"])}</td>'
         f'<td class="n">{m(budget(o)["total_ttc"] + budget(LOCATIF)["total_ttc"])}</td>'
         f'<td class="n">{m((budget(o)["travaux"] + budget(LOCATIF)["travaux"]) / (surfaces(o)["clos"] + surfaces(LOCATIF)["clos"]))}</td></tr>'
-        for o, k in ((OPTION_A, "A"), (OPTION_B, "B")))
+        for o, k in ((OPTION_A, "A"), (OPTION_B, "B"), (OPTION_C, "C")))
     base_rows = "".join(f'<tr><td>{lib}</td><td class="small">{src}</td><td class="n">{m(b)}</td><td class="n">{m(b / DIVISEUR)}</td></tr>'
                         for c, (lib, b, src) in RATIOS.items())
     P.append(page(f'''<div class="kicker">Document 2 / 3</div><h1>Estimatif sommaire</h1>
@@ -575,7 +585,7 @@ def doc_bp():
     lev = {s: bp.calc(s, levier=True) for s in bp.SCEN}
     fon = {s: bp.calc(s, foncier=True) for s in bp.SCEN}
     sens = bp.sensibilite()
-    bl, bb = budget(LOCATIF), budget(OPTION_B if RECO["opt"] == "B" else OPTION_A)
+    bl, bb = budget(LOCATIF), budget({"A": OPTION_A, "B": OPTION_B, "C": OPTION_C}[RECO["opt"]])
     r1 = res["S1"]
     r4 = res["S4"]
     cib = bp.cibles(0.10)

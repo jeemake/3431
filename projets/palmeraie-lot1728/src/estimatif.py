@@ -5,7 +5,7 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.page import PageMargins
 
-from projet import (DIVISEUR, EXTERIEURS, FRAIS, IMPREVUS, LOCATIF, OPTION_A, OPTION_B,
+from projet import (DIVISEUR, EXTERIEURS, FRAIS, IMPREVUS, LOCATIF, OPTION_A, OPTION_B, OPTION_C,
                     PLUS_VALUES, RATIOS, TVA, budget, surfaces)
 
 OUT = pathlib.Path(__file__).resolve().parent.parent / "out"
@@ -222,6 +222,7 @@ def build():
 
     detail(OPTION_A, "VILLA OPTION A")
     detail(OPTION_B, "VILLA OPTION B")
+    detail(OPTION_C, "VILLA OPTION C")
     detail(LOCATIF, "LOCATIF R+1")
 
     # ------------------------------------------------------------------ RECAP
@@ -235,7 +236,9 @@ def build():
                    "TOTAL HT", "TOTAL TTC", "TRAVAUX HT / m2"], [6, 40, 16, 18, 18, 18, 18, 16])
     row = 5
     lines = {}
-    for i, (k, lab) in enumerate((("A", "Villa - Option A (maison en L)"), ("B", "Villa - Option B (duplex compact)"),
+    for i, (k, lab) in enumerate((("A", "Villa - Option A (villa compacte, nounou a l'etage)"),
+                                  ("B", "Villa - Option B (aile de service)"),
+                                  ("C", "Villa - Option C (maison a patio central)"),
                                   ("L", "Batiment locatif R+1 (6 logements)")), 1):
         s = sheets[k]
         q = f"'{s['name']}'!"
@@ -251,7 +254,8 @@ def build():
         lines[k] = row
         row += 1
     row += 1
-    for lab, k in (("OPERATION COMPLETE - Option A + locatif", "A"), ("OPERATION COMPLETE - Option B + locatif", "B")):
+    for lab, k in (("OPERATION COMPLETE - Option A + locatif", "A"), ("OPERATION COMPLETE - Option B + locatif", "B"),
+                   ("OPERATION COMPLETE - Option C + locatif", "C")):
         rc.cell(row=row, column=2, value=lab)
         for col in range(3, 8):
             L = get_column_letter(col)
@@ -287,5 +291,5 @@ def build():
 if __name__ == "__main__":
     p = build()
     print(p)
-    for o in (OPTION_A, OPTION_B, LOCATIF):
+    for o in (OPTION_A, OPTION_B, OPTION_C, LOCATIF):
         print(o["code"], budget(o), surfaces(o)["clos"])
