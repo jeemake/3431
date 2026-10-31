@@ -16,9 +16,9 @@ def rect(u,v,w,d): return box(u,-v-d,u+w,-v)
 HOTEL=rect(5.9,4,32.4,9)
 PAVILION=rect(8,17,14,7)
 POOL=rect(9,25.5,10,2.5)
-SOCCER=rect(24.2,18,12,7)
-FOOTPONG=rect(24.2,13.8,6,3.5)
-STAIR2=rect(34.7,13.2,2.8,4.5)
+SOCCER=rect(24.2,18.4,12,7)
+FOOTPONG=rect(28.5,14.9,6,3.5)
+STAIR2=rect(36.5,14.9,2.8,4.5)
 SPACES=[]
 DOORS=[]
 WINDOWS=[]
@@ -65,7 +65,12 @@ for lev in [0,1]:
         else:
             room(code,name,lev,u,6,3.4,6.8,'commun')
         door(code+' entree',lev,u+2.35,-6,.9)
-        WINDOWS.append(dict(name=code+' baie',level=lev,x=u+.55,y=-13,width=2.1))
+        if code=='ACC':
+            door('Accueil jardin',lev,u+.55,-13,1.4,kind='double')
+        else:
+            WINDOWS.append(dict(name=code+' baie',level=lev,x=u+.55,y=-13,width=2.1))
+
+door('Sortie noyau jardin',0,7.0,-13,1.4,kind='double')
 
 # Restaurant, compact massage, kitchen, public facilities.
 for x,y,w,d in [(8,-24,14,.2),(8,-17.2,14,.2),(8,-23.8,.2,6.6),(21.8,-23.8,.2,6.6)]:wall('Pavillon',0,x,y,w,d)
@@ -84,8 +89,8 @@ marker('WC / lave-mains - detail a completer',0,19.55,21,1.9,2.3)
 for lev in [0,1]:MARKERS.append(dict(name='E2 secours - bloc manquant',level=lev,poly=STAIR2))
 
 EXTERIOR=[('Piscine 10 x 2.5 m',POOL,'eau'),('Soccer cage loisir 12 x 7 m',SOCCER,'sport'),('Foot pong - emprise reservee 6 x 3.5 m',FOOTPONG,'sport'),('Local technique',rect(2.3,6,3,4),'tech'),('Depose / livraison',rect(5,17,2.5,8),'acces')]
-room('PASS1','Passerelle vers E2',1,38.3,4,1.2,10.4,'circulation')
-room('PASS2','Palier E2',1,37.5,13.2,.8,1.2,'circulation')
+room('PASS1','Passerelle vers E2',1,38.3,4,1.2,10.9,'circulation')
+room('PASS2','Palier E2',1,36.5,13.7,1.8,1.2,'circulation')
 TREES=[(3,3,.5),(12,2,.45),(22,2,.45),(32,2,.45),(22.7,27,.4),(5.8,28,.45)]
 def schedule():
     return [dict(code=s['code'],name=s['name'],level=s['level'],category=s['category'],unit=s['unit'],area_m2=round(s['poly'].area,2)) for s in SPACES]

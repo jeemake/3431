@@ -8,12 +8,13 @@ import ifcopenshell.geom
 import ifcopenshell.validate
 from shapely.geometry import box
 from project import *
+from landscape import PATHS,ZONES
 
 OUT=Path(__file__).resolve().parents[1]/'output'
 OUT.mkdir(exist_ok=True)
 f=ios.file(schema='IFC4')
 def root(cls,name):return api.run('root.create_entity',f,ifc_class=cls,name=name)
-project=root('IfcProject','3431 - Jacques Ville - C-R1 - 31 octobre 2026')
+project=root('IfcProject','3431 - Jacques Ville - C-R1 revision B - 31 octobre 2026')
 api.run('unit.assign_unit',f,units=[api.run('unit.add_si_unit',f,unit_type='LENGTHUNIT'),api.run('unit.add_si_unit',f,unit_type='AREAUNIT'),api.run('unit.add_si_unit',f,unit_type='VOLUMEUNIT')])
 ctx=api.run('context.add_context',f,context_type='Model')
 body=api.run('context.add_context',f,context_type='Model',context_identifier='Body',target_view='MODEL_VIEW',parent=ctx)
@@ -38,7 +39,11 @@ def placement(e,x=0.,y=0.,z=0.):
 def shape(e,poly,z,h,color=None):
     coords=[(float(x),float(y)) for x,y in list(poly.exterior.coords)]
     curve=f.createIfcPolyline([f.createIfcCartesianPoint(p) for p in coords])
-    profile=f.createIfcArbitraryClosedProfileDef('AREA',None,curve)
+    if poly.interiors:
+        inner=[f.createIfcPolyline([f.createIfcCartesianPoint((float(x),float(y))) for x,y in ring.coords]) for ring in poly.interiors]
+        profile=f.createIfcArbitraryProfileDefWithVoids('AREA',None,curve,inner)
+    else:
+        profile=f.createIfcArbitraryClosedProfileDef('AREA',None,curve)
     solid=f.createIfcExtrudedAreaSolid(profile,f.createIfcAxis2Placement3D(f.createIfcCartesianPoint((0.,0.,float(z))),None,None),f.createIfcDirection((0.,0.,1.)),float(h))
     rep=f.createIfcShapeRepresentation(body,'Body','SweptSolid',[solid])
     e.Representation=f.createIfcProductDefinitionShape(None,None,[rep])
@@ -100,9 +105,9 @@ for m in MARKERS:
         props(e,'JV_Representation',{'Type':'Reservation uniquement - objet manquant au catalogue'})
 # Guardrails are architectural continuous safety envelopes, not engineered details.
 for y in [-4.04,-13.05]:element('IfcRailing','Garde-corps enveloppe indicative',box(5.9,y,38.3,y+.05),3.3,1.1,1,(.3,.4,.43))
-element('IfcSlab','Passerelle est vers E2',rect(38.3,4,1.2,10.4),3.1,.2,1,(.7,.74,.76))
-element('IfcSlab','Palier E2',rect(37.5,13.2,.8,1.2),3.1,.2,1,(.7,.74,.76))
-element('IfcRailing','Garde-corps passerelle est',rect(39.45,4,.05,10.4),3.3,1.1,1,(.3,.4,.43))
+element('IfcSlab','Passerelle est vers E2',rect(38.3,4,1.2,10.9),3.1,.2,1,(.7,.74,.76))
+element('IfcSlab','Palier E2',rect(36.5,13.7,1.8,1.2),3.1,.2,1,(.7,.74,.76))
+element('IfcRailing','Garde-corps passerelle est',rect(39.45,4,.05,10.9),3.3,1.1,1,(.3,.4,.43))
 for n,p,c in EXTERIOR:
     if c=='eau':
         element('IfcSlab','Fond de bassin indicatif',p,-1.4,.2,color=(.35,.7,.78))
@@ -110,6 +115,15 @@ for n,p,c in EXTERIOR:
         b=p.bounds
         for q in [box(b[0]-.2,b[1]-.2,b[2]+.2,b[1]),box(b[0]-.2,b[3],b[2]+.2,b[3]+.2),box(b[0]-.2,b[1],b[0],b[3]),box(b[2],b[1],b[2]+.2,b[3])]:element('IfcWall','Paroi bassin indicative',q,-1.4,1.4,color=(.75,.82,.85))
     else:element('IfcBuildingElementProxy',n,p,0,.05,color=(.63,.8,.72))
+
+for i,p in enumerate(PATHS.geoms if hasattr(PATHS,'geoms') else [PATHS]):
+    e=element('IfcSlab','Cheminements et terrasses RevB '+str(i+1),p,-.08,.08,color=(.85,.85,.83))
+    props(e,'JV_Paysage',{'Statut':'Trace de principe ; niveaux, pentes, drainage et accessibilite a valider'})
+for z in ZONES:
+    for p in (z['poly'].geoms if hasattr(z['poly'],'geoms') else [z['poly']]):
+        if p.is_empty or p.geom_type!='Polygon':continue
+        e=element('IfcBuildingElementProxy',z['id']+' - '+z['name'],p,0,.01,color=(.70,.76,.68))
+        props(e,'JV_Paysage',{'PlantId':z['plant_id'],'Role':z['role'],'Statut':'Plantation projetee ; especes et gabarits adultes non valides'})
 
 # Reuse authenticated local copies of Capitude families, verify checksums.
 lib=Path(os.environ['CAPITUDE_IFC_LIBRARY'])

@@ -1,0 +1,567 @@
+[
+  {
+    "id": "arbre_feuillage_dense",
+    "categorie": "arbre",
+    "nom": "Arbre Feuillage Dense",
+    "bloc_dxf": "ARBRE_FEUILLAGE_DENSE",
+    "insertion": "centre du tronc",
+    "dimensions": {
+      "xmax": 2.64,
+      "xmin": -2.91,
+      "ymax": 2.62,
+      "ymin": -3.02,
+      "hauteur": 5.65,
+      "largeur": 5.55
+    },
+    "calques": [
+      "BLOC_BRANCHES",
+      "BLOC_FEUILLAGE",
+      "BLOC_TRONC"
+    ],
+    "usage": "Arbre à feuillage dense griffonné gris (sapotillier, fruitier). Ø ≈ 5 m ; échelle 0.4 à 1.6 ; aussi utilisable en massif d'arbustes à petite échelle.",
+    "rotation_pertinente": true,
+    "source": "Casa lineal 3763",
+    "version": 1,
+    "sha256_dwg": "4d6b5f64db19d334c782291760659d7dc9dc72bc96b9a897cf03b4caad5523a3",
+    "sha256_dxf": "45a5a3625008fc0066c365683600b99953e52e35718d098f71441b02fae3b0d6",
+    "sha256_png": "b3f04025195c086d4fc660921f99352d5f61c6359ea73903aa503e33a5219490",
+    "chemin_dwg": "dwg/04_arbre_feuillage_dense.dwg",
+    "chemin_dxf": "dxf/04_arbre_feuillage_dense.dxf",
+    "chemin_png": "png/04_arbre_feuillage_dense.png",
+    "actif": true,
+    "maj_le": "2026-10-31 12:44:34.19453+00"
+  },
+  {
+    "id": "arbre_feuilles_ovales",
+    "categorie": "arbre",
+    "nom": "Arbre Feuilles Ovales",
+    "bloc_dxf": "ARBRE_FEUILLES_OVALES",
+    "insertion": "centre du tronc",
+    "dimensions": {
+      "xmax": 3.3,
+      "xmin": -3.46,
+      "ymax": 4.11,
+      "ymin": -3.85,
+      "hauteur": 7.96,
+      "largeur": 6.76
+    },
+    "calques": [
+      "BLOC_BRANCHES",
+      "BLOC_FEUILLAGE",
+      "BLOC_TRONC"
+    ],
+    "usage": "Arbre à petites feuilles ovales, couronne légère. Ø ≈ 7 m ; échelle 0.5 à 1.5.",
+    "rotation_pertinente": true,
+    "source": "Pali Hill 3780 / 3783",
+    "version": 1,
+    "sha256_dwg": "d30fa94d612e3121e7c311f856b4501f00853efabc9123e07508a1452f4dae66",
+    "sha256_dxf": "354ce3aed48bc037dd8796750411aa88afa6637b909136f984058d1c9568c476",
+    "sha256_png": "753639b776e0acb5341d894173bc9eb8dbc79843c5ddff09e642eb28a3a77f1c",
+    "chemin_dwg": "dwg/02_arbre_feuilles_ovales.dwg",
+    "chemin_dxf": "dxf/02_arbre_feuilles_ovales.dxf",
+    "chemin_png": "png/02_arbre_feuilles_ovales.png",
+    "actif": true,
+    "maj_le": "2026-10-31 12:44:34.19453+00"
+  },
+  {
+    "id": "arbre_frangipanier",
+    "categorie": "arbre",
+    "nom": "Arbre Frangipanier Rosettes",
+    "bloc_dxf": "ARBRE_FRANGIPANIER_ROSETTES",
+    "insertion": "centre du tronc",
+    "dimensions": {
+      "xmax": 4.64,
+      "xmin": -4.81,
+      "ymax": 4.23,
+      "ymin": -4.07,
+      "hauteur": 8.3,
+      "largeur": 9.45
+    },
+    "calques": [
+      "BLOC_BRANCHES",
+      "BLOC_FEUILLAGE",
+      "BLOC_TRONC"
+    ],
+    "usage": "Arbre feuillu tropical à rosettes étoilées (Plumeria). Ø ≈ 8 m ; échelle possible 0.5 à 1.5 (Ø 4 à 12 m).",
+    "rotation_pertinente": true,
+    "source": "Pali Hill 3783",
+    "version": 1,
+    "sha256_dwg": "985c4f17f1eabdd3e7b424d0d8d6d5a49dbd2f03403c3291655b3a60d44d4f77",
+    "sha256_dxf": "5c05ff6c02d258542cb0e0f872c02b9531152dd31362809a7a1f109bf7a2cd0a",
+    "sha256_png": "475f8f642fb7820fb830b07f96e17d8378d0e1b0d5b7dbb2fb036730d3d973dc",
+    "chemin_dwg": "dwg/01_arbre_frangipanier_rosettes.dwg",
+    "chemin_dxf": "dxf/01_arbre_frangipanier_rosettes.dxf",
+    "chemin_png": "png/01_arbre_frangipanier_rosettes.png",
+    "actif": true,
+    "maj_le": "2026-10-31 12:44:34.19453+00"
+  },
+  {
+    "id": "arbre_touffes_frisees",
+    "categorie": "arbre",
+    "nom": "Arbre Touffes Frisees",
+    "bloc_dxf": "ARBRE_TOUFFES_FRISEES",
+    "insertion": "centre du tronc",
+    "dimensions": {
+      "xmax": 2.82,
+      "xmin": -3.02,
+      "ymax": 3.53,
+      "ymin": -3.35,
+      "hauteur": 6.88,
+      "largeur": 5.84
+    },
+    "calques": [
+      "BLOC_BRANCHES",
+      "BLOC_FEUILLAGE",
+      "BLOC_TRONC"
+    ],
+    "usage": "Arbre à touffes frisées. Ø ≈ 6 m ; échelle 0.5 à 1.5.",
+    "rotation_pertinente": true,
+    "source": "Pali Hill 3783",
+    "version": 1,
+    "sha256_dwg": "91e638ccb34ecbae6fc74d5633629fd18e1bf699bc8d8f8401486874ae58fefc",
+    "sha256_dxf": "7d4b10e0af9e880d5cb44812b70af46295b8cd115a1f875915f0ec69d3d10791",
+    "sha256_png": "e70eccb484921fce25a5ac128d1bd965b35ab1095a35d745278834b35acaa929",
+    "chemin_dwg": "dwg/03_arbre_touffes_frisees.dwg",
+    "chemin_dxf": "dxf/03_arbre_touffes_frisees.dxf",
+    "chemin_png": "png/03_arbre_touffes_frisees.png",
+    "actif": true,
+    "maj_le": "2026-10-31 12:44:34.19453+00"
+  },
+  {
+    "id": "escalier_helicoidal",
+    "categorie": "escalier",
+    "nom": "Escalier Helicoidal",
+    "bloc_dxf": "ESCALIER_HELICOIDAL",
+    "insertion": "centre du fût",
+    "dimensions": {
+      "xmax": 0.9,
+      "xmin": -0.9,
+      "ymax": 0.9,
+      "ymin": -0.9,
+      "hauteur": 1.8,
+      "largeur": 1.8
+    },
+    "calques": [
+      "BLOC_CONTOUR",
+      "BLOC_DEBATTEMENT",
+      "BLOC_MUR"
+    ],
+    "usage": "Escalier hélicoïdal Ø 1.60 m dans une cage carrée de 1.80 m. Échelle 0.8 à 1.25 (Ø 1.30 à 2.00 m) ; rotation pour orienter le départ.",
+    "rotation_pertinente": true,
+    "source": "Casa estudio 3769, pièce 9",
+    "version": 1,
+    "sha256_dwg": "9109a4161475cd20d2e26570302d36c9518197833f953f8e51dbe2601e100156",
+    "sha256_dxf": "f96449ae9745b5d863157157ddd1dde2dd265e587deaecc67499260c98ecef87",
+    "sha256_png": "eb4fae441f5c350602cd9ff7810fafeb9bac1088e5ac703d4ac8327f8ca2648d",
+    "chemin_dwg": "dwg/10_escalier_helicoidal.dwg",
+    "chemin_dxf": "dxf/10_escalier_helicoidal.dxf",
+    "chemin_png": "png/10_escalier_helicoidal.png",
+    "actif": true,
+    "maj_le": "2026-10-31 12:44:34.19453+00"
+  },
+  {
+    "id": "porte_battante_90",
+    "categorie": "porte",
+    "nom": "Porte Battante 90",
+    "bloc_dxf": "PORTE_BATTANTE_90",
+    "insertion": "axe du gond, nu extérieur du mur (le mur est entre y=0 et y=0.20)",
+    "dimensions": {
+      "xmax": 1.02,
+      "xmin": -0.12,
+      "ymax": 1.1,
+      "ymin": 0,
+      "hauteur": 1.1,
+      "largeur": 1.14
+    },
+    "calques": [
+      "BLOC_AXE",
+      "BLOC_DEBATTEMENT",
+      "BLOC_MUR",
+      "BLOC_OUVRANT"
+    ],
+    "usage": "Porte 1 vantail 0.90 m, mur 0.20 m. Mettre à l'échelle selon la largeur : scale = largeur/0.90 (0.70 à 1.00 m). Rotation pour suivre le mur ; échelle négative en x (miroir) pour inverser le sens.",
+    "rotation_pertinente": true,
+    "source": "Casa estudio 3769",
+    "version": 1,
+    "sha256_dwg": "b53a1c2c037ec68d669cc7db22cb51be07703525d245d21bd02303fc0b092b28",
+    "sha256_dxf": "11ffd6d7d7a63055cde2f25b5946c30ea36dca87637b865ea2059a9b307c9a55",
+    "sha256_png": "6667a817b4b517d29d44cf56b34d6f73245add050ef7e7af7f21e050237074ac",
+    "chemin_dwg": "dwg/08_porte_battante_90.dwg",
+    "chemin_dxf": "dxf/08_porte_battante_90.dxf",
+    "chemin_png": "png/08_porte_battante_90.png",
+    "actif": true,
+    "maj_le": "2026-10-31 12:44:34.19453+00"
+  },
+  {
+    "id": "porte_double",
+    "categorie": "porte",
+    "nom": "Porte Double Battante",
+    "bloc_dxf": "PORTE_DOUBLE_BATTANTE",
+    "insertion": "tableau gauche, nu extérieur du mur (mur entre y=0 et y=0.20)",
+    "dimensions": {
+      "xmax": 1.52,
+      "xmin": -0.12,
+      "ymax": 0.9,
+      "ymin": 0,
+      "hauteur": 0.9,
+      "largeur": 1.64
+    },
+    "calques": [
+      "BLOC_AXE",
+      "BLOC_DEBATTEMENT",
+      "BLOC_MUR",
+      "BLOC_OUVRANT"
+    ],
+    "usage": "Porte double 1.40 m, mur 0.20 m. scale = largeur/1.40 (1.20 à 1.80 m). Rotation pour suivre le mur.",
+    "rotation_pertinente": true,
+    "source": "Pali Hill 3783",
+    "version": 1,
+    "sha256_dwg": "ea1a21a6139732645459f11c247d4acbeb6c37df97c194c91bd1900d17d704cf",
+    "sha256_dxf": "7ea9a9dbc8e86e666f5ea9ccad8fcbc6b00f5cc5f7f10605656b0b131448f98a",
+    "sha256_png": "e4d673e942a3c298caa4bae70f4942d877207658d82911700abd937f0e177a8e",
+    "chemin_dwg": "dwg/09_porte_double_battante.dwg",
+    "chemin_dxf": "dxf/09_porte_double_battante.dxf",
+    "chemin_png": "png/09_porte_double_battante.png",
+    "actif": true,
+    "maj_le": "2026-10-31 12:44:34.19453+00"
+  },
+  {
+    "id": "texture_couvre_sol",
+    "categorie": "texture",
+    "nom": "Couvre-sol discontinu",
+    "bloc_dxf": "TEXTURE_COUVRE_SOL",
+    "insertion": "coin bas-gauche du module, coordonnées en mètres",
+    "dimensions": {
+      "xmax": 2,
+      "xmin": 0,
+      "ymax": 2,
+      "ymin": 0,
+      "hauteur": 2,
+      "largeur": 2,
+      "panneau_m": [
+        2,
+        2
+      ],
+      "opacity_source": "Convention de conception, pas mesure des références imprimées",
+      "graphic_opacity": 0.6,
+      "graphic_transparency": 0.4,
+      "png_alpha_background": 0,
+      "png_alpha_foreground": 153
+    },
+    "calques": [
+      "AB_EXT_COUVRE"
+    ],
+    "usage": "Sous-strate végétale légère ; laisser des respirations blanches. Ne remplace pas les arbres. Module 2 × 2 m, échelle géométrique 1, à recadrer strictement. Densité graphique à adapter à l’échelle papier.",
+    "rotation_pertinente": false,
+    "source": "Création vectorielle originale ; étude graphique El Croquis 225, Primaveras p.132/138 et Candela p.150/152/156 ; non extrait de leurs fichiers CAO.",
+    "version": 1,
+    "sha256_dwg": "b9b071a1ceff0e451ec983c777e4823ee476bc03f37845cdbbda8d3e81df9924",
+    "sha256_dxf": "824bc85eb17d52daefe090a599f70e1dc6c2624e6e06a919d9a5b6cae98b4e84",
+    "sha256_png": "75dd221567d7fa846a2b2b19ed2af62c3ad916b29b8d8539fc9b66ae2a0fe737",
+    "chemin_dwg": "extensions-exterieurs-v1/texture_couvre_sol.dwg",
+    "chemin_dxf": "extensions-exterieurs-v1/texture_couvre_sol.dxf",
+    "chemin_png": "extensions-exterieurs-v1/texture_couvre_sol.png",
+    "actif": true,
+    "maj_le": "2026-10-31 16:00:34.746188+00"
+  },
+  {
+    "id": "texture_eau",
+    "categorie": "texture",
+    "nom": "Texture Eau Bassin",
+    "bloc_dxf": "TEXTURE_EAU_BASSIN",
+    "insertion": "coin bas-gauche du panneau",
+    "dimensions": {
+      "xmax": 2,
+      "xmin": 0,
+      "ymax": 2,
+      "ymin": 0,
+      "hauteur": 2,
+      "largeur": 2,
+      "panneau_m": [
+        2,
+        2
+      ]
+    },
+    "calques": [
+      "BLOC_CONTOUR",
+      "BLOC_TEXTURE"
+    ],
+    "usage": "Eau / bassin / jardin de pluie. Panneau 2×2 m ; échelle 1 ; rotation possible pour orienter les ondes.",
+    "rotation_pertinente": true,
+    "source": "Casa estudio 3769 / Casa lineal 3763",
+    "version": 1,
+    "sha256_dwg": "87d5ec46f8b8bee3a4efb4bd5cd68fc53385f514290cbd6ae8b70e263c63622b",
+    "sha256_dxf": "1bf30144010b6415cc747994383c12d867cfb66f03fe738058cb5be2795580ab",
+    "sha256_png": "2a61b800683c48a645918ad8222a84ec4835e0248978f7dddb69c609999b89b2",
+    "chemin_dwg": "dwg/07_texture_eau_bassin.dwg",
+    "chemin_dxf": "dxf/07_texture_eau_bassin.dxf",
+    "chemin_png": "png/07_texture_eau_bassin.png",
+    "actif": true,
+    "maj_le": "2026-10-31 12:44:34.19453+00"
+  },
+  {
+    "id": "texture_granulat_fin",
+    "categorie": "texture",
+    "nom": "Sol minéral fin — pointillé",
+    "bloc_dxf": "TEXTURE_GRANULAT_FIN",
+    "insertion": "coin bas-gauche du module, coordonnées en mètres",
+    "dimensions": {
+      "xmax": 2,
+      "xmin": 0,
+      "ymax": 2,
+      "ymin": 0,
+      "hauteur": 2,
+      "largeur": 2,
+      "panneau_m": [
+        2,
+        2
+      ],
+      "opacity_source": "Convention de conception, pas mesure des références imprimées",
+      "graphic_opacity": 0.6,
+      "graphic_transparency": 0.4,
+      "png_alpha_background": 0,
+      "png_alpha_foreground": 153
+    },
+    "calques": [
+      "AB_EXT_GRANULAT"
+    ],
+    "usage": "Sol meuble ou granulat représenté par ponctuation irrégulière. Convention graphique, pas une granulométrie relevée. Module 2 × 2 m, échelle géométrique 1, à recadrer strictement. Densité graphique à adapter à l’échelle papier.",
+    "rotation_pertinente": false,
+    "source": "Création vectorielle originale ; étude graphique El Croquis 225, Primaveras p.132/138 et Candela p.150/152/156 ; non extrait de leurs fichiers CAO.",
+    "version": 1,
+    "sha256_dwg": "cb848b2d5643046721a13f9e4b3ff0f3cbc8cbe38aaff3b3da4fc8ffd5a479a0",
+    "sha256_dxf": "c7c70fb6ca46edfdb9712ac5d12386e2baf85344c070bae3adeeacf34feab0a4",
+    "sha256_png": "9c0e1da9575e4b778a01cd10e6b4c2b2ea541b4f70d116eeb2c00e44bc5ca53f",
+    "chemin_dwg": "extensions-exterieurs-v1/texture_granulat_fin.dwg",
+    "chemin_dxf": "extensions-exterieurs-v1/texture_granulat_fin.dxf",
+    "chemin_png": "extensions-exterieurs-v1/texture_granulat_fin.png",
+    "actif": true,
+    "maj_le": "2026-10-31 16:00:34.746188+00"
+  },
+  {
+    "id": "texture_litiere",
+    "categorie": "texture",
+    "nom": "Litière de feuilles",
+    "bloc_dxf": "TEXTURE_LITIERE",
+    "insertion": "coin bas-gauche du module, coordonnées en mètres",
+    "dimensions": {
+      "xmax": 2,
+      "xmin": 0,
+      "ymax": 2,
+      "ymin": 0,
+      "hauteur": 2,
+      "largeur": 2,
+      "panneau_m": [
+        2,
+        2
+      ],
+      "opacity_source": "Convention de conception, pas mesure des références imprimées",
+      "graphic_opacity": 0.65,
+      "graphic_transparency": 0.35,
+      "png_alpha_background": 0,
+      "png_alpha_foreground": 166
+    },
+    "calques": [
+      "AB_EXT_LITIERE"
+    ],
+    "usage": "Sol sous couvert arboré, feuilles éparses et humus. Ne pas confondre avec des pavés ou une espèce botanique identifiée. Module 2 × 2 m, échelle géométrique 1, à recadrer strictement. Densité graphique à adapter à l’échelle papier.",
+    "rotation_pertinente": false,
+    "source": "Création vectorielle originale ; étude graphique El Croquis 225, Primaveras p.132/138 et Candela p.150/152/156 ; non extrait de leurs fichiers CAO.",
+    "version": 1,
+    "sha256_dwg": "da3901a1ffe651175263ee8c73764cf841469536be87fa49c219a6b54a1ea7ca",
+    "sha256_dxf": "3b379114f4350586676ea594fe009375f8f5a8d3e32d78e76c0ad2816906f588",
+    "sha256_png": "e36ad35338316ff6176c7340336e7574b9593005bad00539dae81bc446d593c5",
+    "chemin_dwg": "extensions-exterieurs-v1/texture_litiere.dwg",
+    "chemin_dxf": "extensions-exterieurs-v1/texture_litiere.dxf",
+    "chemin_png": "extensions-exterieurs-v1/texture_litiere.png",
+    "actif": true,
+    "maj_le": "2026-10-31 16:00:34.746188+00"
+  },
+  {
+    "id": "texture_massif_tropical",
+    "categorie": "texture",
+    "nom": "Massif tropical bas",
+    "bloc_dxf": "TEXTURE_MASSIF_TROPICAL",
+    "insertion": "coin bas-gauche du module, coordonnées en mètres",
+    "dimensions": {
+      "xmax": 2,
+      "xmin": 0,
+      "ymax": 2,
+      "ymin": 0,
+      "hauteur": 2,
+      "largeur": 2,
+      "panneau_m": [
+        2,
+        2
+      ],
+      "opacity_source": "Convention de conception, pas mesure des références imprimées",
+      "graphic_opacity": 0.65,
+      "graphic_transparency": 0.35,
+      "png_alpha_background": 0,
+      "png_alpha_foreground": 166
+    },
+    "calques": [
+      "AB_EXT_MASSIF"
+    ],
+    "usage": "Rosettes et feuillage bas en groupes ; massifs et jardinières. Dessin conventionnel sans attribution d’espèce. Module 2 × 2 m, échelle géométrique 1, à recadrer strictement. Densité graphique à adapter à l’échelle papier.",
+    "rotation_pertinente": false,
+    "source": "Création vectorielle originale ; étude graphique El Croquis 225, Primaveras p.132/138 et Candela p.150/152/156 ; non extrait de leurs fichiers CAO.",
+    "version": 1,
+    "sha256_dwg": "8cbd3c5be70cda6226eeccd55ab7577bb94c27706145ee104ab5198d2b3f6e2c",
+    "sha256_dxf": "90d0465afcd1e07b41ac7d119e22803d441f6e026f8880d332f83ae8c9442d6b",
+    "sha256_png": "8989f7704f795809ac7f45a9e83c5fc536f079ca09a09011356022148954be6a",
+    "chemin_dwg": "extensions-exterieurs-v1/texture_massif_tropical.dwg",
+    "chemin_dxf": "extensions-exterieurs-v1/texture_massif_tropical.dxf",
+    "chemin_png": "extensions-exterieurs-v1/texture_massif_tropical.png",
+    "actif": true,
+    "maj_le": "2026-10-31 16:00:34.746188+00"
+  },
+  {
+    "id": "texture_pas_irreguliers",
+    "categorie": "texture",
+    "nom": "Pas de pierre irréguliers",
+    "bloc_dxf": "TEXTURE_PAS_IRREGULIERS",
+    "insertion": "coin bas-gauche du module, coordonnées en mètres",
+    "dimensions": {
+      "xmax": 2,
+      "xmin": 0,
+      "ymax": 2,
+      "ymin": 0,
+      "hauteur": 2,
+      "largeur": 2,
+      "panneau_m": [
+        2,
+        2
+      ],
+      "opacity_source": "Convention de conception, pas mesure des références imprimées",
+      "graphic_opacity": 0.8,
+      "graphic_transparency": 0.19999999999999996,
+      "png_alpha_background": 0,
+      "png_alpha_foreground": 204
+    },
+    "calques": [
+      "AB_EXT_PAS"
+    ],
+    "usage": "Module indicatif de quatre pas en pierre ; dessiner le chemin réel et contrôler pas, largeur et accessibilité. Ne pas paver tout le jardin. Module 2 × 2 m, échelle géométrique 1, à recadrer strictement. Densité graphique à adapter à l’échelle papier.",
+    "rotation_pertinente": true,
+    "source": "Création vectorielle originale ; étude graphique El Croquis 225, Primaveras p.132/138 et Candela p.150/152/156 ; non extrait de leurs fichiers CAO.",
+    "version": 1,
+    "sha256_dwg": "6dc04b337272582b634a00fa9cfa219ee391305c07c407139d98c3fccb68e2c4",
+    "sha256_dxf": "a85e3ba2d196f3a42557c9bc2729aaca35da9db0c563e32cc3aa4b529382dc9d",
+    "sha256_png": "27c1b887b099509e53883309cc787d9a06ebfbcada4967a8372f53a4ecc22153",
+    "chemin_dwg": "extensions-exterieurs-v1/texture_pas_irreguliers.dwg",
+    "chemin_dxf": "extensions-exterieurs-v1/texture_pas_irreguliers.dxf",
+    "chemin_png": "extensions-exterieurs-v1/texture_pas_irreguliers.png",
+    "actif": true,
+    "maj_le": "2026-10-31 16:00:34.746188+00"
+  },
+  {
+    "id": "texture_paves",
+    "categorie": "texture",
+    "nom": "Texture Paves Anciens",
+    "bloc_dxf": "TEXTURE_PAVES_ANCIENS",
+    "insertion": "coin bas-gauche du panneau",
+    "dimensions": {
+      "xmax": 2,
+      "xmin": 0,
+      "ymax": 2,
+      "ymin": 0,
+      "hauteur": 2,
+      "largeur": 2,
+      "panneau_m": [
+        2,
+        2
+      ]
+    },
+    "calques": [
+      "BLOC_CONTOUR",
+      "BLOC_HACHURE"
+    ],
+    "usage": "Pavés anciens en rangées (parking, rue, cour). Panneau 2×2 m ; échelle 1 ; rotation 90° pour changer le sens des rangées.",
+    "rotation_pertinente": true,
+    "source": "Casa estudio 3769",
+    "version": 1,
+    "sha256_dwg": "93bcd7bcef5efc0073bf2bc1c3c739c6b87177eb379a1c1bd446724181ada06f",
+    "sha256_dxf": "3c18932feb13035b44bbfe30ae9c159f724e4e40ca9f5fe47829644c7fb8774f",
+    "sha256_png": "5a7b4c22e42999f4dd7612737ad80e5a584e8b62682b527af678c99ff0afe552",
+    "chemin_dwg": "dwg/06_texture_paves_anciens.dwg",
+    "chemin_dxf": "dxf/06_texture_paves_anciens.dxf",
+    "chemin_png": "png/06_texture_paves_anciens.png",
+    "actif": true,
+    "maj_le": "2026-10-31 12:44:34.19453+00"
+  },
+  {
+    "id": "texture_pierre",
+    "categorie": "texture",
+    "nom": "Texture Pierre Opus Incertum",
+    "bloc_dxf": "TEXTURE_PIERRE_OPUS_INCERTUM",
+    "insertion": "coin bas-gauche du panneau",
+    "dimensions": {
+      "xmax": 2,
+      "xmin": 0,
+      "ymax": 2,
+      "ymin": 0,
+      "hauteur": 2,
+      "largeur": 2,
+      "panneau_m": [
+        2,
+        2
+      ]
+    },
+    "calques": [
+      "BLOC_CONTOUR",
+      "BLOC_HACHURE"
+    ],
+    "usage": "Sol en moellons arrondis / opus incertum (parking, cour, allée). Panneau 2×2 m à répéter avec fill_texture ; échelle 1 (0.75 à 1.25 au plus).",
+    "rotation_pertinente": false,
+    "source": "Casa lineal 3763",
+    "version": 1,
+    "sha256_dwg": "7aee13ff0d14fcabab92df4cd12be658350dc56c071f19e51f28ede6287f8f13",
+    "sha256_dxf": "39519353e5b73d780cea748dfd7b1c02b6efaf3e9d6aa4982072b8e2cfa4a8d4",
+    "sha256_png": "1b356d5ccea4a4cdeb1b066dc1fbcb6146d2fc69ff8033efcdaee161e3b6f302",
+    "chemin_dwg": "dwg/05_texture_pierre_opus_incertum.dwg",
+    "chemin_dxf": "dxf/05_texture_pierre_opus_incertum.dxf",
+    "chemin_png": "png/05_texture_pierre_opus_incertum.png",
+    "actif": true,
+    "maj_le": "2026-10-31 12:44:34.19453+00"
+  },
+  {
+    "id": "texture_pierre_bandes",
+    "categorie": "texture",
+    "nom": "Pierre en bandes décalées",
+    "bloc_dxf": "TEXTURE_PIERRE_BANDES",
+    "insertion": "coin bas-gauche du module, coordonnées en mètres",
+    "dimensions": {
+      "xmax": 2,
+      "xmin": 0,
+      "ymax": 2,
+      "ymin": 0,
+      "hauteur": 2,
+      "largeur": 2,
+      "panneau_m": [
+        2,
+        2
+      ],
+      "opacity_source": "Convention de conception, pas mesure des références imprimées",
+      "graphic_opacity": 0.65,
+      "graphic_transparency": 0.35,
+      "png_alpha_background": 0,
+      "png_alpha_foreground": 166
+    },
+    "calques": [
+      "AB_EXT_BANDES"
+    ],
+    "usage": "Calepinage linéaire de terrasse/passage ; joints constructifs visibles, aucun cadre de tuile. Module de conception, pas un relevé du projet. Module 2 × 2 m, échelle géométrique 1, à recadrer strictement. Densité graphique à adapter à l’échelle papier.",
+    "rotation_pertinente": true,
+    "source": "Création vectorielle originale ; étude graphique El Croquis 225, Primaveras p.132/138 et Candela p.150/152/156 ; non extrait de leurs fichiers CAO.",
+    "version": 1,
+    "sha256_dwg": "f9474cea10ef7f95cbbd78564be581b02d949eeedd7060479bb6bd9500fa62e0",
+    "sha256_dxf": "593c8f35511755fb3cb65210e6e0328db1b75cb0ad72864dfa513f556a874bdf",
+    "sha256_png": "85ca0ad057317646baa908c60b197bebcd34e9100cc7764398d69d979376df3c",
+    "chemin_dwg": "extensions-exterieurs-v1/texture_pierre_bandes.dwg",
+    "chemin_dxf": "extensions-exterieurs-v1/texture_pierre_bandes.dxf",
+    "chemin_png": "extensions-exterieurs-v1/texture_pierre_bandes.png",
+    "actif": true,
+    "maj_le": "2026-10-31 16:00:34.746188+00"
+  }
+]

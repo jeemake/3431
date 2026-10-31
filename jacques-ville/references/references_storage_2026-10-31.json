@@ -1,0 +1,38 @@
+[
+  {
+    "name": "references/el-croquis-225/candela/p152.png",
+    "metadata": {
+      "eTag": "\"9fb2ccfe155c129d8cbebcbc65500675-1\"",
+      "size": 1372148,
+      "mimetype": "image/png",
+      "cacheControl": "max-age=3600",
+      "lastModified": "2026-10-31T14:28:48.000Z",
+      "contentLength": 1372148,
+      "httpStatusCode": 200
+    }
+  },
+  {
+    "name": "references/el-croquis-225/primaveras/p132.png",
+    "metadata": {
+      "eTag": "\"897a9434a1ebb2fedab250ec9e3637ab-1\"",
+      "size": 1094874,
+      "mimetype": "image/png",
+      "cacheControl": "max-age=3600",
+      "lastModified": "2026-10-31T14:28:32.000Z",
+      "contentLength": 1094874,
+      "httpStatusCode": 200
+    }
+  },
+  {
+    "name": "references/el-croquis-225/primaveras/p138.png",
+    "metadata": {
+      "eTag": "\"ddd986a04a01c995a8e556361e10c426-1\"",
+      "size": 1772087,
+      "mimetype": "image/png",
+      "cacheControl": "max-age=3600",
+      "lastModified": "2026-10-31T14:28:32.000Z",
+      "contentLength": 1772087,
+      "httpStatusCode": 200
+    }
+  }
+]

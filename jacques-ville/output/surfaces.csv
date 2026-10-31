@@ -36,5 +36,5 @@ CUIS;Cuisine / plonge;0;service;;8.61
 RES;Reserve / froid;0;service;;8.61
 MASS;Massage compact;0;massage;;8.48
 WC;Sanitaires publics;0;sde;;8.48
-PASS1;Passerelle vers E2;1;circulation;;12.48
-PASS2;Palier E2;1;circulation;;0.96
+PASS1;Passerelle vers E2;1;circulation;;13.08
+PASS2;Palier E2;1;circulation;;2.16

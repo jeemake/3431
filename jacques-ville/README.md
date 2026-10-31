@@ -1,13 +1,25 @@
 # Jacques Ville — dossier 3431 — variante C-R1
 
-Révision du 31 octobre 2026. **Esquisse architecturale à développer, non exécutoire.**
+Révision **B** du 31 octobre 2026, après relecture des sept règles Capitude et demande de couleurs pastel par usage. **Esquisse architecturale à développer, non exécutoire.**
 
 ## Livrables
 
-- [Plans PDF A3, six planches](output/3431_Plans_C-R1.pdf) : masse, RDC, R+1, coupe/évolution, surfaces et enveloppe financière.
+- [Plans PDF A3, six planches, révision B](output/3431_Plans_Capitude_RevB.pdf) : masse au 1:200, RDC et R+1 au 1:100, pavillon au 1:100 et chambre au 1:50, paysage au 1:200, coupe au 1:100. Imprimer à 100 %, sans ajustement.
+- [Notice Capitude, quatre pages](output/3431_Notice_Capitude_RevB.pdf) : programme, surfaces, budget, diagnostic paysager, palette fonctionnelle et sources.
 - [Maquette IFC4 en mètres](output/3431_JacquesVille_C-R1.ifc).
 - Plans éditables DXF R2018 et SVG dans `output/`.
 - [Surfaces nettes](output/surfaces.csv), [contrôles](output/verification.json), [provenance des familles IFC](output/familles_utilisees.json).
+- [Contrôles des plans et parcours](output/verification_plans_RevB.json), [vérification du cache Capitude](references/cache_verifie_RevB.json).
+
+Le PDF `3431_Plans_C-R1.pdf` et les anciens fichiers `04_Coupe.*` sont conservés comme **première version historique**. Les PDF révision B ci-dessus font foi pour cette livraison. Les aperçus `apercu_01` à `apercu_06` correspondent à la révision B.
+
+## Changements de la révision B
+
+Aplats très pastel limités aux pièces, de couleur constante par usage ; murs, cotes et textes noirs. Cette demande explicite de Jean Marc prévaut sur la préférence monochrome des règles. Paysage gris, opacités différenciées et textures découpées strictement aux limites, bâtiments, parcours et bassin. Les fichiers DXF conservent les définitions des blocs originaux ; les variations graphiques portent sur des copies de présentation.
+
+Deux portes ouvrent l'accueil et le noyau E1 vers le jardin. Foot pong, soccer et réservation E2 sont ajustés pour desservir les activités par un chemin continu. La passerelle et le palier E2 totalisent maintenant 15,24 m². Dix destinations du jardin sont reliées géométriquement au parcours principal ; cette vérification n'est pas une validation réglementaire des largeurs ni des pentes. L'IFC reprend ces changements et les emprises des cheminements et massifs.
+
+Six zones de plantation sont documentées par usage et milieu. Les espèces, quantités de plants, dimensions adultes, sol, salinité, drainage et entretien restent à qualifier localement. Les trois couronnes sont des intentions projetées ; aucun arbre existant n'est inventé.
 
 ## Réponse au brief
 
@@ -35,9 +47,10 @@ Accessibilité et chambre adaptée, dimensions de l'élévateur, escaliers et é
 
 - Brief du 31/10/2026 et `RETOUR-CLIENT.md` de la branche par défaut.
 - Ancienne option C : branche `claude/great-gates-cp292d`, dossier `hotel-jacqueville`. La copie de `geo.py` est conservée dans `src/geo_source.py`. Le contour du lot est repris sans déformation ; les coordonnées donnent **1 120,273 m²**, écart d'arrondi de 0,273 m² par rapport au brief. Original du levé et datum non authentifiés dans cette tâche.
-- Supabase **capitude**, projet `ysyklinfzlvqkrtrtrmv` : `regles_agents`, règles `BLOCS-ARCHIBOOKS` et `IFC-REUNION-FAMILLES` version 1 ; `rdf_families` et `rdf_family_versions` consultées le 31/10/2026. Aucune donnée distante modifiée.
+- Supabase **capitude**, projet `ysyklinfzlvqkrtrtrmv` : sept règles relues le 31/10/2026, dont `BLOCS-ARCHIBOOKS` v3 et `GRAPHISME-ELCROQUIS-EXTERIEURS` v2. Versions, dates et empreintes des textes dans `references/regles_capitude_2026-10-31.json` ; textes intégraux conservés uniquement dans le cache local ignoré par Git. Métadonnées consultées via MCP autorisé ; aucune donnée distante modifiée.
 - Principes adaptés de `design_patterns` : chambres avec salle d'eau privative, services au sol et séparation logistique/jardin issus de Djondji. Ils sont des références de conception, pas des normes.
-- Blocs Archibooks récupérés dans le [dossier Drive](https://drive.google.com/drive/folders/1w6APBmrhlfixhxJIzhTPnGhStV84Bcey). Les cinq DWG utilisés sont convertis en DXF avec AutoCAD Core Console 2023 puis insérés avec la bibliothèque `archibooks_blocs.py`. Les originaux Drive restent inchangés. Le contenu original complet de la bibliothèque n'est pas republié dans ce dépôt.
+- Révision B : cache local contrôlé contre le catalogue Supabase vivant, sans nouvelle connexion externe. Six extensions DXF correspondent exactement aux SHA-256 Supabase ; cinq DXF historiques sont des dérivés AutoCAD 2023 de DWG dont les SHA-256 correspondent aux sources Supabase. Ce statut est explicite dans le manifeste. Les clés des fonctions HTTP ne sont pas configurées dans cette tâche ; aucune clé n'a été recherchée dans Vault et aucun contournement d'accès n'a été utilisé.
+- Références Capitude Primaveras p.132/138 et Candela p.152 ouvertes visuellement. SHA-256 locaux contrôlés sur le manifeste ; tailles et ETags comparés aux métadonnées Storage relues dans Supabase. Images sources privées non republiées. Les références guident le graphisme et les relations spatiales ; leurs captures ne servent pas à mesurer le projet.
 - API IFC et unités : [création géométrique IfcOpenShell](https://docs.ifcopenshell.org/ifcopenshell-python/geometry_creation.html), [traitement des géométries](https://docs.ifcopenshell.org/ifcopenshell-python/geometry_processing.html).
 
 Le fichier `avis_senior_original.json` est un document hérité de l'étude précédente ; son profil déclaré n'a pas été authentifié. Il ne vaut pas validation professionnelle de cette variante.
@@ -46,7 +59,7 @@ Le fichier `avis_senior_original.json` est un document hérité de l'étude pré
 
 Python 3.12 et dépendances épinglées dans `requirements.txt`. Installer dans un environnement isolé.
 
-Configurer `ARCHIBOOKS_BLOCS` vers la bibliothèque autorisée contenant `catalogue.json`, `lib/archibooks_blocs.py`, `dxf/`. Configurer `CAPITUDE_IFC_LIBRARY` vers la bibliothèque Capitude autorisée contenant `catalogue.json` et `ifc/`. Ne pas placer de clé API dans le dépôt.
+Configurer `ARCHIBOOKS_BLOCS` vers le cache vérifié contenant `catalogue.json`, `lib/archibooks_blocs.py`, `lib/archibooks_graphics.py`, `dxf/` et `extensions-exterieurs-v1/`. Configurer `CAPITUDE_IFC_LIBRARY` vers la bibliothèque autorisée contenant `catalogue.json` et `ifc/`. Pour auditer les références, `CAPITUDE_REFERENCE_CACHE` désigne le cache contenant `data/asset_manifest.jsonl` et `media/`. Ne pas placer de clé API dans le dépôt.
 
 ```text
 python src/build_ifc.py

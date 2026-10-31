@@ -1,0 +1,4 @@
+# Generated CAD/BIM drawings are reviewed through the PDFs and source generators.
+jacques-ville/output/*.dxf binary
+jacques-ville/output/*.ifc binary
+jacques-ville/output/*.svg -diff

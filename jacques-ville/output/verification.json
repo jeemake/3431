@@ -20,8 +20,8 @@
   ],
   "errors": [],
   "ifc_schema": "IFC4",
-  "ifc_entities": 12113,
-  "represented_products_checked": 320,
+  "ifc_entities": 12540,
+  "represented_products_checked": 333,
   "schema_errors": [],
   "geometry_errors": [],
   "scope": "Schema et tessellation; pas de validation structure, incendie, accessibilite, budget ni collisions exhaustives"

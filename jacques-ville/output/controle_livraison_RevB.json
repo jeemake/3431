@@ -1,0 +1,57 @@
+{
+  "paper_scales": [
+    {
+      "page": 1,
+      "dimension_lines_verified_mm": [
+        162
+      ],
+      "tolerance_mm": 0.05
+    },
+    {
+      "page": 2,
+      "dimension_lines_verified_mm": [
+        324
+      ],
+      "tolerance_mm": 0.05
+    },
+    {
+      "page": 3,
+      "dimension_lines_verified_mm": [
+        324
+      ],
+      "tolerance_mm": 0.05
+    },
+    {
+      "page": 4,
+      "dimension_lines_verified_mm": [
+        140,
+        68
+      ],
+      "tolerance_mm": 0.05
+    },
+    {
+      "page": 5,
+      "dimension_lines_verified_mm": [
+        162
+      ],
+      "tolerance_mm": 0.05
+    },
+    {
+      "page": 6,
+      "dimension_lines_verified_mm": [
+        324
+      ],
+      "tolerance_mm": 0.05
+    }
+  ],
+  "visual_review": "10 pages inspectées ; rendus MuPDF et Poppler, puis pages corrigées revérifiées",
+  "pdf_pages": {
+    "plans": 6,
+    "notice": 4
+  },
+  "artifacts": {
+    "3431_Plans_Capitude_RevB.pdf": "44c4e242afdbc9ca59072ed7398050608f40bd49a6e0f5148cb0443a18b1bccb",
+    "3431_Notice_Capitude_RevB.pdf": "ce1171fa3a2d940d74deccd109e90d4202dfe4148f8ef3602a3e87e5056b55fb",
+    "3431_JacquesVille_C-R1.ifc": "31b969b9a64fba8afcf6d8f7b9502d760053756510ec92e77d5fe08f95e86734"
+  }
+}
