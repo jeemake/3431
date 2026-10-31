@@ -1,0 +1,50 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#fff}</style></head><body>
+<script type="module">
+import * as THREE from './three.module.min.js';
+const P = new URLSearchParams(location.search);
+const key = P.get('v'), view = P.get('cam') || 'sw', W = +P.get('w') || 1600, H = +P.get('h') || 1000;
+const data = (await (await fetch('./scenes.json')).json())[key];
+const r = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+r.setSize(W, H); r.setPixelRatio(1); r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
+r.outputColorSpace = THREE.SRGBColorSpace; document.body.appendChild(r.domElement);
+const sc = new THREE.Scene(); sc.background = new THREE.Color('#f7f4ee');
+const mat = {}; const M = c => mat[c] ||= new THREE.MeshLambertMaterial({ color: c });
+function pyrGeo(w, d, h) {
+  const g = new THREE.BufferGeometry(), a = [0, 0, 0], b = [w, 0, 0], c = [w, 0, d], e = [0, 0, d], t = [w / 2, h, d / 2];
+  const v = [...a, ...t, ...b, ...b, ...t, ...c, ...c, ...t, ...e, ...e, ...t, ...a, ...a, ...b, ...c, ...a, ...c, ...e];
+  g.setAttribute('position', new THREE.Float32BufferAttribute(v, 3)); g.computeVertexNormals(); return g;
+}
+for (const o of data) {
+  let m;
+  if (o.t === 'box') { m = new THREE.Mesh(new THREE.BoxGeometry(o.w, o.h, o.d), M(o.c)); m.position.set(o.u + o.w / 2, o.z + o.h / 2, o.v + o.d / 2); }
+  else if (o.t === 'pyr') { m = new THREE.Mesh(pyrGeo(o.w, o.d, o.h), new THREE.MeshLambertMaterial({ color: o.c, side: THREE.DoubleSide })); m.position.set(o.u, o.z, o.v); }
+  else if (o.t === 'poly') { const sh = new THREE.Shape(o.p.map(([u, v]) => new THREE.Vector2(u, -v)));
+    m = new THREE.Mesh(new THREE.ShapeGeometry(sh), M(o.c)); m.rotation.x = -Math.PI / 2; m.position.y = o.z; m.receiveShadow = true; sc.add(m); continue; }
+  else if (o.t === 'edge') { const L = Math.hypot(o.b[0]-o.a[0], o.b[1]-o.a[1]); m = new THREE.Mesh(new THREE.BoxGeometry(L, 0.6, 0.35), M('#4c7a3c'));
+    m.position.set((o.a[0]+o.b[0])/2, 0.3, (o.a[1]+o.b[1])/2); m.rotation.y = -Math.atan2(o.b[1]-o.a[1], o.b[0]-o.a[0]); }
+  else if (o.t === 'net') { const g = new THREE.EdgesGeometry(new THREE.BoxGeometry(o.w, o.h, o.d));
+    m = new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: '#1f2a22' })); m.position.set(o.u + o.w / 2, o.z + o.h / 2, o.v + o.d / 2); sc.add(m);
+    const n = new THREE.Mesh(new THREE.BoxGeometry(o.w, o.h, o.d), new THREE.MeshBasicMaterial({ color: '#1f2a22', transparent: true, opacity: 0.10, depthWrite: false }));
+    n.position.copy(m.position); sc.add(n); continue; }
+  else if (o.t === 'tree') {
+    const g = new THREE.Group();
+    const tr = new THREE.Mesh(new THREE.CylinderGeometry(o.palm ? 0.15 : 0.25, o.palm ? 0.2 : 0.35, o.h, 8), M('#6b5a3a')); tr.position.y = o.h / 2; g.add(tr);
+    if (o.palm) { for (let i = 0; i < 9; i++) { const f = new THREE.Mesh(new THREE.ConeGeometry(0.35, o.r * 1.9, 4), M('#4f7a43'));
+        f.position.y = o.h; f.rotation.z = Math.PI / 2 - 0.5; f.rotation.y = i * 0.7; f.translateY(o.r * 0.9); f.castShadow = true; g.add(f); } }
+    else { for (const [dx, dy, dz, s] of [[0, 0, 0, 1], [0.9, -0.4, 0.5, 0.75], [-0.8, -0.3, -0.4, 0.8], [0.2, 0.6, -0.6, 0.7]]) {
+        const c = new THREE.Mesh(new THREE.IcosahedronGeometry(o.r * s, 1), M('#6f9a58')); c.position.set(dx, o.h + dy, dz); c.castShadow = true; g.add(c); } }
+    tr.castShadow = true; g.position.set(o.u, 0, o.v); sc.add(g); continue; }
+  m.castShadow = true; m.receiveShadow = true; sc.add(m);
+}
+sc.add(new THREE.HemisphereLight('#ffffff', '#b9b29f', 1.25));
+const sun = new THREE.DirectionalLight('#fff3dc', 2.2); sun.position.set(-25, 45, 30); sun.target.position.set(20, 0, 15);
+sun.castShadow = true; sun.shadow.mapSize.set(4096, 4096); Object.assign(sun.shadow.camera, { left: -60, right: 60, top: 60, bottom: -60, near: 1, far: 200 });
+sc.add(sun, sun.target);
+const tgt = new THREE.Vector3(20, 4, 15);
+const dirs = { sw: [-1, 0.85, 1.15], se: [1.1, 0.8, 1.2], s: [0.15, 0.55, 1.3], top: [0.001, 1, 0.001] };
+const zoom = +P.get('z') || 1;
+const cam = new THREE.OrthographicCamera(-30 / zoom * W / H, 30 / zoom * W / H, 30 / zoom, -30 / zoom, 0.1, 500);
+const d = new THREE.Vector3(...dirs[view]).normalize().multiplyScalar(120); cam.position.copy(tgt).add(d); cam.lookAt(tgt);
+if (view === 'top') { cam.up.set(0, 0, -1); cam.lookAt(tgt); }
+r.render(sc, cam); window.done = true;
+</script></body></html>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 424" width="380" height="424" font-family="Inter, sans-serif"><defs><pattern id="h2" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="#b7aa95" stroke-width="0.8"/></pattern><pattern id="turf" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#7cae5e"/><rect width="5" height="10" fill="#86b868"/></pattern></defs><rect x="68.9" y="61.1" width="7.8" height="7.8" fill="#1e2a24" stroke="#1e2a24" stroke-width="0" opacity="1"/>
+<rect x="68.9" y="102.7" width="7.8" height="7.8" fill="#1e2a24" stroke="#1e2a24" stroke-width="0" opacity="1"/>
+<rect x="68.9" y="284.7" width="7.8" height="7.8" fill="#1e2a24" stroke="#1e2a24" stroke-width="0" opacity="1"/>
+<rect x="68.9" y="331.5" width="7.8" height="7.8" fill="#1e2a24" stroke="#1e2a24" stroke-width="0" opacity="1"/>
+<rect x="162.5" y="61.1" width="7.8" height="7.8" fill="#1e2a24" stroke="#1e2a24" stroke-width="0" opacity="1"/>
+<rect x="162.5" y="102.7" width="7.8" height="7.8" fill="#1e2a24" stroke="#1e2a24" stroke-width="0" opacity="1"/>
+<rect x="162.5" y="284.7" width="7.8" height="7.8" fill="#1e2a24" stroke="#1e2a24" stroke-width="0" opacity="1"/>
+<rect x="162.5" y="331.5" width="7.8" height="7.8" fill="#1e2a24" stroke="#1e2a24" stroke-width="0" opacity="1"/>
+<rect x="256.1" y="61.1" width="7.8" height="7.8" fill="#1e2a24" stroke="#1e2a24" stroke-width="0" opacity="1"/>
+<rect x="256.1" y="102.7" width="7.8" height="7.8" fill="#1e2a24" stroke="#1e2a24" stroke-width="0" opacity="1"/>
+<rect x="256.1" y="284.7" width="7.8" height="7.8" fill="#1e2a24" stroke="#1e2a24" stroke-width="0" opacity="1"/>
+<rect x="256.1" y="331.5" width="7.8" height="7.8" fill="#1e2a24" stroke="#1e2a24" stroke-width="0" opacity="1"/>
+<rect x="306.8" y="65.0" width="0.0" height="0.0" fill="none" stroke="#1e2a24" stroke-width="1.0" opacity="1"/>
+<rect x="310.7" y="70.2" width="36.4" height="156.0" fill="url(#h2)" stroke="#1e2a24" stroke-width="0.7" opacity="1"/>
+<text x="328.9" y="239.2" font-size="7" font-weight="400" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">esc. ext.</text>
+<rect x="72.8" y="65.0" width="234.0" height="41.6" fill="#f6f1e7" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
+<text x="189.8" y="85.8" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle" font-style="italic">galerie nord</text>
+<text x="189.8" y="374.4" font-size="9" font-weight="700" fill="#a8502d" text-anchor="middle" dominant-baseline="middle">Case-tour — R+2 : suite premium sous chaume + mezzanine</text>
+<g transform="translate(355.6,26) rotate(-4.5)"><circle r="15" fill="#fff" stroke="#1e2a24" stroke-width="0.8"/><path d="M0,-13 L5,8 L0,4 L-5,8 Z" fill="#1e2a24"/><text y="-19" font-size="10" font-weight="700" text-anchor="middle">N</text></g>
+<g><rect x="26" y="407.8" width="65.0" height="4" fill="#1e2a24"/><rect x="91.0" y="407.8" width="65.0" height="4" fill="#fff" stroke="#1e2a24" stroke-width="0.6"/><text x="26" y="421.8" font-size="8">0</text><text x="156.0" y="421.8" font-size="8" text-anchor="middle">5 m</text></g>
+<rect x="72.8" y="106.6" width="234.0" height="182.0" fill="#fffdf8" stroke="#1e2a24" stroke-width="1.4" opacity="1"/>
+<rect x="72.8" y="106.6" width="205.4" height="52.0" fill="#d7e9ee" stroke="#1e2a24" stroke-width="0.8" opacity="1"/>
+<text x="175.5" y="132.6" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">SdE</text>
+<text x="292.5" y="119.6" font-size="6" font-weight="400" fill="#a8502d" text-anchor="middle" dominant-baseline="middle">▼</text>
+<rect x="244.4" y="228.8" width="46.8" height="52.0" fill="#efe6d2" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
+<rect x="83.2" y="184.6" width="20.8" height="57.2" fill="#efe6d2" stroke="#1e2a24" stroke-width="0.5" opacity="1"/>
+<path d="M184.6,158.6 L184.6,215.8" fill="none" stroke="#1e2a24" stroke-width="1.0"/>
+<text x="189.8" y="184.6" font-size="8" font-weight="700" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">Suite premium</text>
+<text x="189.8" y="202.8" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">63.0 m²</text>
+<rect x="72.8" y="288.6" width="234.0" height="46.8" fill="#f1e3cc" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
+<path d="M78.0,331.5 L301.6,331.5" fill="none" stroke="#8a6a45" stroke-width="2.2" stroke-dasharray="1.5 1"/>
+<rect x="80.6" y="163.8" width="78.0" height="57.2" fill="none" stroke="#1e2a24" stroke-width="0.8" stroke-dasharray="3 2" opacity="1"/>
+<text x="119.6" y="192.4" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle" font-style="italic">mezzanine</text></svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 461 329" width="461" height="329" font-family="Inter, sans-serif"><defs><pattern id="h2" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="#b7aa95" stroke-width="0.8"/></pattern><pattern id="turf" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#7cae5e"/><rect width="5" height="10" fill="#86b868"/></pattern></defs><rect x="34.8" y="34.8" width="378.4" height="246.4" fill="none" stroke="#b08a4a" stroke-width="1.0" stroke-dasharray="6 3" opacity="1"/>
+<text x="224.0" y="48.0" font-size="7" font-weight="400" fill="#b08a4a" text-anchor="middle" dominant-baseline="middle" font-style="italic">débords de chaume 1,6 m (double pyramide)</text>
+<rect x="70.0" y="70.0" width="308.0" height="176.0" fill="none" stroke="#1e2a24" stroke-width="0.5" opacity="1"/>
+<rect x="70.0" y="70.0" width="96.8" height="101.2" fill="#fbf3e6" stroke="#1e2a24" stroke-width="1.3" opacity="1"/>
+<text x="118.4" y="114.0" font-size="8" font-weight="700" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">Réception</text>
+<text x="118.4" y="129.4" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">+ boutique 28 m²</text>
+<rect x="70.0" y="171.2" width="96.8" height="74.8" fill="#fbf3e6" stroke="#1e2a24" stroke-width="1.2" opacity="1"/>
+<text x="118.4" y="199.8" font-size="7" font-weight="700" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">Back-office</text>
+<text x="118.4" y="215.2" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">bagagerie, sanit. 20</text>
+<rect x="166.8" y="70.0" width="101.2" height="118.8" fill="#efe9df" stroke="#1e2a24" stroke-width="1.3" opacity="1"/>
+<text x="217.4" y="122.8" font-size="8" font-weight="700" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">Cuisine</text>
+<text x="217.4" y="138.2" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">plonge 30 m²</text>
+<rect x="166.8" y="188.8" width="101.2" height="57.2" fill="url(#h2)" stroke="#1e2a24" stroke-width="0.8" opacity="1"/>
+<text x="217.4" y="217.4" font-size="7" font-weight="400" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">escalier R+1</text>
+<rect x="268.0" y="70.0" width="110.0" height="176.0" fill="#fff7ea" stroke="#1e2a24" stroke-width="0.6" stroke-dasharray="3 2" opacity="1"/>
+<circle cx="296.6" cy="100.8" r="12.1" fill="#c9a477" opacity="0.9"/>
+<circle cx="296.6" cy="155.8" r="12.1" fill="#c9a477" opacity="0.9"/>
+<circle cx="296.6" cy="210.8" r="12.1" fill="#c9a477" opacity="0.9"/>
+<circle cx="351.6" cy="100.8" r="12.1" fill="#c9a477" opacity="0.9"/>
+<circle cx="351.6" cy="155.8" r="12.1" fill="#c9a477" opacity="0.9"/>
+<circle cx="351.6" cy="210.8" r="12.1" fill="#c9a477" opacity="0.9"/>
+<text x="323.0" y="83.2" font-size="8" font-weight="700" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">Restaurant ouvert</text>
+<rect x="378.0" y="83.2" width="35.2" height="149.6" fill="#c9a477" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
+<text x="395.6" y="158.0" font-size="7" font-weight="400" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">deck</text>
+<text x="224.0" y="272.4" font-size="9" font-weight="700" fill="#a8502d" text-anchor="middle" dominant-baseline="middle">CASE COMMUNE — RDC (R+1 sous chaume : salle de sport, spa 2 cabines, lingerie)</text>
+<g transform="translate(437.20000000000005,26) rotate(-4.5)"><circle r="15" fill="#fff" stroke="#1e2a24" stroke-width="0.8"/><path d="M0,-13 L5,8 L0,4 L-5,8 Z" fill="#1e2a24"/><text y="-19" font-size="10" font-weight="700" text-anchor="middle">N</text></g>
+<g><rect x="26" y="315.2" width="55.0" height="4" fill="#1e2a24"/><rect x="81.0" y="315.2" width="55.0" height="4" fill="#fff" stroke="#1e2a24" stroke-width="0.6"/><text x="26" y="329.2" font-size="8">0</text><text x="136.0" y="329.2" font-size="8" text-anchor="middle">5 m</text></g></svg>
