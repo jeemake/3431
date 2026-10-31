@@ -1,0 +1,100 @@
+{
+  "blocks": [
+    {
+      "id": "arbre_feuillage_dense",
+      "version": 1,
+      "sha256_dxf_local": "1bcdd53ec1059fff38170ccfb0853db1c97bd9175513533615c47f8513314fc2",
+      "method": "DXF dérivé AutoCAD 2023 ; DWG cache exact / SHA-256 Supabase"
+    },
+    {
+      "id": "porte_battante_90",
+      "version": 1,
+      "sha256_dxf_local": "e76cb5e08cb7728080b04e72f670a77a14446cb26f4a0eea3ae49b16fe15509c",
+      "method": "DXF dérivé AutoCAD 2023 ; DWG cache exact / SHA-256 Supabase"
+    },
+    {
+      "id": "porte_double",
+      "version": 1,
+      "sha256_dxf_local": "88e3a3f8035a8b7f6f80faf24cc63d770442c257814f929243072a27f9b4a186",
+      "method": "DXF dérivé AutoCAD 2023 ; DWG cache exact / SHA-256 Supabase"
+    },
+    {
+      "id": "texture_couvre_sol",
+      "version": 1,
+      "sha256_dxf_local": "824bc85eb17d52daefe090a599f70e1dc6c2624e6e06a919d9a5b6cae98b4e84",
+      "method": "DXF source exact / SHA-256 Supabase"
+    },
+    {
+      "id": "texture_eau",
+      "version": 1,
+      "sha256_dxf_local": "1f1924f11ddceeaef393c685ce302b87aba2c39cbc24fd725f51a47d671ed0ed",
+      "method": "DXF dérivé AutoCAD 2023 ; DWG cache exact / SHA-256 Supabase"
+    },
+    {
+      "id": "texture_granulat_fin",
+      "version": 1,
+      "sha256_dxf_local": "c7c70fb6ca46edfdb9712ac5d12386e2baf85344c070bae3adeeacf34feab0a4",
+      "method": "DXF source exact / SHA-256 Supabase"
+    },
+    {
+      "id": "texture_litiere",
+      "version": 1,
+      "sha256_dxf_local": "3b379114f4350586676ea594fe009375f8f5a8d3e32d78e76c0ad2816906f588",
+      "method": "DXF source exact / SHA-256 Supabase"
+    },
+    {
+      "id": "texture_massif_tropical",
+      "version": 1,
+      "sha256_dxf_local": "90d0465afcd1e07b41ac7d119e22803d441f6e026f8880d332f83ae8c9442d6b",
+      "method": "DXF source exact / SHA-256 Supabase"
+    },
+    {
+      "id": "texture_pas_irreguliers",
+      "version": 1,
+      "sha256_dxf_local": "a85e3ba2d196f3a42557c9bc2729aaca35da9db0c563e32cc3aa4b529382dc9d",
+      "method": "DXF source exact / SHA-256 Supabase"
+    },
+    {
+      "id": "texture_paves",
+      "version": 1,
+      "sha256_dxf_local": "6919a74690565bf1fea7c5cc400214b5daec53b563e86ddb26c776c8cc523fcf",
+      "method": "DXF dérivé AutoCAD 2023 ; DWG cache exact / SHA-256 Supabase"
+    },
+    {
+      "id": "texture_pierre_bandes",
+      "version": 1,
+      "sha256_dxf_local": "593c8f35511755fb3cb65210e6e0328db1b75cb0ad72864dfa513f556a874bdf",
+      "method": "DXF source exact / SHA-256 Supabase"
+    }
+  ],
+  "references": [
+    {
+      "object_path": "references/el-croquis-225/candela/p152.png",
+      "sha256": "45c75cbde8cad26f0489b6db29c8bb404369748a8bb79c5dadf36cf2550c18a4",
+      "remote_etag": "9fb2ccfe155c129d8cbebcbc65500675-1",
+      "verification": "SHA-256 manifeste + ETag multipart et taille Storage live",
+      "visually_opened": true
+    },
+    {
+      "object_path": "references/el-croquis-225/primaveras/p132.png",
+      "sha256": "6e8afe4a35902e5b4cb5e353e570d322ea5be5d0477406c0dff9496a5d20815c",
+      "remote_etag": "897a9434a1ebb2fedab250ec9e3637ab-1",
+      "verification": "SHA-256 manifeste + ETag multipart et taille Storage live",
+      "visually_opened": true
+    },
+    {
+      "object_path": "references/el-croquis-225/primaveras/p138.png",
+      "sha256": "53be13a72d67134cf8c2f34354af4c7b97a31bc54db13a310d46db7c3fe673a7",
+      "remote_etag": "ddd986a04a01c995a8e556361e10c426-1",
+      "verification": "SHA-256 manifeste + ETag multipart et taille Storage live",
+      "visually_opened": true
+    }
+  ],
+  "access": "Métadonnées Supabase via MCP autorisé ; cache vérifié. Fonctions HTTP non appelées, clés non configurées. Aucun repli externe.",
+  "observations": [
+    "Primaveras 132 : jardin central et strates entre volumes, parcours lisibles.",
+    "Primaveras 138 : murs dominants, cotes périphériques, repères et détails hiérarchisés.",
+    "Candela 152 : relation terrasse / piscine et lisières discontinues ; matière en second plan."
+  ],
+  "override_client": "Aplats pastel par usage demandés explicitement après lecture des règles ; priorité à cette demande."
+}

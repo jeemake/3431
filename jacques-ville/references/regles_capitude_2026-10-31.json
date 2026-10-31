@@ -1,0 +1,51 @@
+[
+  {
+    "code": "BLOCS-ARCHIBOOKS",
+    "titre": "Bibliothèque Archibooks : blocs et textures depuis Supabase",
+    "version": 3,
+    "maj_le": "2026-10-31 16:10:15.886671+00",
+    "texte_sha256": "bcdea6d88b6796f31adef73e8f7e9d12e92563f949006ec0a69181cf0a13f387"
+  },
+  {
+    "code": "CAPITUDE-SUPABASE-ONLY",
+    "titre": "Sources Supabase exclusivement et accès autonomes",
+    "version": 1,
+    "maj_le": "2026-10-31 16:00:34.746188+00",
+    "texte_sha256": "88a567c8764a778458ee0d6125f541ee58ec314d1219c33bca8cffb898782993"
+  },
+  {
+    "code": "GRAPHISME-ELCROQUIS-EXTERIEURS",
+    "titre": "Plans et jardins : grammaire graphique El Croquis",
+    "version": 2,
+    "maj_le": "2026-10-31 16:10:15.886671+00",
+    "texte_sha256": "8b2dd3257bfc6892739e3c377eaa548b6be9b19297fa8a5d3841e298168da81a"
+  },
+  {
+    "code": "GRAPHISME-OPACITES",
+    "titre": "Hiérarchie graphique : opacités variées, éléments opaques conservés",
+    "version": 1,
+    "maj_le": "2026-10-31 16:00:34.746188+00",
+    "texte_sha256": "ba869477d219b06c0407fd1e2f2acc3da633fdd649e0633046fb9f599026e369"
+  },
+  {
+    "code": "IFC-REUNION-FAMILLES",
+    "titre": "Références IFC pour composition et rendu 3D",
+    "version": 1,
+    "maj_le": "2026-10-31 14:41:27.842385+00",
+    "texte_sha256": "22b9ea32712348fb464d9f40bb2ee37c6bc64a7a6ea5e1ea0eb0e9f3d78899c8"
+  },
+  {
+    "code": "PAYSAGE-TROPICAL-COMPOSITION",
+    "titre": "Paysage tropical : usages, accès, diversité végétale et références de conception",
+    "version": 1,
+    "maj_le": "2026-10-31 16:10:15.886671+00",
+    "texte_sha256": "1b27ee0e4f81ccda0983087fcc172c5c09303110c49d3e6fe6122e3d7660e7c9"
+  },
+  {
+    "code": "REFERENCE-EL-TECUAN",
+    "titre": "Référence appréciée : El Tecuán, audace formelle et paysage",
+    "version": 1,
+    "maj_le": "2026-10-31 16:24:54.319163+00",
+    "texte_sha256": "2ac454745b9a027d7560e43ac555c183dedb13815045140000933cf3c9fb3d0f"
+  }
+]

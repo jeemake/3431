@@ -1,0 +1,28 @@
+{
+  "site_declared_m2": 1120,
+  "site_from_source_coordinates_m2": 1120.273,
+  "hotel_floor_envelope_m2": 291.59999999999997,
+  "pavilion_envelope_m2": 98.0,
+  "total_floor_envelope_m2": 681.1999999999999,
+  "units": [
+    "CH01",
+    "CH02",
+    "CH03",
+    "CH04",
+    "CH05",
+    "CH06",
+    "CH07",
+    "CH08",
+    "CH09",
+    "CH10",
+    "CH11",
+    "CH12"
+  ],
+  "errors": [],
+  "ifc_schema": "IFC4",
+  "ifc_entities": 12540,
+  "represented_products_checked": 333,
+  "schema_errors": [],
+  "geometry_errors": [],
+  "scope": "Schema et tessellation; pas de validation structure, incendie, accessibilite, budget ni collisions exhaustives"
+}
