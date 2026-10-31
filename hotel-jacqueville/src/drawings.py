@@ -91,9 +91,13 @@ def plan_masse(code):
                  (4.0, 21.5, 'dépose', 8, 400), (3.8, 6.0, 'tech.', 8, 400), (20, 27.5, 'JARDIN-FORÊT', 12, 700),
                  (24, 0.9, 'lisière plantée (recul 4 m)', 8, 400)],
            'B': [(D.TU[0] + 4.5, V0 + 5.2, 'T1', 13, 700), (D.TU[1] + 4.5, V0 + 5.2, 'T2', 13, 700), (D.TU[2] + 4.5, V0 + 5.2, 'T3', 13, 700),
-                 (D.TU[0] + 4.5, V0 + 7.0, 'case-tour R+2', 8, 400), (14.0, 20.3, 'CASE COMMUNE', 10, 700), (14.0, 21.8, 'accueil · restaurant', 8, 400),
-                 (29.5, 20.8, 'PELOUSE-TERRAIN', 10, 700), (29.5, 22.2, 'gazon naturel', 8, 400), (14.5, 27.6, 'bassin de nage', 8, 400),
-                 (4.0, 21.5, 'dépose', 8, 400), (3.8, 6.0, 'tech.', 8, 400), (24, 0.9, 'lisière plantée (recul 4 m)', 8, 400)]}[code]
+                 (D.TU[0] + 4.5, V0 + 7.0, 'case-tour R+2', 8, 400), (15.5, 20.0, 'CASE COMMUNE', 10, 700), (15.5, 21.4, 'accueil · restaurant', 8, 400),
+                 (30.7, 20.6, 'PELOUSE-TERRAIN', 10, 700), (30.7, 22.0, 'paspalum', 8, 400), (15.0, 26.9, 'bassin de nage', 8, 400),
+                 (4.0, 21.5, 'dépose', 8, 400), (3.8, 6.0, 'tech.', 8, 400), (24, 0.9, 'lisière plantée (recul 4 m)', 8, 400)],
+           'C': [(D.UC + 4.5 * T, D.V0C + 5.0, 'BARRE HÔTEL R+2', 11, 700), (D.UC + 4.5 * T, D.V0C + 6.6, 'toit : PV + toiture végétalisée', 9, 400),
+                 (14.0, 20.6, 'CASE-RESTAURANT', 9, 700), (14.0, 22.0, 'ouverte · 60 couverts', 8, 400), (22.6, 20.0, 'tech.', 8, 400),
+                 (31.8, 20.8, 'PELOUSE-TERRAIN', 9, 700), (31.8, 22.2, 'paspalum', 8, 400), (14.5, 27.3, 'bassin de nage', 8, 400),
+                 (4.0, 21.5, 'dépose', 8, 400), (4.0, 2.7, 'service', 8, 400), (24, 0.9, 'lisière plantée + écran (recul 5 m)', 8, 400)]}[code]
     for u, v, t, sz, w in lab:
         x, y = uv(u, v); s.text(x, y, t, sz, weight=w, rot=-(ROT + bar_frame()[1]) * -1 * 0 - (ROT + bar_frame()[1]) * 0 + 4.47 * 0)
     # flèche d'entrée
@@ -214,10 +218,11 @@ def plans_A():
         p.txt(a + 1.25 * T, V0 + D_BARRE + 0.4, '◄ lock-off ►', 7, fill='#2e7d7a')
     save('A_R1', p.svg())
     # R+2
-    p = base('R+2 — 6 clés (2 suites premium, 4 deluxe)')
+    p = base('R+2 — 6 clés : 2 suites premium à l’ouest (hors aplomb de la cage), 4 deluxe')
     coursive(p)
-    room(p, U, vr, 2 * T, 'P', 'Suite premium', 50.4); room(p, U + 2 * T, vr, T, 'D', 'Deluxe', 25.2); room(p, U + 3 * T, vr, T, 'D', 'Deluxe', 25.2)
-    room(p, U + 5 * T, vr, T, 'D', 'Deluxe', 25.2); room(p, U + 6 * T, vr, T, 'D', 'Deluxe', 25.2); room(p, U + 7 * T, vr, 2 * T, 'P', 'Suite premium', 50.4)
+    room(p, U, vr, 2 * T, 'P', 'Suite premium', 50.4); room(p, U + 2 * T, vr, 2 * T, 'P', 'Suite premium', 50.4)
+    for i in range(4):
+        room(p, U + (5 + i) * T, vr, T, 'D', 'Deluxe', 25.2)
     save('A_R2', p.svg())
     # Toit
     p = base('TOIT-STADE (+9,80) — restaurant-bar sous chaume · cage de foot 14,4 × 10,6')
@@ -236,10 +241,54 @@ def plans_A():
     p.rect(U + 9 * T - 1.2, V0 + D_BARRE / 2 - 1.5, 0.6, 3.0, fill='#fff', sw=0.8)
     p.line([(U + 7 * T, V0), (U + 7 * T, V0 + D_BARRE)], stroke='#fff', sw=1.2)
     p.it.append(f'<circle cx="{p.X(U + 7 * T):.1f}" cy="{p.Y(V0 + D_BARRE / 2):.1f}" r="{1.5 * p.k:.1f}" fill="none" stroke="#fff" stroke-width="1.2"/>')
-    p.txt(U + 7 * T, V0 + 3.0, 'CAGE DE FOOT', 9, 700, fill='#fff'); p.txt(U + 7 * T, V0 + 7.8, 'filets h 5 m + toit-filet', 7, fill='#fff')
+    p.txt(U + 7 * T, V0 + 3.0, 'CAGE DE FOOT 3 c. 3', 9, 700, fill='#fff'); p.txt(U + 7 * T, V0 + 7.8, 'filets h 5 m + toit-filet', 7, fill='#fff')
     p.txt(U + 7 * T, V0 + D_BARRE - 0.8, 'gazon synth. sur dalle flottante (acoustique)', 7, fill='#fff')
     p.rect(U - 1.4, V0 + 2.0, 1.4, 6.0, fill='url(#h2)', sw=0.7); p.txt(U - 0.7, V0 + 8.8, 'esc. 2', 7)
     save('A_toit', p.svg())
+
+def plans_C():
+    U, VC = D.UC, D.V0C
+    def base(title):
+        p = Plan(U - 1.5, VC - 1.5, U + 9 * T + 1.5, VC + D_BARRE + 2.8)
+        posts(p, U, 9, [VC, VC + D_COURSIVE, VC + D_COURSIVE + D_PIECE, VC + D_BARRE])
+        cu = U + 4 * T
+        p.rect(cu, VC, T, D_BARRE, fill='#ece7dd', sw=1.4)
+        p.rect(cu + 0.3, VC + 2.4, 2.6, 5.4, fill='url(#h2)', sw=0.7); p.txt(cu + 1.6, VC + 5.1, 'esc.', 7)
+        p.rect(cu + 0.6, VC + 8.0, 1.8, 2.0, fill='#fff', sw=0.8); p.txt(cu + 1.5, VC + 9.0, 'asc.', 7)
+        p.txt(U + 4.5 * T, VC + D_BARRE + 1.9, title, 10, 700, fill='#a8502d')
+        p.north(p.w - 30, 30); p.scale(p.pad, p.h - 18)
+        return p
+    vr = VC + D_COURSIVE
+    p = base('C · RDC — accueil et cuisine à l’ouest, back-of-house et 2 clés jardin à l’est')
+    p.rect(U, VC, 2 * T, D_BARRE, fill='#fbf3e6', sw=1.4)
+    p.txt(U + T, VC + 2.6, 'Réception · boutique', 8, 700); p.txt(U + T, VC + 3.3, 'back-office 14 m²', 7, fill=MUTED)
+    p.line([(U, VC + 4.4), (U + 2 * T, VC + 4.4)], sw=0.8)
+    p.txt(U + T, VC + 7.4, 'Lobby-lounge 62 m²', 8, 700); p.txt(U + T, VC + 8.1, 'écran matchs', 7, fill=MUTED)
+    p.rect(U + 2 * T, VC, 2 * T, 2.9, fill='#e6ddd0', sw=1.1); p.txt(U + 3 * T, VC + 1.2, 'Économat · CF · cave 22', 7, 700); p.txt(U + 3 * T, VC + 1.9, 'livraisons ← voie de service', 7, fill=MUTED)
+    p.rect(U + 2 * T, VC + 2.9, 2 * T, D_BARRE - 2.9, fill='#efe9df', sw=1.3); p.txt(U + 3 * T, VC + 6.2, 'Cuisine tout électrique', 8, 700); p.txt(U + 3 * T, VC + 6.9, '40 m² · passe vers la case-restaurant ↓', 7, fill=MUTED)
+    p.rect(U + 5 * T, VC, 2 * T, 4.4, fill='#eef0f3', sw=1.1); p.txt(U + 6 * T, VC + 1.8, 'Vestiaires H/F', 7.5, 700); p.txt(U + 6 * T, VC + 2.5, '+ sanitaires 25 m²', 7, fill=MUTED)
+    p.rect(U + 5 * T, VC + 4.4, T, 6.2, fill='#eef0f3', sw=1.1); p.txt(U + 5.5 * T, VC + 7.0, 'Réfectoire', 7, 700); p.txt(U + 5.5 * T, VC + 7.7, '15 m²', 7, fill=MUTED)
+    p.rect(U + 6 * T, VC + 4.4, T, 4.6, fill='#eef0f3', sw=1.1); p.txt(U + 6.5 * T, VC + 6.4, 'Lingerie', 7, 700); p.txt(U + 6.5 * T, VC + 7.1, '30 m²', 7, fill=MUTED)
+    p.rect(U + 6 * T, VC + 9.0, T, 1.6, fill='#d9d2c6', sw=1.0); p.txt(U + 6.5 * T, VC + 9.8, 'déchets', 6.5)
+    room(p, U + 7 * T, vr, T, 'D', 'Deluxe', 25.2, pmr=True); room(p, U + 8 * T, vr, T, 'D', 'Deluxe', 25.2)
+    p.rect(U + 7 * T, VC, 2 * T, D_COURSIVE, fill='#f6f1e7', sw=0.6); p.txt(U + 8 * T, VC + 0.9, 'galerie', 7, fill=MUTED, italic=True)
+    save('C_R0', p.svg())
+    p = base('C · R+2 — 2 suites premium à l’ouest, 4 deluxe (R+1 identique à A : 4 juniors + 2 deluxe)')
+    for a, b in [(U, U + 4 * T), (U + 5 * T, U + 9 * T)]:
+        p.rect(a, VC, b - a, D_COURSIVE, fill='#f6f1e7', sw=0.6); p.txt((a + b) / 2, VC + 0.9, 'coursive ouverte + écran planté côté voisin', 7, fill=MUTED, italic=True)
+    room(p, U, vr, 2 * T, 'P', 'Suite premium', 50.4); room(p, U + 2 * T, vr, 2 * T, 'P', 'Suite premium', 50.4)
+    for i in range(4):
+        room(p, U + (5 + i) * T, vr, T, 'D', 'Deluxe', 25.2)
+    save('C_R2', p.svg())
+    p = base('C · TOITURE (+9,20) — pergola photovoltaïque + terrasse ≤ 19 pers., toiture végétalisée')
+    p.rect(U, VC, 4 * T, D_BARRE, fill='#eef2f5', sw=1.2)
+    for i in range(8):
+        p.rect(U + 0.3 + i * 1.75, VC + 0.4, 1.55, D_BARRE - 0.8, fill='#3b5b7a', stroke='#2a4560', sw=0.4, op=0.35)
+    p.txt(U + 2 * T, VC + 4.6, 'Pergola PV ≈ 25 kWc (structure acier galva, incombustible)', 8, 700)
+    p.txt(U + 2 * T, VC + 5.4, 'terrasse privatisable ≤ 19 pers. : étirements, coucher de soleil', 7, fill=MUTED)
+    p.rect(U + 5 * T, VC, 4 * T, D_BARRE, fill='#a7c98c', sw=1.2); p.txt(U + 7 * T, VC + 5.3, 'Toiture végétalisée extensive (sedum, graminées côtières)', 8, 700)
+    p.txt(U + 7 * T, VC + 6.1, 'non accessible au public · rétention des eaux de pluie', 7, fill=MUTED)
+    save('C_toit', p.svg())
 
 def plans_B():
     TW, TD = D.TW, D.TD
@@ -261,27 +310,29 @@ def plans_B():
     room(q, 0, vr, TW, 'P', 'Suite premium', 63.0)
     q.rect(0.3, vr + 2.2, 3.0, 2.2, fill='none', sw=0.8, dash='3 2'); q.txt(1.8, vr + 3.3, 'mezzanine', 7, fill=MUTED, italic=True)
     save('B_tour_R2', q.svg())
-    # case commune
-    c = Plan(-2.0, -2.0, 16.6, 10.6, k=22)
-    c.rect(-1.6, -1.6, 17.2, 11.2, fill='none', stroke='#b08a4a', dash='6 3')
-    c.txt(7.0, -1.0, 'débords de chaume 1,6 m (double pyramide)', 7, fill='#b08a4a', italic=True)
-    c.rect(0, 0, 14, 8, fill='none', sw=0.5)
-    c.rect(0, 0, 4.4, 4.6, fill='#fbf3e6', sw=1.3); c.txt(2.2, 2.0, 'Réception', 8, 700); c.txt(2.2, 2.7, '+ boutique 28 m²', 7, fill=MUTED)
-    c.rect(0, 4.6, 4.4, 3.4, fill='#fbf3e6', sw=1.2); c.txt(2.2, 5.9, 'Back-office', 7, 700); c.txt(2.2, 6.6, 'bagagerie, sanit. 20', 7, fill=MUTED)
-    c.rect(4.4, 0, 4.6, 5.4, fill='#efe9df', sw=1.3); c.txt(6.7, 2.4, 'Cuisine', 8, 700); c.txt(6.7, 3.1, 'plonge 30 m²', 7, fill=MUTED)
-    c.rect(4.4, 5.4, 4.6, 2.6, fill='url(#h2)', sw=0.8); c.txt(6.7, 6.7, 'escalier R+1', 7)
-    c.rect(9.0, 0, 5.0, 8.0, fill='#fff7ea', sw=0.6, dash='3 2')
+    # case commune 15 × 7,6 m
+    c = Plan(-2.0, -2.0, 17.6, 10.2, k=22)
+    c.rect(-1.6, -1.6, 18.2, 10.8, fill='none', stroke='#b08a4a', dash='6 3')
+    c.txt(7.5, -1.0, 'débords de chaume 1,6 m (double pyramide) = galerie couverte du restaurant', 7, fill='#b08a4a', italic=True)
+    c.rect(0, 0, 15, 7.6, fill='none', sw=0.5)
+    c.rect(0, 0, 4.4, 4.6, fill='#fbf3e6', sw=1.3); c.txt(2.2, 2.0, 'Réception', 8, 700); c.txt(2.2, 2.7, '+ boutique 20 m²', 7, fill=MUTED)
+    c.rect(0, 4.6, 4.4, 3.0, fill='#fbf3e6', sw=1.2); c.txt(2.2, 5.8, 'Back-office', 7, 700); c.txt(2.2, 6.5, 'bagagerie 13', 7, fill=MUTED)
+    c.rect(4.4, 0, 4.6, 5.0, fill='#efe9df', sw=1.3); c.txt(6.7, 2.2, 'Cuisine', 8, 700); c.txt(6.7, 2.9, 'plonge 23 m²', 7, fill=MUTED)
+    c.rect(4.4, 5.0, 2.6, 2.6, fill='#e6ddd0', sw=1.0); c.txt(5.7, 6.1, 'Réserve', 7); c.txt(5.7, 6.7, 'CF 12', 7, fill=MUTED)
+    c.rect(7.0, 5.0, 2.0, 2.6, fill='url(#h2)', sw=0.8); c.txt(8.0, 6.3, 'esc.+élév.', 6.5)
+    c.rect(9.0, 0, 6.0, 7.6, fill='#fff7ea', sw=0.6, dash='3 2')
     for i in range(2):
         for j in range(3):
-            c.circ(10.3 + i * 2.5, 1.4 + j * 2.5, 0.55, fill='#c9a477', op=0.9)
-    c.txt(11.5, 0.6, 'Restaurant ouvert', 8, 700)
-    c.rect(14.0, 0.6, 1.6, 6.8, fill='#c9a477', sw=0.6); c.txt(14.8, 4.0, 'deck', 7)
-    c.txt(7.0, 9.2, 'CASE COMMUNE — RDC (R+1 sous chaume : salle de sport, spa 2 cabines, lingerie)', 9, 700, fill='#a8502d')
+            c.circ(10.5 + i * 3.0, 1.4 + j * 2.4, 0.55, fill='#c9a477', op=0.9)
+    c.txt(12.0, 0.6, 'Restaurant ouvert', 8, 700)
+    c.rect(15.0, 0.6, 1.2, 6.4, fill='#c9a477', sw=0.6); c.txt(15.6, 3.8, 'deck', 7)
+    c.txt(7.5, 9.2, 'CASE COMMUNE — RDC · R+1 sous chaume : sport, spa 2 cabines, lingerie (élévateur PMR + monte-linge)', 8.5, 700, fill='#a8502d')
     c.north(c.w - 24, 26); c.scale(c.pad, c.h - 14)
     save('B_case_commune', c.svg())
 
 # ------------------------------------------------------------------ coupes bioclimatiques
 def coupe(code):
+    V0_ = D.V0C if code == 'C' else V0
     W, H, k = 780, 470, 20
     gx, gy = 120, 400                       # origine : limite nord au sol
     it = []
@@ -300,32 +351,51 @@ def coupe(code):
     it.append(f'<line x1="{X(-1):.1f}" y1="{Y(0):.1f}" x2="{X(depth + 1):.1f}" y2="{Y(0):.1f}" stroke="{INK}" stroke-width="1.5"/>')
     t(0, -1.0, 'limite N', 8, fill=MUTED); t(depth, -1.0, 'limite S', 8, fill=MUTED)
     it.append(f'<text x="{X(depth / 2):.1f}" y="{Y(-1.1):.1f}" font-size="8" fill="{MUTED}" text-anchor="middle">sable — nappe haute : pas de sous-sol · cuves EP semi-enterrées</text>')
-    hz = [0, 3.4, 6.6, 9.8]
-    if code == 'A':
-        b0 = V0
+    hz = [0, 3.2, 6.2, 9.2] if code == 'C' else [0, 3.4, 6.6, 9.8]
+    if code in ('A', 'C'):
+        b0 = V0_
         for i in range(3):
             z = hz[i]; h = hz[i + 1] - z
             r(b0, z, D_COURSIVE, 0.25, '#ccc'); r(b0 + D_COURSIVE, z, D_PIECE, h, '#fffaf0', sw=1.2)
             r(b0 + D_COURSIVE + D_PIECE, z, D_LOGGIA, 0.25, '#ccc')
             r(b0 + D_COURSIVE, z + h - 0.25, D_PIECE + D_LOGGIA, 0.25, '#bbb', sw=0.5)
             r(b0 + D_COURSIVE, z + 0.25, 2.0, 2.3, '#d7e9ee', sw=0.6)
-        r(b0, 9.8, D_BARRE, 0.35, '#999')
-        # pavillon chaume (coupe transversale du restaurant) + filets
-        it.append(f'<path d="M{X(b0 - 1.2):.1f},{Y(12.4):.1f} L{X(b0 + D_BARRE / 2):.1f},{Y(16.0):.1f} L{X(b0 + D_BARRE + 1.2):.1f},{Y(12.4):.1f} Z" fill="#d8b878" stroke="#8a6a35"/>')
-        for v in (b0 + 0.3, b0 + D_BARRE - 0.3):
-            r(v - 0.15, 10.15, 0.3, 2.3, '#8a6a35', sw=0)
-        it.append(f'<rect x="{X(b0):.1f}" y="{Y(15.1):.1f}" width="{D_BARRE * k:.1f}" height="{5 * k:.1f}" fill="none" stroke="#1f3d2b" stroke-dasharray="2 3"/>')
-        t(b0 + D_BARRE / 2, 15.4 + 1.6, 'cage de foot (filets h 5 m) — en arrière-plan', 8, fill='#1f3d2b')
-        t(b0 + D_BARRE / 2, 13.0, 'restaurant sous chaume', 8, 700)
+        r(b0, hz[3], D_BARRE, 0.35, '#999')
+        if code == 'A':
+            # pavillon chaume (coupe transversale du restaurant) + filets
+            it.append(f'<path d="M{X(b0 - 1.2):.1f},{Y(12.4):.1f} L{X(b0 + D_BARRE / 2):.1f},{Y(16.0):.1f} L{X(b0 + D_BARRE + 1.2):.1f},{Y(12.4):.1f} Z" fill="#d8b878" stroke="#8a6a35"/>')
+            for v in (b0 + 0.3, b0 + D_BARRE - 0.3):
+                r(v - 0.15, 10.15, 0.3, 2.3, '#8a6a35', sw=0)
+            it.append(f'<rect x="{X(b0):.1f}" y="{Y(15.1):.1f}" width="{D_BARRE * k:.1f}" height="{5 * k:.1f}" fill="none" stroke="#1f3d2b" stroke-dasharray="2 3"/>')
+            t(b0 + D_BARRE / 2, 15.4 + 1.6, 'cage de foot (filets h 5 m) — en arrière-plan', 8, fill='#1f3d2b')
+            t(b0 + D_BARRE / 2, 13.0, 'restaurant sous chaume', 8, 700)
+        else:
+            r(b0 + 4.6, hz[3] + 0.35, D_BARRE - 4.6, 0.25, '#8fbf6e', sw=0.4)
+            r(b0 + 0.2, hz[3] + 2.6, 4.2, 0.18, '#3b5b7a', sw=0.4)
+            for v in (b0 + 0.4, b0 + 4.0):
+                r(v, hz[3] + 0.35, 0.15, 2.3, '#777', sw=0)
+            t(b0 + 2.3, hz[3] + 3.3, 'pergola PV', 8, 700)
+            t(b0 + 7.8, hz[3] + 1.3, 'toiture végétalisée', 8, fill='#3d7a47')
+            # écran planté côté voisin nord
+            it.append(f'<line x1="{X(b0 - 0.6):.1f}" y1="{Y(0):.1f}" x2="{X(b0 - 0.6):.1f}" y2="{Y(8.5):.1f}" stroke="#5d8a4c" stroke-width="3" stroke-dasharray="2 2"/>')
+            t(b0 - 0.8, 8.9, 'écran planté', 7, fill='#3d7a47', anchor='end')
+            # case-restaurant
+            cr = 17.6
+            r(cr, 0, 7.4, 0.25, '#ccc'); r(cr + 0.2, 0.25, 0.25, 3.0, '#8a6a35', sw=0); r(cr + 7.0, 0.25, 0.25, 3.0, '#8a6a35', sw=0)
+            it.append(f'<path d="M{X(cr - 1.4):.1f},{Y(3.2):.1f} L{X(cr + 3.7):.1f},{Y(7.4):.1f} L{X(cr + 8.8):.1f},{Y(3.2):.1f} Z" fill="#d8b878" stroke="#8a6a35"/>')
+            t(cr + 3.7, 1.6, 'case-restaurant ouverte', 8, 700)
+            # prospect H/2
+            it.append(f'<line x1="{X(0):.1f}" y1="{Y(0):.1f}" x2="{X(b0):.1f}" y2="{Y(hz[3] + 0.6):.1f}" stroke="#a8502d" stroke-dasharray="4 3"/>')
+            t(-0.6, 11.5, 'prospect nord : L = 5,0 m ≥ H/2 = 4,9 m', 8, 700, fill='#a8502d', anchor='start')
         # jardin
-        for v, hgt in [(19, 7), (24, 9), (27.0, 8)]:
+        for v, hgt in ([(19, 7), (24, 9), (27.0, 8)] if code == 'A' else [(27.0, 7), (28.0, 9)]):
             it.append(f'<line x1="{X(v):.1f}" y1="{Y(0):.1f}" x2="{X(v):.1f}" y2="{Y(hgt):.1f}" stroke="#6b5a3a" stroke-width="2"/>')
             it.append(f'<ellipse cx="{X(v):.1f}" cy="{Y(hgt):.1f}" rx="{2.6 * k:.1f}" ry="{1.4 * k:.1f}" fill="#8fb27a" opacity="0.7"/>')
-        r(V0 + D_BARRE + 2.4, -1.4, 2.5, 1.4, '#9fd3d0', sw=0.6); t(V0 + D_BARRE + 3.6, -2.6 + 0.0, '', 7)
+        r(V0_ + D_BARRE + 2.4, -1.4, 2.5, 1.4, '#9fd3d0', sw=0.6); t(V0_ + D_BARRE + 3.6, -2.6 + 0.0, '', 7)
         it.append(f'<line x1="{X(1.8):.1f}" y1="{Y(0):.1f}" x2="{X(1.8):.1f}" y2="{Y(6):.1f}" stroke="#6b5a3a" stroke-width="2"/><ellipse cx="{X(1.8):.1f}" cy="{Y(6):.1f}" rx="{2.2 * k:.1f}" ry="{1.4 * k:.1f}" fill="#8fb27a" opacity="0.7"/>')
-        top = 16.0
+        top = 16.0 if code == 'A' else 12.0
     else:
-        b0 = V0
+        b0 = V0_
         for i in range(2):
             z = hz[i]; h = hz[i + 1] - z
             r(b0, z, 1.6, 0.25, '#ccc'); r(b0 + 1.6, z, 7.0, h, '#fffaf0', sw=1.2); r(b0 + 8.6, z, 1.8, 0.25, '#ccc')
@@ -346,23 +416,23 @@ def coupe(code):
             it.append(f'<line x1="{X(v):.1f}" y1="{Y(0):.1f}" x2="{X(v):.1f}" y2="{Y(hgt):.1f}" stroke="#6b5a3a" stroke-width="2"/><ellipse cx="{X(v):.1f}" cy="{Y(hgt):.1f}" rx="{2.0 * k:.1f}" ry="{1.3 * k:.1f}" fill="#8fb27a" opacity="0.7"/>')
         top = 14.0
     # soleil : 21 déc. h = 61,4° (sud), 21 juin h = 71,8° (nord) — latitude 5,2° N
-    sv = V0 + (D_BARRE if code == 'A' else D.TD)
+    sv = V0_ + (D_BARRE if code == 'A' else D.TD)
     for ang, side, col, lab in [(61.4, 1, '#d9a21b', 'midi 21 déc. — h 61°'), (71.8, -1, '#e0b84a', 'midi 21 juin — h 72°')]:
         L = 6.5
-        base_v = sv if side == 1 else V0
+        base_v = sv if side == 1 else V0_
         zt = (3.4 if code == 'A' else 3.4)
         x2, z2 = base_v + side * L * math.cos(math.radians(ang)), zt + L * math.sin(math.radians(ang))
         arr([(x2, z2), (base_v - side * 0.2, zt + 0.1)], col, 1.6, '5 3')
         t(x2 + side * 0.3, z2 + 0.5, lab, 8, fill='#8a6410', anchor='start' if side == 1 else 'end')
     # vent
-    arr([(depth + 0.5, 1.6), (V0 + 5, 1.6), (V0 - 2.5, 2.0)], '#2e7d7a', 2.4)
-    arr([(depth + 0.5, 5.0), (V0 + 4, 5.0), (V0 - 2.5, 5.4)], '#2e7d7a', 2.4)
+    arr([(depth + 0.5, 1.6), (V0_ + 5, 1.6), (V0_ - 2.5, 2.0)], '#2e7d7a', 2.4)
+    arr([(depth + 0.5, 5.0), (V0_ + 4, 5.0), (V0_ - 2.5, 5.4)], '#2e7d7a', 2.4)
     t(depth - 3.0, 2.3, 'brise SO rafraîchie par le jardin', 8, 600, fill='#2e7d7a')
-    arr([(V0 + 5, top - 1.0), (V0 + 5, top + 1.6)], '#a8502d', 1.8)
-    t(V0 + 5.4, top + 1.9, 'air chaud évacué sous chaume', 8, fill='#a8502d', anchor='start')
-    arr([(V0 + 9.5 if code == 'A' else V0 + 9, 9.6), (V0 + 12.5, 0.2)], '#5a86b5', 1.5, '2 3')
-    t(V0 + 12.7, 1.0, 'EP → cuves', 8, fill='#5a86b5', anchor='start')
-    for z, lab in zip(hz, ['±0,00', '+3,40', '+6,60', '+9,80']):
+    arr([(V0_ + 5, top - 1.0), (V0_ + 5, top + 1.6)], '#a8502d', 1.8)
+    t(V0_ + 5.4, top + 1.9, 'air chaud évacué sous chaume' if code != 'C' else 'toiture ventilée et végétalisée', 8, fill='#a8502d', anchor='start')
+    arr([(V0_ + 9.5 if code == 'A' else V0_ + 9, 9.6), (V0_ + 12.5, 0.2)], '#5a86b5', 1.5, '2 3')
+    t(V0_ + 12.7, 1.0, 'EP → cuves', 8, fill='#5a86b5', anchor='start')
+    for z, lab in zip(hz, ['±0,00'] + [('+%.2f' % h).replace('.', ',') for h in hz[1:]]):
         it.append(f'<line x1="{X(-1.0):.1f}" y1="{Y(z):.1f}" x2="{X(-0.4):.1f}" y2="{Y(z):.1f}" stroke="{INK}"/>')
         t(-1.2, z - 0.1, lab, 7, anchor='end')
     defs = ''.join(f'<marker id="a{c[1:]}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="{c}"/></marker>'
@@ -486,10 +556,10 @@ PAL = {'Bâti': '#a8502d', 'Minéral (piscine, decks, allées, stationnement)': 
 def chart_sols():
     s0 = {'Bâti': 695, 'Minéral (piscine, decks, allées, stationnement)': 650 - 20, 'Végétal en pleine terre': 20}
     data = [('Programme d’origine*', s0)]
-    for c in 'AB':
+    for c in 'ABC':
         s, _ = D.biotope(c)
         data.append((f'{c} — {D.VARIANTS[c]["nom"]}', {
-            'Bâti': s['bati'] + s['tech'],
+            'Bâti': s['bati'] + s.get('tech', 0),
             'Minéral (piscine, decks, allées, stationnement)': s['piscine'] + s['deck'] + s['allee'] + s['evergreen'],
             'Végétal en pleine terre': s['pleine_terre'] + s.get('pelouse', 0)}))
     W, rowh, x0, x1 = 620, 44, 150, 600
@@ -555,6 +625,6 @@ def typo_module():
     save('typo_module', p.svg())
 
 if __name__ == '__main__':
-    site_analysis(); plan_masse('A'); plan_masse('B'); plans_A(); plans_B()
-    coupe('A'); coupe('B'); axo_A(); axo_B(); chart_sols(); situation(); typo_module()
+    site_analysis(); plan_masse('A'); plan_masse('B'); plan_masse('C'); plans_A(); plans_B(); plans_C()
+    coupe('A'); coupe('B'); coupe('C'); chart_sols(); situation(); typo_module()
     print(sorted(os.listdir(OUT)))

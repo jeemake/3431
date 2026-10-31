@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 470" width="780" height="470" font-family="Inter, sans-serif"><defs><marker id="a2e7d7a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2e7d7a"/></marker><marker id="aa8502d" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a8502d"/></marker><marker id="ad9a21b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d9a21b"/></marker><marker id="ae0b84a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e0b84a"/></marker><marker id="a5a86b5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5a86b5"/></marker></defs><rect x="100.0" y="400.0" width="610.0" height="22" fill="#e9dfcc"/>
+<line x1="100.0" y1="400.0" x2="710.0" y2="400.0" stroke="#1e2a24" stroke-width="1.5"/>
+<text x="120.0" y="420.0" font-size="8" font-weight="400" fill="#6b6b63" text-anchor="middle">limite N</text>
+<text x="690.0" y="420.0" font-size="8" font-weight="400" fill="#6b6b63" text-anchor="middle">limite S</text>
+<text x="405.0" y="422.0" font-size="8" fill="#6b6b63" text-anchor="middle">sable — nappe haute : pas de sous-sol · cuves EP semi-enterrées</text>
+<rect x="220.0" y="395.0" width="36.0" height="5.0" fill="#ccc" stroke="#1e2a24" stroke-width="1"/>
+<rect x="256.0" y="336.0" width="140.0" height="64.0" fill="#fffaf0" stroke="#1e2a24" stroke-width="1.2"/>
+<rect x="396.0" y="395.0" width="36.0" height="5.0" fill="#ccc" stroke="#1e2a24" stroke-width="1"/>
+<rect x="256.0" y="336.0" width="176.0" height="5.0" fill="#bbb" stroke="#1e2a24" stroke-width="0.5"/>
+<rect x="256.0" y="349.0" width="40.0" height="46.0" fill="#d7e9ee" stroke="#1e2a24" stroke-width="0.6"/>
+<rect x="220.0" y="331.0" width="36.0" height="5.0" fill="#ccc" stroke="#1e2a24" stroke-width="1"/>
+<rect x="256.0" y="276.0" width="140.0" height="60.0" fill="#fffaf0" stroke="#1e2a24" stroke-width="1.2"/>
+<rect x="396.0" y="331.0" width="36.0" height="5.0" fill="#ccc" stroke="#1e2a24" stroke-width="1"/>
+<rect x="256.0" y="276.0" width="176.0" height="5.0" fill="#bbb" stroke="#1e2a24" stroke-width="0.5"/>
+<rect x="256.0" y="285.0" width="40.0" height="46.0" fill="#d7e9ee" stroke="#1e2a24" stroke-width="0.6"/>
+<rect x="220.0" y="271.0" width="36.0" height="5.0" fill="#ccc" stroke="#1e2a24" stroke-width="1"/>
+<rect x="256.0" y="216.0" width="140.0" height="60.0" fill="#fffaf0" stroke="#1e2a24" stroke-width="1.2"/>
+<rect x="396.0" y="271.0" width="36.0" height="5.0" fill="#ccc" stroke="#1e2a24" stroke-width="1"/>
+<rect x="256.0" y="216.0" width="176.0" height="5.0" fill="#bbb" stroke="#1e2a24" stroke-width="0.5"/>
+<rect x="256.0" y="225.0" width="40.0" height="46.0" fill="#d7e9ee" stroke="#1e2a24" stroke-width="0.6"/>
+<rect x="220.0" y="209.0" width="212.0" height="7.0" fill="#999" stroke="#1e2a24" stroke-width="1"/>
+<rect x="312.0" y="204.0" width="120.0" height="5.0" fill="#8fbf6e" stroke="#1e2a24" stroke-width="0.4"/>
+<rect x="224.0" y="160.4" width="84.0" height="3.6" fill="#3b5b7a" stroke="#1e2a24" stroke-width="0.4"/>
+<rect x="228.0" y="163.0" width="3.0" height="46.0" fill="#777" stroke="#1e2a24" stroke-width="0"/>
+<rect x="300.0" y="163.0" width="3.0" height="46.0" fill="#777" stroke="#1e2a24" stroke-width="0"/>
+<text x="266.0" y="150.0" font-size="8" font-weight="700" fill="#1e2a24" text-anchor="middle">pergola PV</text>
+<text x="376.0" y="190.0" font-size="8" font-weight="400" fill="#3d7a47" text-anchor="middle">toiture végétalisée</text>
+<line x1="208.0" y1="400.0" x2="208.0" y2="230.0" stroke="#5d8a4c" stroke-width="3" stroke-dasharray="2 2"/>
+<text x="204.0" y="222.0" font-size="7" font-weight="400" fill="#3d7a47" text-anchor="end">écran planté</text>
+<rect x="472.0" y="395.0" width="148.0" height="5.0" fill="#ccc" stroke="#1e2a24" stroke-width="1"/>
+<rect x="476.0" y="335.0" width="5.0" height="60.0" fill="#8a6a35" stroke="#1e2a24" stroke-width="0"/>
+<rect x="612.0" y="335.0" width="5.0" height="60.0" fill="#8a6a35" stroke="#1e2a24" stroke-width="0"/>
+<path d="M444.0,336.0 L546.0,252.0 L648.0,336.0 Z" fill="#d8b878" stroke="#8a6a35"/>
+<text x="546.0" y="368.0" font-size="8" font-weight="700" fill="#1e2a24" text-anchor="middle">case-restaurant ouverte</text>
+<line x1="120.0" y1="400.0" x2="220.0" y2="204.0" stroke="#a8502d" stroke-dasharray="4 3"/>
+<text x="108.0" y="170.0" font-size="8" font-weight="700" fill="#a8502d" text-anchor="start">prospect nord : L = 5,0 m ≥ H/2 = 4,9 m</text>
+<line x1="660.0" y1="400.0" x2="660.0" y2="260.0" stroke="#6b5a3a" stroke-width="2"/>
+<ellipse cx="660.0" cy="260.0" rx="52.0" ry="28.0" fill="#8fb27a" opacity="0.7"/>
+<line x1="680.0" y1="400.0" x2="680.0" y2="220.0" stroke="#6b5a3a" stroke-width="2"/>
+<ellipse cx="680.0" cy="220.0" rx="52.0" ry="28.0" fill="#8fb27a" opacity="0.7"/>
+<rect x="480.0" y="400.0" width="50.0" height="28.0" fill="#9fd3d0" stroke="#1e2a24" stroke-width="0.6"/>
+<text x="504.0" y="452.0" font-size="7" font-weight="400" fill="#1e2a24" text-anchor="middle"></text>
+<line x1="156.0" y1="400.0" x2="156.0" y2="280.0" stroke="#6b5a3a" stroke-width="2"/><ellipse cx="156.0" cy="280.0" rx="44.0" ry="28.0" fill="#8fb27a" opacity="0.7"/>
+<path d="M490.2,217.9 L424.0,330.0" fill="none" stroke="#d9a21b" stroke-width="1.6" stroke-dasharray="5 3" marker-end="url(#ad9a21b)"/>
+<text x="496.2" y="207.9" font-size="8" font-weight="400" fill="#8a6410" text-anchor="start">midi 21 déc. — h 61°</text>
+<path d="M179.4,208.5 L224.0,330.0" fill="none" stroke="#e0b84a" stroke-width="1.6" stroke-dasharray="5 3" marker-end="url(#ae0b84a)"/>
+<text x="173.4" y="198.5" font-size="8" font-weight="400" fill="#8a6410" text-anchor="end">midi 21 juin — h 72°</text>
+<path d="M700.0,368.0 L320.0,368.0 L170.0,360.0" fill="none" stroke="#2e7d7a" stroke-width="2.4" marker-end="url(#a2e7d7a)"/>
+<path d="M700.0,300.0 L300.0,300.0 L170.0,292.0" fill="none" stroke="#2e7d7a" stroke-width="2.4" marker-end="url(#a2e7d7a)"/>
+<text x="630.0" y="354.0" font-size="8" font-weight="600" fill="#2e7d7a" text-anchor="middle">brise SO rafraîchie par le jardin</text>
+<path d="M320.0,180.0 L320.0,128.0" fill="none" stroke="#a8502d" stroke-width="1.8" marker-end="url(#aa8502d)"/>
+<text x="328.0" y="122.0" font-size="8" font-weight="400" fill="#a8502d" text-anchor="start">toiture ventilée et végétalisée</text>
+<path d="M400.0,208.0 L470.0,396.0" fill="none" stroke="#5a86b5" stroke-width="1.5" stroke-dasharray="2 3" marker-end="url(#a5a86b5)"/>
+<text x="474.0" y="380.0" font-size="8" font-weight="400" fill="#5a86b5" text-anchor="start">EP → cuves</text>
+<line x1="100.0" y1="400.0" x2="112.0" y2="400.0" stroke="#1e2a24"/>
+<text x="96.0" y="402.0" font-size="7" font-weight="400" fill="#1e2a24" text-anchor="end">±0,00</text>
+<line x1="100.0" y1="336.0" x2="112.0" y2="336.0" stroke="#1e2a24"/>
+<text x="96.0" y="338.0" font-size="7" font-weight="400" fill="#1e2a24" text-anchor="end">+3,20</text>
+<line x1="100.0" y1="276.0" x2="112.0" y2="276.0" stroke="#1e2a24"/>
+<text x="96.0" y="278.0" font-size="7" font-weight="400" fill="#1e2a24" text-anchor="end">+6,20</text>
+<line x1="100.0" y1="216.0" x2="112.0" y2="216.0" stroke="#1e2a24"/>
+<text x="96.0" y="218.0" font-size="7" font-weight="400" fill="#1e2a24" text-anchor="end">+9,20</text>
+<text x="405.0" y="28.0" font-size="9" font-weight="700" fill="#1e2a24" text-anchor="middle">NORD  ◄ — coupe transversale C — ►  SUD (océan à ~300 m)</text></svg>

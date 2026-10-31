@@ -1,0 +1,91 @@
+{
+ "profil": "Architecte DPLG inscrit à l'Ordre des Architectes de Côte d'Ivoire, 25 ans de pratique en hôtellerie balnéaire (Assinie, Grand-Bassam, Jacqueville, San-Pédro), habitué aux permis MCLU, aux commissions de sécurité ERP et aux chantiers du cordon littoral.",
+ "verdict": "Dossier bien construit et séduisant : la remise en cause du programme est intelligente (empiler plutôt qu'étaler, lock-off, barre d'une pièce d'épaisseur orientée N/S). Mais les 55 % de pleine terre de A s'obtiennent en sortant de la parcelle ce qui fait fonctionner un hôtel : parking, logistique, personnel, eau, énergie, assainissement. A empile ses risques majeurs au-dessus des chambres (R+3 de fait recevant du public sous chaume, cuisine en toiture, cage sur étanchéité). Les hypothèses réglementaires ne sont pas vérifiées. Bonne esquisse d'intention, pas encore un dossier de choix.",
+ "preference": "Un hybride : la barre de A pour l'hébergement (ascenseur, PMR, gaines superposées), restaurant et cuisine ramenés au sol dans une case sous chaume inspirée de B, foot au sol sur pelouse paspalum, toit de la barre en terrasse légère avec pergola photovoltaïque, sans chaume ni restauration. On perd 8 à 12 points de pleine terre, mais on supprime d'un coup les risques incendie, structure, étanchéité, acoustique et ascenseur.",
+ "observations": [
+  {
+   "theme": "Stationnement hors parcelle",
+   "gravite": "Haute",
+   "avis": "35 à 45 véhicules au pic du samedi ; 2 places sur place et 18 « mutualisées hors parcelle » sans terrain identifié ; pas de parking public ni de culture du voiturier à Jacqueville.",
+   "suite": "Page « Points techniques » : besoin chiffré, terrain à sécuriser à < 150 m (bail notarié) avant le permis, solution de repli de 8 places evergreen sur la parcelle avec son impact affiché (−200 m² de pleine terre)."
+  },
+  {
+   "theme": "Restaurant en toiture (ERP)",
+   "gravite": "Haute",
+   "avis": "80 couverts + cage à +9,80 : effectif > 100 en étage, dégagements par l'escalier de l'hôtel et un escalier extérieur dans le recul, cuisine sous chaume au-dessus de chambres : cumul de risques probablement refusé.",
+   "suite": "Résolu dans C : cuisine tout électrique au RDC, restaurant au sol dans une case ouverte, toiture limitée à une terrasse ≤ 19 personnes sous pergola incombustible. A reste présentée comme proposition d'intention avec ce risque signalé."
+  },
+  {
+   "theme": "Toit-stade : structure, acoustique",
+   "gravite": "Haute",
+   "avis": "La cage est au-dessus des chambres et d'une suite premium ; surcharges, vibrations, fuites aux ancrages des filets ; 14,4 × 10,6 m est un format 3 contre 3, pas un five.",
+   "suite": "A : suites premium déplacées à l'ouest hors aplomb de la cage, format nommé « 3 contre 3 », surcoût structure/étanchéité/acoustique provisionné (45 M FCFA avant ÷2). C : foot au sol."
+  },
+  {
+   "theme": "Hauteur, prospects, destination",
+   "gravite": "Haute",
+   "avis": "Le restaurant fait de A un R+3 de fait ; un prospect H/2 courant exigerait 5,4 m au nord, pas 4 m ; vis-à-vis des coursives ; destination hôtelière du lot à vérifier.",
+   "suite": "C : recul nord porté à 5,0 m, hauteurs d'étage 3,20/3,00/3,00 (acrotère +9,80 → H/2 = 4,9 m), écran planté devant les coursives, coupe sur limite nord. Certificat d'urbanisme et cahier des charges du lotissement en tête des prochaines étapes."
+  },
+  {
+   "theme": "Réseaux et assainissement",
+   "gravite": "Haute",
+   "avis": "Pas d'égout à Jacqueville : micro-station ~70 EH, bac à graisse, bâche 30–50 m³ + surpresseur, GE 150–200 kVA avec cuve ; 17,5 m² de technique ne suffisent pas et empiètent sur le recul.",
+   "suite": "C : bloc technique dans la zone constructible (GE capoté, TGBT, local piscine, bâche enterrée lestée), micro-station sous le jardin ; tous ces postes ajoutés à l'estimatif (A, B, C)."
+  },
+  {
+   "theme": "Back-of-house et personnel",
+   "gravite": "Haute",
+   "avis": "25 à 30 employés : ni vestiaires, ni réfectoire, ni économat, ni chambre froide, ni local déchets, ni accès livraisons distinct ; lingerie irréaliste.",
+   "suite": "C : 98 m² de back-of-house au RDC (vestiaires, réfectoire, lingerie 30 m², déchets) + 22 m² d'économat/CF + voie de service nord séparée de la dépose clients."
+  },
+  {
+   "theme": "Estimatif : méthode et postes",
+   "gravite": "Haute",
+   "avis": "Ratios d'esquisse non validés ; contrôle Djondji écarté trop vite ; postes manquants (clôture, fondations sur sable, cuisine pro, GE, eau, micro-station) ; B moins cher parce que plus petit.",
+   "suite": "Division par deux annoncée comme hypothèse de prix cible ; provisions ajoutées ; coefficient de forme 1,10 pour B ; page de coût global (travaux, honoraires, TVA 18 %, FF&E) avec coût par clé."
+  },
+  {
+   "theme": "Coefficient de biotope",
+   "gravite": "Moyenne",
+   "avis": "Le CBS comptait des façades végétales non dessinées (claustras de B) et la pelouse de jeu à 1,0 ; le « ×31 » de couverture n'était pas honnête.",
+   "suite": "Recalculé : façades comptées seulement pour les pignons plantés de A et C, pelouse pondérée 0,6, « ×31 » supprimé au profit des m² et %."
+  },
+  {
+   "theme": "Incohérences de B",
+   "gravite": "Moyenne",
+   "avis": "Restaurant 34 m² pour 50 couverts ; escaliers qui se chevauchent dans la faille T2/T3 ; spa et lingerie à l'étage sans ascenseur ; décompte PMR faux.",
+   "suite": "Case commune recalée dans la zone constructible (15 × 7,6), restaurant 82 m² (salle + galerie) pour 60 couverts ; un escalier partagé T2/T3 avec passerelles ; élévateur PMR + monte-linge ; « 6 clés au RDC dont 2 adaptées PMR »."
+  },
+  {
+   "theme": "Vue mer et accès plage",
+   "gravite": "Moyenne",
+   "avis": "La vue océan depuis +11 m n'est pas démontrée (300 m de cordon planté) et la clientèle du week-end achète la plage.",
+   "suite": "Formulation ramenée à « vue à vérifier par drone » ; volet beach club (partenariat de paillote + navette) ajouté aux prochaines étapes."
+  },
+  {
+   "theme": "Ventilation et confort",
+   "gravite": "Moyenne",
+   "avis": "Impostes de SdE sur coursive publique : intimité, pluie, effraction ; pas de moustiquaires ni de mode fermé climatisé ; « −2 à 4 °C » non sourcé.",
+   "suite": "Double mode décrit (fermé climatisé / ouvert ventilé), jalousies à moustiquaire, impostes hautes acoustiques dans la chambre, écran planté nord ; chiffre non sourcé retiré, simulation aéraulique prévue en APS."
+  },
+  {
+   "theme": "Contraintes du littoral",
+   "gravite": "Moyenne",
+   "avis": "Ambiance saline sévère, cuves qui flottent, termites, chaume ignifugé et anti-arrachement, maintenance de l'ascenseur depuis Abidjan.",
+   "suite": "Fiche « durabilité littoral » ajoutée (enrobages, galvanisation, socles anti-termites, lestage des cuves, PV feu du chaume, contrat ascenseur, étude G2)."
+  },
+  {
+   "theme": "Chambres et suites",
+   "gravite": "Faible",
+   "avis": "Bande humide de 2,0 m serrée pour niche + WC + douche + double vasque + penderie ; suite familiale sans séjour.",
+   "suite": "Simple vasque dans les deluxe, penderie dans la niche d'entrée ; canapé-lit dans la junior pour vendre la paire comme vraie suite ; SdE au 1/50 en APS."
+  },
+  {
+   "theme": "Présentation au client",
+   "gravite": "Faible",
+   "avis": "Jargon interne, numérotation qui saute, pas de façades ni de coupe sur limite, pas de business case.",
+   "suite": "Jargon déplacé en sources, numérotation corrigée, coupe sur limite nord (C) ajoutée ; business case simplifié inscrit comme prochaine étape (hors mission de cette esquisse)."
+  }
+ ]
+}

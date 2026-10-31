@@ -3,7 +3,7 @@
 Projet personnel : proposition d'aménagement d'un hôtel de 15 clés sur le lot 2511, îlot 225, à Jacqueville (Côte d'Ivoire). Le terrain fait 1 120 m² et se trouve à environ 300 m de la plage. Le client est footballeur.
 
 - **Dossier final** : `LE_ONZE_Jacqueville_esquisse.pdf` (A3 paysage).
-- **Propositions** : A « Le Toit-Stade » et B « Le Village-Canopée ».
+- **Propositions** : A « Le Toit-Stade » et B « Le Village-Canopée », puis C « Le Jardin du Onze » (recommandée), issue de la revue critique d'un architecte senior exerçant en Côte d'Ivoire (`src/avis_senior.json`).
 - **Référence** : Djondji Resort (Bénin), tirée de la base de projets Supabase, plans et images compris.
 - **Coûts** : ratios de la base Supabase « Eco-données », divisés par deux à la demande du client.
 

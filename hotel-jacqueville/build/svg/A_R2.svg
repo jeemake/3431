@@ -44,7 +44,7 @@
 <text x="411.0" y="171.2" font-size="7" font-weight="400" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">esc.</text>
 <rect x="389.0" y="235.0" width="39.6" height="44.0" fill="#fff" stroke="#1e2a24" stroke-width="0.8" opacity="1"/>
 <text x="408.8" y="257.0" font-size="7" font-weight="400" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">asc.</text>
-<text x="415.4" y="334.0" font-size="10" font-weight="700" fill="#a8502d" text-anchor="middle" dominant-baseline="middle">R+2 — 6 clés (2 suites premium, 4 deluxe)</text>
+<text x="415.4" y="334.0" font-size="10" font-weight="700" fill="#a8502d" text-anchor="middle" dominant-baseline="middle">R+2 — 6 clés : 2 suites premium à l’ouest (hors aplomb de la cage), 4 deluxe</text>
 <g transform="translate(800.8,30) rotate(-4.5)"><circle r="15" fill="#fff" stroke="#1e2a24" stroke-width="0.8"/><path d="M0,-13 L5,8 L0,4 L-5,8 Z" fill="#1e2a24"/><text y="-19" font-size="10" font-weight="700" text-anchor="middle">N</text></g>
 <g><rect x="26" y="361.80000000000007" width="55.0" height="4" fill="#1e2a24"/><rect x="81.0" y="361.80000000000007" width="55.0" height="4" fill="#fff" stroke="#1e2a24" stroke-width="0.6"/><text x="26" y="375.80000000000007" font-size="8">0</text><text x="136.0" y="375.80000000000007" font-size="8" text-anchor="middle">5 m</text></g>
 <rect x="59.0" y="59.0" width="316.8" height="39.6" fill="#f6f1e7" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
@@ -62,24 +62,17 @@
 <text x="138.2" y="180.0" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">50.4 m²</text>
 <rect x="59.0" y="252.6" width="158.4" height="39.6" fill="#f1e3cc" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
 <path d="M63.4,288.9 L213.0,288.9" fill="none" stroke="#8a6a45" stroke-width="2.2" stroke-dasharray="1.5 1"/>
-<rect x="217.4" y="98.6" width="79.2" height="154.0" fill="#fffdf8" stroke="#1e2a24" stroke-width="1.4" opacity="1"/>
-<rect x="217.4" y="98.6" width="55.0" height="44.0" fill="#d7e9ee" stroke="#1e2a24" stroke-width="0.8" opacity="1"/>
-<text x="244.9" y="120.6" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">SdE</text>
-<text x="284.5" y="109.6" font-size="6" font-weight="400" fill="#a8502d" text-anchor="middle" dominant-baseline="middle">▼</text>
-<rect x="237.2" y="202.0" width="39.6" height="44.0" fill="#efe6d2" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
-<text x="257.0" y="164.6" font-size="8" font-weight="700" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">Deluxe</text>
-<text x="257.0" y="180.0" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">25.2 m²</text>
-<rect x="217.4" y="252.6" width="79.2" height="39.6" fill="#f1e3cc" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
-<path d="M221.8,288.9 L292.2,288.9" fill="none" stroke="#8a6a45" stroke-width="2.2" stroke-dasharray="1.5 1"/>
-<rect x="296.6" y="98.6" width="79.2" height="154.0" fill="#fffdf8" stroke="#1e2a24" stroke-width="1.4" opacity="1"/>
-<rect x="296.6" y="98.6" width="55.0" height="44.0" fill="#d7e9ee" stroke="#1e2a24" stroke-width="0.8" opacity="1"/>
-<text x="324.1" y="120.6" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">SdE</text>
+<rect x="217.4" y="98.6" width="158.4" height="154.0" fill="#fffdf8" stroke="#1e2a24" stroke-width="1.4" opacity="1"/>
+<rect x="217.4" y="98.6" width="134.2" height="44.0" fill="#d7e9ee" stroke="#1e2a24" stroke-width="0.8" opacity="1"/>
+<text x="284.5" y="120.6" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">SdE</text>
 <text x="363.7" y="109.6" font-size="6" font-weight="400" fill="#a8502d" text-anchor="middle" dominant-baseline="middle">▼</text>
-<rect x="316.4" y="202.0" width="39.6" height="44.0" fill="#efe6d2" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
-<text x="336.2" y="164.6" font-size="8" font-weight="700" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">Deluxe</text>
-<text x="336.2" y="180.0" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">25.2 m²</text>
-<rect x="296.6" y="252.6" width="79.2" height="39.6" fill="#f1e3cc" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
-<path d="M301.0,288.9 L371.4,288.9" fill="none" stroke="#8a6a45" stroke-width="2.2" stroke-dasharray="1.5 1"/>
+<rect x="323.0" y="202.0" width="39.6" height="44.0" fill="#efe6d2" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
+<rect x="226.2" y="164.6" width="17.6" height="48.4" fill="#efe6d2" stroke="#1e2a24" stroke-width="0.5" opacity="1"/>
+<path d="M292.2,142.6 L292.2,191.0" fill="none" stroke="#1e2a24" stroke-width="1.0"/>
+<text x="296.6" y="164.6" font-size="8" font-weight="700" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">Suite premium</text>
+<text x="296.6" y="180.0" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">50.4 m²</text>
+<rect x="217.4" y="252.6" width="158.4" height="39.6" fill="#f1e3cc" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
+<path d="M221.8,288.9 L371.4,288.9" fill="none" stroke="#8a6a45" stroke-width="2.2" stroke-dasharray="1.5 1"/>
 <rect x="455.0" y="98.6" width="79.2" height="154.0" fill="#fffdf8" stroke="#1e2a24" stroke-width="1.4" opacity="1"/>
 <rect x="455.0" y="98.6" width="55.0" height="44.0" fill="#d7e9ee" stroke="#1e2a24" stroke-width="0.8" opacity="1"/>
 <text x="482.5" y="120.6" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">SdE</text>
@@ -98,14 +91,21 @@
 <text x="573.8" y="180.0" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">25.2 m²</text>
 <rect x="534.2" y="252.6" width="79.2" height="39.6" fill="#f1e3cc" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
 <path d="M538.6,288.9 L609.0,288.9" fill="none" stroke="#8a6a45" stroke-width="2.2" stroke-dasharray="1.5 1"/>
-<rect x="613.4" y="98.6" width="158.4" height="154.0" fill="#fffdf8" stroke="#1e2a24" stroke-width="1.4" opacity="1"/>
-<rect x="613.4" y="98.6" width="134.2" height="44.0" fill="#d7e9ee" stroke="#1e2a24" stroke-width="0.8" opacity="1"/>
-<text x="680.5" y="120.6" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">SdE</text>
+<rect x="613.4" y="98.6" width="79.2" height="154.0" fill="#fffdf8" stroke="#1e2a24" stroke-width="1.4" opacity="1"/>
+<rect x="613.4" y="98.6" width="55.0" height="44.0" fill="#d7e9ee" stroke="#1e2a24" stroke-width="0.8" opacity="1"/>
+<text x="640.9" y="120.6" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">SdE</text>
+<text x="680.5" y="109.6" font-size="6" font-weight="400" fill="#a8502d" text-anchor="middle" dominant-baseline="middle">▼</text>
+<rect x="633.2" y="202.0" width="39.6" height="44.0" fill="#efe6d2" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
+<text x="653.0" y="164.6" font-size="8" font-weight="700" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">Deluxe</text>
+<text x="653.0" y="180.0" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">25.2 m²</text>
+<rect x="613.4" y="252.6" width="79.2" height="39.6" fill="#f1e3cc" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
+<path d="M617.8,288.9 L688.2,288.9" fill="none" stroke="#8a6a45" stroke-width="2.2" stroke-dasharray="1.5 1"/>
+<rect x="692.6" y="98.6" width="79.2" height="154.0" fill="#fffdf8" stroke="#1e2a24" stroke-width="1.4" opacity="1"/>
+<rect x="692.6" y="98.6" width="55.0" height="44.0" fill="#d7e9ee" stroke="#1e2a24" stroke-width="0.8" opacity="1"/>
+<text x="720.1" y="120.6" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">SdE</text>
 <text x="759.7" y="109.6" font-size="6" font-weight="400" fill="#a8502d" text-anchor="middle" dominant-baseline="middle">▼</text>
-<rect x="719.0" y="202.0" width="39.6" height="44.0" fill="#efe6d2" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
-<rect x="622.2" y="164.6" width="17.6" height="48.4" fill="#efe6d2" stroke="#1e2a24" stroke-width="0.5" opacity="1"/>
-<path d="M688.2,142.6 L688.2,191.0" fill="none" stroke="#1e2a24" stroke-width="1.0"/>
-<text x="692.6" y="164.6" font-size="8" font-weight="700" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">Suite premium</text>
-<text x="692.6" y="180.0" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">50.4 m²</text>
-<rect x="613.4" y="252.6" width="158.4" height="39.6" fill="#f1e3cc" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
-<path d="M617.8,288.9 L767.4,288.9" fill="none" stroke="#8a6a45" stroke-width="2.2" stroke-dasharray="1.5 1"/></svg>
+<rect x="712.4" y="202.0" width="39.6" height="44.0" fill="#efe6d2" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
+<text x="732.2" y="164.6" font-size="8" font-weight="700" fill="#1e2a24" text-anchor="middle" dominant-baseline="middle">Deluxe</text>
+<text x="732.2" y="180.0" font-size="7" font-weight="400" fill="#6b6b63" text-anchor="middle" dominant-baseline="middle">25.2 m²</text>
+<rect x="692.6" y="252.6" width="79.2" height="39.6" fill="#f1e3cc" stroke="#1e2a24" stroke-width="0.6" opacity="1"/>
+<path d="M697.0,288.9 L767.4,288.9" fill="none" stroke="#8a6a45" stroke-width="2.2" stroke-dasharray="1.5 1"/></svg>

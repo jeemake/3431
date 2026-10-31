@@ -91,15 +91,59 @@ def scene_B():
         ua, ub, va, vb = min(u0, u1), max(u0, u1), min(v0, v1), max(v0, v1)
         for k in range(14):
             s.box(ua, va + k * (vb - va) / 14, k * 0.48, ub - ua, (vb - va) / 14, 0.12, C['wood'])
-    s.box(7.0, 17.0, 0, 14.0, 8.0, 0.3, C['slab']); s.box(7.0, 17.0, 0.3, 9.0, 8.0, 3.1, C['wall'])
+    s.box(8.0, 16.8, 0, 15.0, 7.6, 0.3, C['slab']); s.box(8.0, 16.8, 0.3, 9.0, 7.6, 3.1, C['wall'])
+    for j in range(6):
+        for v in (16.8, 24.1):
+            s.box(8.0 + j * 3.0 - 0.15, v, 0, 0.3, 0.3, 4.2, C['wood'])
+    s.pyr(6.4, 15.2, 4.2, 9.1, 10.8, 5.4, C['chaume']); s.pyr(15.5, 15.2, 9.1, 10.8, 4.2, 5.4, C['chaume']) if False else s.pyr(15.5, 15.2, 4.2, 9.1, 10.8, 5.4, C['chaume'])
+    for k in range(3):
+        s.box(D.TU[1] + D.TW, V0 + 1.0, 3.4 + k * 3.2, D.TU[2] - D.TU[1] - D.TW, 1.2, 0.15, C['wood'])   # passerelles T2/T3
+    for gu in (24.6, 36.6):
+        s.box(gu, 19.4, 0, 0.12, 2.6, 1.3, '#ffffff')
+    return s.o
+
+def scene_C():
+    s = S(); V = D.VARIANTS['C']; U, VC, L = D.UC, D.V0C, 9 * T
+    s.poly([(-30, -25), (75, -25), (75, 55), (-30, 55)], -0.05, '#e3e4d6')
+    s.poly([(-12, -20), (-3.5, -20), (2.6, 50), (-6, 50)], -0.03, C['road'])
+    sp = site_uv_poly(); s.poly(sp, 0.0, C['grass'])
+    for (a, b) in zip(sp[:-1], sp[1:]):
+        s.o.append(dict(t='edge', a=a, b=b))
+    for cat, col in [('allee', C['path']), ('evergreen', C['ever']), ('deck', C['deck']), ('pelouse', C['turf']), ('piscine', C['water'])]:
+        for _, g in V['shapes'].get(cat, []):
+            s.poly(uvpoly(g.intersection(SITE)), 0.03 if cat != 'piscine' else 0.04, col)
+    for (u, v, w, d, h) in [(45, 2, 10, 9, 3.2), (47, 16, 9, 10, 6.4), (8, 36, 11, 8, 3.2), (24, 35, 10, 9, 3.2), (6, -22, 12, 9, 3.2), (26, -21, 10, 9, 6.4)]:
+        s.box(u, v, 0, w, d, h, C['neigh']); s.pyr(u - 0.5, v - 0.5, h, w + 1, d + 1, 2.2, C['roofn'])
+    for u, v, kind in V['trees']:
+        s.tree(u, v, 10 if kind == 'palmier' else 7.5, 1.8 if kind == 'palmier' else 2.8, kind == 'palmier')
+    for i, (z, h) in enumerate([(0, 3.2), (3.2, 3.0), (6.2, 3.0)]):
+        s.box(U, VC, z, L, D_BARRE, 0.25, C['slab'])
+        s.box(U + 0.05, VC + D_COURSIVE, z + 0.25, L - 0.1, D_PIECE, h - 0.25, C['wall'])
+        if i > 0:
+            s.box(U, VC, z + 0.25, L, 0.08, 1.0, C['wood'])
+        louvres(s, U, U + L, VC + D_BARRE, z + 0.25, h - 0.55)
+    for j in range(10):
+        for v in (VC, VC + D_BARRE - 0.3):
+            s.box(U + j * T - 0.15, v, 0, 0.3, 0.3, 9.2, C['wood'])
+    for u in (U - 0.35, U + L + 0.05):
+        s.box(u, VC + D_COURSIVE, 0, 0.3, D_PIECE, 9.2, C['green'])
+    s.box(U, VC, 9.2, L, D_BARRE, 0.35, C['slab'])
+    s.box(U + 5 * T, VC, 9.55, 4 * T, D_BARRE, 0.12, '#7fae5c')
     for j in range(5):
-        for v in (17.0, 24.7):
-            s.box(7.0 + j * 3.5 - 0.15, v, 0, 0.3, 0.3, 4.2, C['wood'])
-    s.pyr(5.4, 15.4, 4.2, 8.6, 11.2, 5.4, C['chaume']); s.pyr(14.0, 15.4, 4.2, 8.6, 11.2, 5.4, C['chaume'])
-    for gu in (23.4, 35.4):
+        for v in (VC + 0.4, VC + D_BARRE - 0.7):
+            s.box(U + j * T - 0.1, v, 9.55, 0.2, 0.2, 2.6, '#8a8f93')
+    s.box(U - 0.3, VC, 12.15, 4 * T + 0.6, D_BARRE, 0.12, '#2f4d6b')
+    s.box(U, VC - 0.9, 0, L, 0.3, 2.2, C['green'])                         # écran planté côté voisin
+    s.box(8.0, 17.6, 0, 12.0, 7.4, 0.3, C['slab']); s.box(8.0, 17.6, 0.3, 3.0, 7.4, 2.9, C['wall'])
+    for j in range(5):
+        for v in (17.6, 24.7):
+            s.box(8.0 + j * 3.0 - 0.15, v, 0, 0.3, 0.3, 3.2, C['wood'])
+    s.pyr(6.6, 16.2, 3.2, 14.8, 10.2, 4.4, C['chaume'])
+    s.box(20.6, 17.6, 0, 4.0, 5.0, 2.8, C['render']); s.box(20.6, 17.6, 2.8, 4.0, 5.0, 0.2, C['green'])
+    for gu in (25.8, 37.6):
         s.box(gu, 19.6, 0, 0.12, 2.6, 1.3, '#ffffff')
     return s.o
 
 if __name__ == '__main__':
-    json.dump({'A': scene_A(), 'B': scene_B()}, open(os.path.join(OUT, 'scenes.json'), 'w'))
+    json.dump({'A': scene_A(), 'B': scene_B(), 'C': scene_C()}, open(os.path.join(OUT, 'scenes.json'), 'w'))
     print('ok')
