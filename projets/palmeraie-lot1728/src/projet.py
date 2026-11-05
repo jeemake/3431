@@ -223,7 +223,7 @@ OPTION_C = {
     "code": "C",
     "nom": "Option C — Maison à patio central",
     "titre_court": "Maison à patio",
-    "ref": "ABYA 3 (maison-patio à galerie), EMIIKA (patios et lanière de services)",
+    "ref": "Casa Lineal (patio central et passerelle bois), Anthurium MV, EMIIKA (sas de service), JIK",
     "parti": ("Les pièces s'organisent autour d'un patio planté à ciel ouvert, bordé au Nord par une terrasse couverte "
               "et fermé au Sud par une pergola et une claustra haute qui le protègent des vues du locatif. Salon à "
               "l'Ouest, salle à manger et cuisine au Nord, service et nounou à l'Est. Un passage de 1,50 m fait le tour "
@@ -236,7 +236,9 @@ OPTION_C = {
         R("Salle à manger", "RDC", (8.0, 5.0, 11.6, 9.2), "sejour"),
         R("Cuisine", "RDC", (11.6, 5.0, 14.9, 9.2), "cuisine"),
         R("Salon", "RDC", [(5.6, 9.2, 9.2, 16.5), (3.2, 9.5, 5.6, 16.5)], "sejour"),
-        R("Cuisine africaine", "RDC", (14.9, 5.0, 18.5, 8.6), "cuis_afr"),
+        # sas de service a deux portes (EMIIKA, office-sas) : cuisine <-> cuisine africaine <-> buanderie
+        R("Sas de service", "RDC", (14.9, 7.4, 16.1, 8.6), "circ"),
+        R("Cuisine africaine", "RDC", [(14.9, 5.0, 18.5, 7.4), (16.1, 7.4, 18.5, 8.6)], "cuis_afr"),
         R("Buanderie / magasin", "RDC", (14.9, 8.6, 18.5, 11.6), "service"),
         R("SE nounou", "RDC", (14.9, 11.6, 18.5, 13.2), "eau"),
         R("Chambre nounou", "RDC", (14.9, 13.2, 18.5, 16.5), "chambre"),
@@ -250,13 +252,14 @@ OPTION_C = {
         R("Escalier", "R+1", (3.2, 5.0, 5.6, 9.5), "escalier"),
         R("Palier / salon familial", "R+1", (5.6, 5.0, 10.4, 9.2), "sejour"),
         R("Chambre 2", "R+1", (10.4, 5.0, 13.4, 9.2), "chambre"),
-        R("SE ch.2", "R+1", (13.4, 5.0, 14.9, 9.2), "eau"),
+        R("SE ch.2", "R+1", (13.4, 5.0, 14.9, 7.8), "eau"),
+        R("Placard ch.2", "R+1", (13.4, 7.8, 14.9, 9.2), "dressing"),
         R("Dressing parental", "R+1", (6.2, 9.2, 9.2, 12.2), "dressing"),
         R("SdB parentale", "R+1", (3.2, 9.5, 6.2, 12.2), "eau"),
         R("Chambre parentale", "R+1", (3.2, 12.2, 9.2, 16.5), "chambre"),
         R("Chambre 3", "R+1", (14.9, 8.6, 18.5, 12.2), "chambre"),
-        R("SE ch.3", "R+1", (14.9, 12.2, 18.5, 13.2), "eau"),
-        R("Coursive sur patio", "R+1", (9.2, 9.2, 14.9, 10.4), "balcon", clos=False),
+        R("SE ch.3", "R+1", (14.9, 12.2, 18.5, 13.6), "eau"),
+        R("Passerelle bois", "R+1", (9.2, 9.2, 14.9, 10.4), "balcon", clos=False),
         R("Balcon Ouest (suite)", "R+1", (2.0, 12.2, 3.2, 16.5), "balcon", clos=False),
     ],
     "portes": [
@@ -265,13 +268,14 @@ OPTION_C = {
         ("RDC", 5.6, 8.8, "v", 0.7),    # hall -> palier de depart de l'escalier
         ("RDC", 6.8, 9.2, "h", 1.6),    # hall -> salon
         ("RDC", 8.0, 7.8, "v", 1.2),    # hall -> salle a manger
-        ("RDC", 8.6, 9.2, "h", 1.0),    # salle a manger <-> salon
+        ("RDC", 8.6, 9.2, "h", 1.2),    # salle a manger <-> salon (ouverture)
         ("RDC", 10.4, 9.2, "h", 2.0),   # salle a manger -> galerie / patio
         ("RDC", 11.6, 7.0, "v", 0.9),   # salle a manger -> cuisine
         ("RDC", 13.2, 9.2, "h", 0.9),   # cuisine -> galerie
-        ("RDC", 14.9, 10.4, "v", 0.9),  # terrasse -> buanderie (sas vers la cuisine africaine)
+        ("RDC", 14.9, 8.0, "v", 0.8),   # cuisine -> sas de service
+        ("RDC", 16.1, 8.0, "v", 0.8),   # sas -> cuisine africaine
+        ("RDC", 15.5, 8.6, "h", 0.8),   # sas -> buanderie
         ("RDC", 17.2, 5.0, "h", 1.2),   # cuisine africaine -> preau / livraisons (Nord)
-        ("RDC", 16.7, 8.6, "h", 0.8),   # cuisine africaine -> buanderie
         ("RDC", 18.5, 10.1, "v", 0.9),  # buanderie -> sechoir (passage Est)
         ("RDC", 18.5, 14.8, "v", 0.8),  # chambre nounou -> passage Est (porte independante)
         ("RDC", 16.7, 13.2, "h", 0.7),  # chambre nounou -> SE
@@ -279,20 +283,28 @@ OPTION_C = {
         ("RDC", 3.2, 13.0, "v", 2.4),   # salon -> jardin Ouest
         ("RDC", 5.6, 2.7, "h", 0.8),    # guerite
         ("R+1", 5.6, 8.8, "v", 0.7),    # escalier (arrivee) -> palier
-        ("R+1", 9.8, 9.2, "h", 1.0),    # salon familial -> coursive
+        ("R+1", 9.8, 9.2, "h", 1.0),    # salon familial -> passerelle
         ("R+1", 7.1, 9.2, "h", 0.9),    # palier -> dressing (suite)
         ("R+1", 6.2, 10.7, "v", 0.8),   # dressing -> SdB
         ("R+1", 7.7, 12.2, "h", 0.9),   # dressing -> chambre
         ("R+1", 3.2, 14.3, "v", 1.8),   # chambre parentale -> balcon Ouest
-        ("R+1", 11.9, 9.2, "h", 0.9),   # coursive -> chambre 2
-        ("R+1", 13.4, 7.1, "v", 0.7),   # chambre 2 -> SE
-        ("R+1", 14.9, 9.8, "v", 0.9),   # coursive -> chambre 3
-        ("R+1", 16.7, 12.2, "h", 0.7),  # chambre 3 -> SE (au-dessus de la SE nounou)
+        ("R+1", 10.4, 8.2, "v", 0.9),   # palier -> chambre 2 (directe)
+        ("R+1", 13.4, 6.4, "v", 0.8),   # chambre 2 -> SE (coulissante)
+        ("R+1", 13.4, 8.5, "v", 0.8),   # chambre 2 -> placard
+        ("R+1", 14.9, 9.8, "v", 0.9),   # passerelle -> chambre 3
+        ("R+1", 16.7, 12.2, "h", 0.8),  # chambre 3 -> SE (au-dessus de la SE nounou)
     ],
     "toiture": ("Toitures bac acier isolé à pente vers l'extérieur (pas d'eau de toiture dans le patio), débords de "
                 "1,2 m ; caniveau grillé et exutoire autour du patio ; conduit de la cuisine africaine monté à 1 m "
                 "au-dessus de l'égout de l'étage"),
 }
+
+# Indications de mobilier (mur d'appui) quand la regle automatique gene une porte
+for _r in OPTION_C["pieces"]:
+    if (_r["niveau"], _r["nom"]) == ("R+1", "Chambre 2"):
+        _r["lit"] = "N"
+    if (_r["niveau"], _r["nom"]) == ("RDC", "Cuisine"):
+        _r["plan"] = "N"
 
 # ---------------------------------------------------------------------------
 # Batiment locatif R+1 : 4 x 2 pieces + 2 x T1 bis

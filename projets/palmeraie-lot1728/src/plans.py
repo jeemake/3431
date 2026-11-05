@@ -172,9 +172,150 @@ def draw_rooms(c, pieces, niveau, small=False, portes=None):
                     if yb - ya > 0.05:
                         c.line(a[2], ya + 0.04, a[2], yb - 0.04, stroke=fill, sw=2.2)
     if portes:
+        draw_furniture(c, pieces, niveau, portes)
         draw_doors(c, portes, niveau)
     for r in rs:
         label_room(c, r, small)
+
+
+FURN = "#8a8378"
+
+
+def _box(c, x0, y0, x1, y1, rx=2, fill="#ffffff"):
+    c.raw(f'<rect x="{c.X(x0):.1f}" y="{c.Y(y0):.1f}" width="{(x1 - x0) * c.s:.1f}" height="{(y1 - y0) * c.s:.1f}" '
+          f'rx="{rx}" fill="{fill}" stroke="{FURN}" stroke-width="0.6"/>')
+
+
+def _door_side(rect, portes, niveau):
+    """Cote de la piece (N, S, O, E) qui porte la premiere porte trouvee."""
+    x0, y0, x1, y1 = rect
+    for niv, x, y, sens, w in portes or []:
+        if niv != niveau:
+            continue
+        if sens == "h" and x0 - 0.05 <= x <= x1 + 0.05:
+            if abs(y - y0) < 0.05:
+                return "N", x
+            if abs(y - y1) < 0.05:
+                return "S", x
+        if sens == "v" and y0 - 0.05 <= y <= y1 + 0.05:
+            if abs(x - x0) < 0.05:
+                return "O", y
+            if abs(x - x1) < 0.05:
+                return "E", y
+    return None, None
+
+
+def draw_furniture(c, pieces, niveau, portes):
+    """Appareils sanitaires et mobilier principal, places d'apres la porte de chaque piece."""
+    for r in pieces:
+        if r["niveau"] != niveau or not r["clos"]:
+            continue
+        x0, y0, x1, y1 = max(r["rects"], key=lambda q: (q[2] - q[0]) * (q[3] - q[1]))
+        w, h = x1 - x0, y1 - y0
+        side, pos = _door_side((x0, y0, x1, y1), portes, niveau)
+        code, nom = r["code"], r["nom"].lower()
+        horiz = w >= h  # axe long horizontal
+        if code in ("eau", "l_eau") and "wc + rangement" not in nom:
+            # extremite opposee a la porte = douche ; cote porte = WC ; vasque au milieu
+            far_is_max = True
+            if horiz:
+                far_is_max = not (side == "E" or (side in ("N", "S") and pos is not None and pos > (x0 + x1) / 2))
+            else:
+                far_is_max = not (side == "S" or (side in ("O", "E") and pos is not None and pos > (y0 + y1) / 2))
+            short = h if horiz else w
+            big = r["surface"] >= 6.5
+            wc_only = "wc" in nom and r["surface"] < 3.5
+            d = min(0.9, short - 0.1) if not big else min(1.2, short - 0.1)
+            if horiz:
+                if not wc_only:
+                    sx0 = x1 - d if far_is_max else x0
+                    _box(c, sx0 + 0.05, y0 + 0.05, sx0 + d - 0.05, y0 + min(short, 0.95 if not big else 1.1) - 0.05,
+                         0, "#e8f1f4")
+                    c.line(sx0 + 0.05, y0 + 0.05, sx0 + d - 0.05, y0 + min(short, 0.95 if not big else 1.1) - 0.05,
+                           stroke=FURN, sw=0.4)
+                vx = (x0 + x1) / 2 - (0.6 if big else 0.25)
+                _box(c, vx, y1 - 0.45, vx + (1.2 if big else 0.5), y1 - 0.05, 3)
+                wx = (x0 + 0.1) if far_is_max else (x1 - 0.5)
+                if wc_only:
+                    wx = x0 + 0.15
+                _box(c, wx, y0 + 0.08, wx + 0.38, y0 + 0.7, 6)
+            else:
+                if not wc_only:
+                    sy0 = y1 - d if far_is_max else y0
+                    _box(c, x0 + 0.05, sy0 + 0.05, x0 + min(short, 0.95 if not big else 1.1) - 0.05, sy0 + d - 0.05,
+                         0, "#e8f1f4")
+                    c.line(x0 + 0.05, sy0 + 0.05, x0 + min(short, 0.95 if not big else 1.1) - 0.05, sy0 + d - 0.05,
+                           stroke=FURN, sw=0.4)
+                vy = (y0 + y1) / 2 - (0.6 if big else 0.25)
+                _box(c, x1 - 0.45, vy, x1 - 0.05, vy + (1.2 if big else 0.5), 3)
+                wy = (y0 + 0.1) if far_is_max else (y1 - 0.5)
+                if wc_only:
+                    wy = y0 + 0.15
+                _box(c, x0 + 0.08, wy, x0 + 0.7, wy + 0.38, 6)
+        elif code in ("chambre", "l_chambre"):
+            single = "nounou" in nom or "service" in nom or r["surface"] < 10.5
+            bw, bl = (0.9, 1.9) if single else (1.6, 2.0)
+            # tete de lit contre le mur oppose a la porte (ou mur impose par r["lit"])
+            if r.get("lit") == "N":
+                bx = (x0 + x1) / 2 - bw / 2 - 0.3
+                _box(c, bx, y0 + 0.05, bx + bw, y0 + 0.05 + bl, 3)
+                _box(c, bx + 0.1, y0 + 0.1, bx + bw - 0.1, y0 + 0.5, 2, "#f3f0ea")
+            elif side in ("N", "S") or side is None:
+                if w >= bw + 0.8 and h >= bl + 0.6:
+                    bx = (x0 + x1) / 2 - bw / 2
+                    by = y1 - bl - 0.05 if side == "N" else y0 + 0.05
+                    _box(c, bx, by, bx + bw, by + bl, 3)
+                    py = by + (bl - 0.45 if side == "N" else 0.05)
+                    _box(c, bx + 0.1, py, bx + bw - 0.1, py + 0.4, 2, "#f3f0ea")
+            else:
+                if h >= bw + 0.8 and w >= bl + 0.6:
+                    by = (y0 + y1) / 2 - bw / 2
+                    bx = x1 - bl - 0.05 if side == "O" else x0 + 0.05
+                    _box(c, bx, by, bx + bl, by + bw, 3)
+                    px = bx + (bl - 0.45 if side == "O" else 0.05)
+                    _box(c, px, by + 0.1, px + 0.4, by + bw - 0.1, 2, "#f3f0ea")
+        elif code == "sejour" and "manger" in nom:
+            tl, tw = (2.0, 1.0) if max(w, h) >= 3.6 else (1.6, 0.9)
+            cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+            if horiz:
+                _box(c, cx - tl / 2, cy - tw / 2, cx + tl / 2, cy + tw / 2, 3)
+                for i in range(3):
+                    xx = cx - tl / 2 + 0.25 + i * (tl - 0.5) / 2
+                    _box(c, xx - 0.2, cy - tw / 2 - 0.45, xx + 0.2, cy - tw / 2 - 0.05, 2)
+                    _box(c, xx - 0.2, cy + tw / 2 + 0.05, xx + 0.2, cy + tw / 2 + 0.45, 2)
+            else:
+                _box(c, cx - tw / 2, cy - tl / 2, cx + tw / 2, cy + tl / 2, 3)
+                for i in range(3):
+                    yy = cy - tl / 2 + 0.25 + i * (tl - 0.5) / 2
+                    _box(c, cx - tw / 2 - 0.45, yy - 0.2, cx - tw / 2 - 0.05, yy + 0.2, 2)
+                    _box(c, cx + tw / 2 + 0.05, yy - 0.2, cx + tw / 2 + 0.45, yy + 0.2, 2)
+        elif code in ("sejour", "l_sejour") and ("salon" in nom or "séjour" in nom):
+            # canape en L + table basse, adosses au mur le plus long cote interieur
+            if horiz:
+                _box(c, x0 + 0.4, y0 + 0.15, x0 + 0.4 + min(2.6, w - 1.0), y0 + 1.0, 4)
+                _box(c, x0 + 0.9, y0 + 1.4, x0 + 1.9, y0 + 2.0, 2)
+            else:
+                _box(c, x0 + 0.15, y0 + 0.6, x0 + 1.0, y0 + 0.6 + min(2.8, h - 1.5), 4)
+                if w > 3.0:
+                    _box(c, x0 + 1.0, y0 + 0.6, x0 + min(2.6, w - 0.4), y0 + 1.45, 4)
+                    _box(c, x0 + 1.4, y0 + 1.9, x0 + 2.2, y0 + 2.9, 2)
+        elif code in ("cuisine", "l_kitch") or (code == "cuis_afr"):
+            if r.get("plan") == "N":
+                _box(c, x0 + 0.05, y0 + 0.05, x1 - 0.05, y0 + 0.65, 0, "#f3f0ea")
+                _box(c, x0 + 0.05, y0 + 0.65, x0 + 0.65, y0 + 1.9, 0, "#f3f0ea")
+                cx = (x0 + x1) / 2 + 0.2
+                _box(c, cx - 0.8, y0 + 2.1, cx + 0.8, y0 + 2.9, 2, "#f3f0ea")
+            elif horiz:
+                _box(c, x0 + 0.05, y0 + 0.05, x1 - 0.05, y0 + 0.65, 0, "#f3f0ea")
+                if code == "cuisine" and r["surface"] >= 13 and h >= 3.4:
+                    cx = (x0 + x1) / 2
+                    _box(c, cx - 0.9, y0 + 1.75, cx + 0.9, y0 + 2.6, 2, "#f3f0ea")
+            else:
+                _box(c, x0 + 0.05, y0 + 0.05, x0 + 0.65, y1 - 0.05, 0, "#f3f0ea")
+            if code == "cuis_afr":
+                cx, cy = x0 + w * 0.6, y0 + h * 0.6
+                c.raw(f'<circle cx="{c.X(cx):.1f}" cy="{c.Y(cy):.1f}" r="{0.35 * c.s:.1f}" fill="none" stroke="{FURN}" stroke-width="0.7"/>')
+                c.raw(f'<circle cx="{c.X(cx + 0.9):.1f}" cy="{c.Y(cy):.1f}" r="{0.25 * c.s:.1f}" fill="none" stroke="{FURN}" stroke-width="0.7"/>')
 
 
 def draw_doors(c, portes, niveau):
