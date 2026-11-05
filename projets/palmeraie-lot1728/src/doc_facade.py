@@ -21,32 +21,34 @@ ELEV = {
 }
 # annotations : (u, z, texte, rang) ; rang 0 / 1 au-dessus, 2 au-dessous
 NOTES = {
-    "N": [(8.5, 7.0, "Toiture-ombriere en beton blanc, debord 1,2 m", 1),
-          (4.4, 6.0, "Lanterne d'escalier en claustra BTC", 0),
-          (9.2, 5.6, "Salon familial : persiennes bois coulissantes", 0),
-          (12.5, 5.3, "Chambre 2 : porte-fenetre, barreaudage", 1),
+    "N": [(8.5, 7.0, "Toiture végétalisée, corniche en béton brut, débord 1,2 m", 1),
+          (4.4, 6.0, "Lanterne d’escalier en brique ajourée", 0),
+          (10.6, 5.6, "Loggia 0,9 m derrière une double peau de brique ajourée", 0),
+          (12.5, 4.6, "Perforations denses dans l’axe des baies", 1),
           (17.0, 3.9, "Aile de service de plain-pied", 0),
-          (7.5, 1.4, "Entree sous porche 1,7 m", 2),
-          (9.2, 1.7, "SAM", 2), (12.5, 1.7, "Cuisine", 2),
-          (17.7, 1.6, "Preau cuisine africaine, claustra BTC", 2)],
-    "O": [(7.2, 6.0, "Lanterne d'escalier (2 niveaux)", 0),
-          (14.3, 5.8, "Balcon de la suite derriere une double peau en claustra", 0),
+          (7.5, 1.4, "Entrée sous porche en béton brut", 2),
+          (9.2, 1.7, "SAM", 2), (12.5, 1.7, "Cuisine", 2), (5.0, 0.5, "RDC en moellons", 2),
+          (17.7, 1.6, "Préau cuisine africaine", 2)],
+    "O": [(7.2, 6.0, "Lanterne d’escalier (2 niveaux)", 0),
+          (14.3, 5.8, "Balcon de la suite derrière la brique ajourée", 0),
           (10.9, 5.9, "Jour SdB", 1),
-          (8.0, 7.0, "Debord 1,6 m", 1),
-          (14.2, 1.5, "Salon : coulissant 3,2 m sous la dalle du balcon", 2)],
-    "S": [(6.2, 5.5, "Chambre parentale", 0), (12.0, 3.0, "Pergola et claustra haute du patio", 1),
+          (8.0, 7.0, "Débord 1,6 m", 1),
+          (14.2, 1.5, "Salon : coulissant 3,2 m sur le bio-bassin", 2),
+          (10.9, 0.6, "Moellons", 2)],
+    "S": [(6.2, 5.5, "Chambre parentale, écran en lattes", 0), (12.0, 5.8, "Passerelle : écrans bois, lanterneau", 1),
+          (12.0, 2.6, "Pergola et claustra haute du patio", 1),
           (6.4, 1.4, "Salon : baie 4,0 m sur le jardin", 2), (16.7, 1.6, "Chambre nounou", 2)],
-    "E": [(11.3, 6.0, "Chambre 3 : deux jours hauts", 0), (5.6, 1.5, "Sechoir couvert, claustra en limite", 2),
+    "E": [(11.3, 6.0, "Chambre 3 : deux jours hauts", 0), (5.6, 1.5, "Séchoir couvert, brique ajourée en limite", 2),
           (10.1, 1.1, "Buanderie", 2), (14.8, 1.1, "Nounou", 2)],
 }
 NIVEAUX = [(0.0, "±0,00 TN"), (0.45, "+0,45 RDC"), (3.75, "+3,75 R+1"), (7.07, "+7,07 toiture")]
 MATERIAUX = [
-    ("#c9a27a", "BTC apparents", "Murs du rez-de-chaussee, claustras, cloture : terre stabilisee locale"),
-    ("#eeebe4", "Enduit blanc casse", "Murs de l'etage, sur maconnerie de parpaings"),
-    ("#f4f2ed", "Beton blanc lisse", "Toiture-ombriere, casquettes, nez de dalle"),
-    ("#8a5a3b", "Iroko ou teck", "Persiennes coulissantes, portail, portillons, passerelle"),
-    ("#3d3d3b", "Aluminium sombre", "Menuiseries vitrees, barreaudage des portes-fenetres"),
-    ("#6c645a", "Socle mineral sombre", "Soubassement de la cloture et de la maison (pierre ou laterite)"),
+    ("#b9ad9c", "Moellons de granite", "Rez-de-chaussée sur les deux rues, guérite, socle de clôture, margelles"),
+    ("#c98f6c", "Brique ajourée", "Terre cuite à perforations aléatoires : loggia Nord, lanterne, balcon Ouest, clôture"),
+    ("#cfcbc3", "Béton brut coffré planches", "Nez de dalle, corniches à goutte d’eau, porche, murs de l’étage"),
+    ("#ece8e0", "Enduit à la chaux", "Murs du rez-de-chaussée sur le patio et les jardins"),
+    ("#8a6a4f", "Bois (iroko, teck)", "Écrans en lattes, passerelle, portail, marches sans contremarche"),
+    ("#a9b58f", "Toiture végétalisée", "Substrat 15 cm sur l’étage, jardinières engazonnées en rive"),
 ]
 
 
@@ -106,50 +108,42 @@ def elevation_svg(code):
         g.append(f'<text x="{x:.1f}" y="{ty:.1f}" font-size="17" fill="#23262b" text-anchor="middle" font-weight="500" '
                  f'paint-order="stroke" stroke="#fff" stroke-width="4">{t}</text>')
     # echelle 5 m
-    sx, sy = w - 300 - 5 * K, h - 26
+    sx, sy = 10, h + 22
     g.append(f'<rect x="{sx}" y="{sy}" width="{5 * K:.1f}" height="6" fill="#23262b"/>'
              f'<rect x="{sx + K:.1f}" y="{sy}" width="{K:.1f}" height="6" fill="#fff"/><rect x="{sx + 3 * K:.1f}" y="{sy}" width="{K:.1f}" height="6" fill="#fff"/>'
              f'<rect x="{sx}" y="{sy}" width="{5 * K:.1f}" height="6" fill="none" stroke="#23262b"/>'
              f'<text x="{sx}" y="{sy - 6}" font-size="14" fill="#6b6f76">0</text><text x="{sx + 5 * K:.1f}" y="{sy - 6}" font-size="14" fill="#6b6f76" text-anchor="middle">5 m</text>')
     return (f'<figure style="margin:0"><figcaption style="font-weight:600;font-size:9.5pt;margin-bottom:1mm">{accents(titre)}</figcaption>'
-            f'<svg viewBox="0 0 {w} {h}" style="width:100%;max-height:78mm;height:auto;display:block" font-family="Inter, sans-serif">{"".join(g)}</svg></figure>')
+            f'<svg viewBox="0 0 {w} {h + 34}" style="width:100%;max-height:73mm;height:auto;display:block" font-family="Inter, sans-serif">{"".join(g)}</svg></figure>')
 
 
 def page_reference(n, doc):
     R = F.REFERENCE
-    repris = "".join(f"<tr><td style='font-weight:600;padding:1.2mm 3mm 1.2mm 0;vertical-align:top'>{a}</td>"
-                     f"<td style='padding:1.2mm 0;color:#45484e'>{b}</td></tr>" for a, b in [
-        ("Toiture-ombrière débordante", "Une seule dalle mince en béton blanc sur tout l’étage, débord de 1,6 m à l’Ouest, 1,2 m au Nord, 0,8 m à l’Est."),
-        ("Persiennes bois coulissantes", "Devant les baies de l’étage au Nord, à l’Est et au Sud : intimité côté rue, ventilation volets fermés."),
-        ("Garde-corps à barreaudage", "Portes-fenêtres du salon familial et de la chambre 2, comme les balcons d’ABYA 2."),
-        ("Claustra de briques ajourées", "Pour tout ce qui sert : cage d’escalier, aile de service, clôture. Ici en BTC, la terre du brief."),
-        ("Séjour vitré sous débord", "Coulissant de 3,2 m du salon à l’Ouest sous la dalle du balcon, baie de 4,0 m au Sud."),
-    ])
-    compl = "".join(f"<li><b>{k}</b> : {t}</li>" for k, t in [
-        ("CDD Cotonou", "claustra devant la cage d’escalier, qui devient la lanterne de l’angle des deux rues"),
-        ("Typologie urbaine 8", "double peau Ouest : le balcon de la suite derrière un claustra pleine hauteur"),
-        ("House on Pali Hill", "portail et portillons en planches de bois sur un socle minéral sombre"),
-    ])
+    repris = "".join(f"<tr><td style='font-weight:600;padding:1.1mm 3mm 1.1mm 0;vertical-align:top;width:34mm'>{a}</td>"
+                     f"<td style='padding:1.1mm 0;color:#45484e'>{b}</td></tr>" for a, b in R["repris"])
+    compl = "".join(f"<li><b>{k}</b> : {t}</li>" for k, t in R["complements"])
     mats = "".join(f"<div style='display:flex;gap:3mm;align-items:flex-start;margin-bottom:2.2mm'>"
                    f"<div style='width:8mm;height:8mm;flex:none;background:{c};border:0.4pt solid #cfc9bf'></div>"
-                   f"<div><div style='font-weight:600'>{accents(t)}</div><div class='small muted'>{accents(d)}</div></div></div>"
+                   f"<div><div style='font-weight:600'>{t}</div><div class='small muted'>{d}</div></div></div>"
                    for c, t, d in MATERIAUX)
     body = f"""
-<div class="kicker">Option C · Façades</div>
-<h2>Une écriture tirée d’ABYA 2 : une dalle qui fait de l’ombre, du bois qui filtre, de la terre qui ajoure</h2>
-<div class="grid" style="grid-template-columns: 96mm 1fr; gap: 8mm; margin-top: 3mm">
+<div class="kicker">Option C · Façades et patio</div>
+<h2>Une maison de béton brut, de pierre, de brique ajourée et de bois, autour du même patio</h2>
+<div class="grid" style="grid-template-columns: 100mm 1fr; gap: 8mm; margin-top: 3mm">
   <div>
-    <h3 style="margin-top:0">Pourquoi ABYA 2</h3>
+    <h3 style="margin-top:0">Référence : {R['nom']}</h3>
     <p class="small">{R['pourquoi']}</p>
+    <p class="small muted">Le concept du patio de l’option C est conservé : patio planté à ciel ouvert au cœur de la
+    parcelle, terrasse couverte, passerelle bois à l’étage, claustra haute au Sud. La référence change son traitement
+    et l’aspect du bâtiment. Gardés de la version précédente : les débords généreux (ABYA 2) et la lanterne d’escalier
+    (CDD Cotonou).</p>
     <table class="small" style="border-collapse:collapse;width:100%">{repris}</table>
-    <h3>Compléments pris dans Capitude</h3>
-    <ul class="small" style="margin:0;padding-left:4mm">{compl}</ul>
   </div>
   <div>
     <img src="{img64(REND / 'clay_arrivee.png', quality=85)}" style="width:100%;display:block;border:0.4pt solid #e3ded5"/>
-    <p class="small muted" style="margin-top:1.5mm">Arrivée depuis la rue Nord, portail ouvert, 8 h 30 en novembre (maquette de volumes, sans matières).
-    À l’étage, les persiennes coulissantes et le barreaudage ; au rez-de-chaussée en BTC, le porche, la SAM et la cuisine
-    sous une casquette de 0,9 m ; à droite la lanterne d’escalier en claustra et la guérite.</p>
+    <p class="small muted" style="margin-top:1.5mm">Arrivée depuis la rue Nord, portail ouvert, 8 h 30 en novembre (maquette de volumes,
+    perspective à deux points de fuite). À l’étage, la loggia derrière la brique ajourée, plus percée dans l’axe des baies ;
+    au rez-de-chaussée en moellons, le porche, la SAM et la cuisine ; à droite la lanterne d’escalier et la guérite.</p>
     <h3>Matériaux</h3>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;column-gap:5mm">{mats}</div>
   </div>
@@ -160,10 +154,11 @@ def page_reference(n, doc):
 def page_elevations(n, doc, codes=("N", "O")):
     figs = "".join(elevation_svg(c) for c in codes)
     climat = {
-        ("N", "O"): ("Rues au Nord et à l’Ouest. Au Nord, le soleil ne vient qu’en juin, haut (72° à midi) : le débord "
-                     "de 1,2 m ombre alors entièrement les baies de l’étage. À l’Ouest, le soleil de l’après-midi est rasant "
-                     "(19,5° à 16 h 30 en novembre) : aucun débord ne suffit, d’où la double peau en claustra devant la suite, "
-                     "les arbres de la bande de 3,2 m et des stores en toile ou en bambou pour le coulissant du salon."),
+        ("N", "O"): ("Rues au Nord et à l’Ouest. Au Nord, la double peau de brique ajourée (Casa Estudio) donne l’intimité "
+                     "vis-à-vis de la rue et du parking, laisse passer l’air et protège les baies de la pluie battante ; "
+                     "le débord de 1,2 m ombre tout l’étage en juin (soleil à 72° au Nord). À l’Ouest, le soleil de "
+                     "l’après-midi est rasant (19,5° à 16 h 30 en novembre) : brique ajourée devant la suite, arbres, "
+                     "bio-bassin qui rafraîchit l’air devant le salon, stores bambou sous la dalle du balcon."),
         ("S", "E"): ("Au Sud, le jardin arrière et le locatif à 5,5 m : la claustra haute de la pergola coupe les vues "
                      "du locatif vers le patio. À l’Est, la limite séparative est à 1,50 m : seulement des jours hauts "
                      "(allège à 1,80 m), pour respecter les distances de vues droites, et un claustra en limite au séchoir."),
@@ -192,10 +187,10 @@ def page_vues(n, doc):
 <h2>L’angle des deux rues et le patio</h2>
 <p class="small muted" style="margin:0">Perspectives à deux points de fuite (axe de visée horizontal, cadrage par décentrement) : les verticales restent verticales.</p>
 <div class="grid g2" style="gap:4mm 6mm;margin-top:2mm">
-  {fig(REND / 'clay_rue.png', "Depuis le carrefour au Nord-Ouest, 16 h 30. La clôture (socle de 1,0 m et claustra en BTC jusqu’à 2,2 m) laisse passer l’air ; au-dessus, la toiture-ombrière, la lanterne d’escalier et la double peau de la suite.")}
-  {fig(REND / 'clay_aerien.png', "Axonométrie depuis le Nord-Ouest : la dalle de toiture unique, la casquette et le porche au Nord, l’aile de service basse à l’Est, le patio ouvert au cœur.")}
-  {fig(REND / 'clay_patio.png', "Le patio depuis le jardin Sud, 8 h 30 en novembre : terrasse couverte, poteaux bois, passerelle à lames de l’étage.")}
-  {fig(REND / 'ia_v1_provisoire' / 'patio_1.png', "Rendu d’ambiance généré par IA (Sume) à partir de la maquette du patio, avant la reprise des façades sur rue ; les façades du patio n’ont pas changé. Image indicative : matières et végétation interprétées.")}
+  {fig(REND / 'clay_rue.png', "Depuis le carrefour au Nord-Ouest, 16 h 30. La clôture (socle en moellons de 1,0 m, brique ajourée jusqu’à 2,2 m) laisse passer l’air ; au-dessus, la double peau de brique de l’étage et la lanterne d’escalier sous la corniche de béton brut.")}
+  {fig(REND / 'clay_aerien.png', "Axonométrie depuis le Nord-Ouest : la toiture végétalisée, le lanterneau de la passerelle, l’aile de service basse à l’Est, le patio ouvert au cœur, le bio-bassin devant le salon.")}
+  {fig(REND / 'clay_patio.png', "Le patio, 8 h 30 en novembre : terrasse couverte sur poteaux bois, passerelle avec écrans en lattes sous le lanterneau (Casa Lineal), arbre et bio-bassin au cœur.")}
+  {fig(REND / 'clay_patio_terrasse.png', "Depuis la terrasse couverte vers le Sud-Ouest : l’arbre, la pergola et la claustra haute qui ferme le patio côté locatif, la baie du salon.")}
 </div>"""
     return page(body, n, doc)
 

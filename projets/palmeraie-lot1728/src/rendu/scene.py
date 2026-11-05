@@ -133,7 +133,8 @@ def build():
         for sens, a, b, line in segs:
             mine = [o for o in ops if o["sens"] == sens and abs(o["line"] - line) < 0.06 and o["a"] < b and o["b"] > a]
             data["walls"].append({"sens": sens, "a": a, "b": b, "line": line, "z0": z0, "z1": z1,
-                                  "m": "btc" if niveau == "RDC" else "mur", "ops": mine,
+                                  "m": ("moellons" if (sens, round(line, 1)) in F.RUES else "enduit") if niveau == "RDC" else "beton_brut",
+                                  "ops": mine,
                                   "grp": "guerite" if (sens == "h" and line < 3) or (sens == "v" and b <= 3) else "maison"})
             for o in mine:   # claustra BTC devant les ouvertures « claustra » (cage d'escalier)
                 if o["kind"] != "claustra":
@@ -143,21 +144,33 @@ def build():
                 lo, hi = min(off), max(off)
                 za, zb = z0 + 0.05, z1 - 0.05
                 if sens == "h":
-                    data["claustras"].append({"x0": o["a"] - 0.15, "y0": lo, "x1": o["b"] + 0.15, "y1": hi, "z0": za, "z1": zb})
+                    data["claustras"].append({"x0": o["a"] - 0.15, "y0": lo, "x1": o["b"] + 0.15, "y1": hi, "z0": za, "z1": zb, "random": True})
                 else:
-                    data["claustras"].append({"x0": lo, "y0": o["a"] - 0.15, "x1": hi, "y1": o["b"] + 0.15, "z0": za, "z1": zb})
+                    data["claustras"].append({"x0": lo, "y0": o["a"] - 0.15, "x1": hi, "y1": o["b"] + 0.15, "z0": za, "z1": zb, "random": True})
         # dalle haute de chaque piece close + debords de 1,2 m sur les cotes exterieurs
         for r in OPTION_C["pieces"]:
             if r["niveau"] != niveau or not r["clos"]:
                 continue
             for x0, y0, x1, y1 in r["rects"]:
                 data["slabs"].append({"x0": x0, "y0": y0, "x1": x1, "y1": y1, "z": z1, "t": 0.25})
-    # toiture-ombriere (ABYA 2) : une dalle mince debordante sur tout l'etage
+    # toiture en beton brut debordante, vegetalisee (Casa Lineal / Casa Estudio) ; lanterneau sur la passerelle
     for x0, y0, x1, y1, d in F.TOIT:
         data["slabs"].append({"x0": x0 - d["w"], "y0": y0 - d["n"], "x1": x1 + d["e"], "y1": y1 + d["s"],
-                              "z": F.TOIT_Z, "t": F.TOIT_EP, "roof": True, "m": "ombriere"})
+                              "z": F.TOIT_Z, "t": F.TOIT_EP, "roof": True, "m": "beton_brut"})
+    for x0, y0, x1, y1 in F.TOITURE_VEGETALE:
+        data["boxes"].append({"x0": x0, "y0": y0, "x1": x1, "y1": y1, "z0": F.TOIT_Z, "z1": F.TOIT_Z + 0.15, "m": "vegetal"})
+    lx0, ly0, lx1, ly1, lz = F.LANTERNEAU
+    for x0, y0, x1, y1 in [(lx0, ly0, lx1, ly0 + 0.15), (lx0, ly1 - 0.15, lx1, ly1)]:   # rehausses
+        data["boxes"].append({"x0": x0, "y0": y0, "x1": x1, "y1": y1, "z0": 6.85, "z1": lz, "m": "beton_brut"})
+    data["boxes"].append({"x0": lx0, "y0": ly0, "x1": lx1, "y1": ly1, "z0": lz, "z1": lz + 0.03, "m": "verre"})
+    for i in range(7):
+        x = lx0 + 0.1 + i * (lx1 - lx0 - 0.2) / 6
+        data["boxes"].append({"x0": x - 0.03, "y0": ly0, "x1": x + 0.03, "y1": ly1, "z0": lz - 0.08, "z1": lz, "m": "beton_brut"})
     for x0, y0, x1, y1, z in F.CASQUETTES:
-        data["slabs"].append({"x0": x0, "y0": y0, "x1": x1, "y1": y1, "z": z, "t": 0.22, "m": "ombriere"})
+        data["slabs"].append({"x0": x0, "y0": y0, "x1": x1, "y1": y1, "z": z, "t": 0.22, "m": "beton_brut"})
+    for x0, y0, x1, y1, z0, z1 in F.DOUBLE_PEAU:
+        dense = [(a - x0, b - x0) for a, b in F.DENSE_NORD] if y0 < 5 else []
+        data["claustras"].append({"x0": x0, "y0": y0, "x1": x1, "y1": y1, "z0": z0, "z1": z1, "random": True, "dense": dense})
     # aile de service de plain-pied : acrotere bas
     for (x0, y0, x1, y1, z) in [(14.9, 5.0, 18.5, 8.6, 3.75), (14.9, 13.6, 18.5, 16.5, 3.75)]:
         data["slabs"].append({"x0": max(2.4, x0 - 0.8), "y0": max(4.2, y0 - 0.8), "x1": min(19.2, x1 + 0.6),
@@ -167,21 +180,20 @@ def build():
     for px in (9.4, 12.05, 14.7):
         data["boxes"].append({"x0": px - 0.1, "y0": 11.4, "x1": px + 0.1, "y1": 11.6, "z0": 0.45, "z1": 3.5, "m": "bois"})
     data["rails"].append({"x0": 9.2, "y0": 10.35, "x1": 14.9, "y1": 10.45, "z0": 3.75, "z1": 4.85})
+    for a, b in F.ECRANS_PASSERELLE:   # ecrans en lattes de bois au-dessus du garde-corps
+        data["lames"].append({"x0": a, "y0": 10.36, "x1": b, "y1": 10.44, "z0": 4.85, "z1": 6.85,
+                              "dir": "v", "pas": 0.09, "ep": 0.04, "m": "bois"})
     # balcon Ouest de la suite
     data["slabs"].append({"x0": 2.0, "y0": 12.2, "x1": 3.2, "y1": 16.5, "z": 3.75, "t": 0.2})
-    # persiennes coulissantes bois et barreaudages (ABYA 2), claustras BTC (aile de service, double peau Ouest)
+    # ecrans coulissants en lattes de bois (Casa Lineal) ; claustras en brique ajouree (sechoir)
     zn = {"RDC": 0.45, "R+1": 3.75}
-    for niv, sens, line, a, b, z0, z1 in F.PERSIENNES:
+    for niv, sens, line, a, b, z0, z1 in F.ECRANS:
         o = -1 if (sens == "h" and line in (5.0, 8.6)) or (sens == "v" and line < 10) else 1
         lo, hi = sorted((line + o * 0.12, line + o * 0.17))
         box = ({"x0": a, "y0": lo, "x1": b, "y1": hi} if sens == "h" else {"x0": lo, "y0": a, "x1": hi, "y1": b})
-        data["lames"].append({**box, "z0": zn[niv] + z0, "z1": zn[niv] + z1, "dir": "h", "pas": 0.07, "m": "bois"})
-    for niv, sens, line, a, b in F.BARREAUDAGES:
-        lo, hi = sorted((line - 0.1, line - 0.13))
-        data["lames"].append({"x0": a, "y0": lo, "x1": b, "y1": hi, "z0": zn[niv], "z1": zn[niv] + 1.0,
-                              "dir": "v", "pas": 0.11, "ep": 0.025, "m": "metal"})
+        data["lames"].append({**box, "z0": zn[niv] + z0, "z1": zn[niv] + z1, "dir": "v", "pas": 0.08, "ep": 0.04, "m": "bois"})
     for x0, y0, x1, y1, z0, z1 in F.CLAUSTRAS:
-        data["claustras"].append({"x0": x0, "y0": y0, "x1": x1, "y1": y1, "z0": z0, "z1": z1})
+        data["claustras"].append({"x0": x0, "y0": y0, "x1": x1, "y1": y1, "z0": z0, "z1": z1, "random": True})
     # pergola plantee + claustra haute au Sud du patio
     for i in range(8):
         x = 9.4 + i * 0.75
@@ -193,23 +205,25 @@ def build():
         for px, py in [(x0 + 0.1, y0 + 0.1), (x1 - 0.1, y0 + 0.1)]:
             data["boxes"].append({"x0": px - 0.06, "y0": py - 0.06, "x1": px + 0.06, "y1": py + 0.06, "z0": 0, "z1": 2.9, "m": "bois"})
     # guerite
-    data["boxes"].append({"x0": 4.4, "y0": 0.3, "x1": 6.8, "y1": 2.7, "z0": 0, "z1": 2.8, "m": "btc", "grp": "guerite"})
-    data["slabs"].append({"x0": 4.0, "y0": 0.25, "x1": 7.3, "y1": 3.2, "z": 3.0, "t": 0.16, "m": "ombriere", "grp": "guerite"})
+    data["boxes"].append({"x0": 4.4, "y0": 0.3, "x1": 6.8, "y1": 2.7, "z0": 0, "z1": 2.8, "m": "moellons", "grp": "guerite"})
+    data["slabs"].append({"x0": 4.0, "y0": 0.25, "x1": 7.3, "y1": 3.2, "z": 3.0, "t": 0.16, "m": "beton_brut", "grp": "guerite"})
     # socle de la maison
     data["boxes"].append({"x0": 3.2, "y0": 5.0, "x1": 18.5, "y1": 16.5, "z0": 0, "z1": 0.45, "m": "socle"})
     # patio : arbre, bassin, massifs
     data["trees"] += [{"x": 12.8, "y": 14.8, "r": 1.5, "h": 6.0}, {"x": 1.5, "y": 9.0, "r": 1.4, "h": 5.0, "grp": "arbres"},
                       {"x": 1.6, "y": 2.2, "r": 1.5, "h": 5.5, "grp": "arbres"},
-                      {"x": 1.5, "y": 14.5, "r": 1.2, "h": 4.5, "grp": "arbres"}]
-    data["water"].append({"x0": 9.8, "y0": 12.0, "x1": 12.2, "y1": 12.8})
+                      {"x": 1.3, "y": 17.1, "r": 1.1, "h": 4.5, "grp": "arbres"}]
+    for x0, y0, x1, y1 in F.BIO_BASSINS:   # bio-bassins a margelle de pierre
+        data["boxes"].append({"x0": x0 - 0.2, "y0": y0 - 0.2, "x1": x1 + 0.2, "y1": y1 + 0.2, "z0": 0, "z1": 0.32, "m": "moellons"})
+        data["water"].append({"x0": x0, "y0": y0, "x1": x1, "y1": y1, "z1": 0.36})
     # clotures (2,2 m) avec portail, portillons ; mur separatif 2,5 m
     # cloture sur rue (Nord et Ouest de la villa) : socle 1,0 m + claustra BTC ; portail et portillons en lames bois
     for x0, y0, x1, y1 in [(0.0, 0.0, 7.0, 0.2), (15.9, 0.0, 17.0, 0.2), (19.5, 0.0, 20.0, 0.2), (0.0, 0.2, 0.2, 18.0)]:
-        data["boxes"].append({"x0": x0, "y0": y0, "x1": x1, "y1": y1, "z0": 0, "z1": F.CLOTURE_SOCLE, "m": "socle_sombre", "grp": "cloture"})
+        data["boxes"].append({"x0": x0, "y0": y0, "x1": x1, "y1": y1, "z0": 0, "z1": F.CLOTURE_SOCLE, "m": "moellons", "grp": "cloture"})
         data["claustras"].append({"x0": x0 + (0.05 if x1 - x0 < 0.3 else 0), "y0": y0 + (0.05 if y1 - y0 < 0.3 else 0),
                                   "x1": x1 - (0.05 if x1 - x0 < 0.3 else 0), "y1": y1 - (0.05 if y1 - y0 < 0.3 else 0),
                                   "z0": F.CLOTURE_SOCLE, "z1": F.CLOTURE_H,
-                                  "bw": 0.18, "pas": 0.40, "rh": 0.30, "jt": 0.08, "grp": "cloture"})
+                                  "random": True, "p": 0.2, "grp": "cloture"})
     # portillon, portillon de service ; portail coulissant de 7,5 m represente ouvert (glisse derriere la cloture Ouest)
     for a, b, y0 in [(7.0, 8.4, 0.04), (17.0, 19.5, 0.04), (0.95, 8.35, 0.24)]:
         data["lames"].append({"x0": a + 0.05, "y0": y0, "x1": b - 0.05, "y1": y0 + 0.12, "z0": 0.05, "z1": F.CLOTURE_H,

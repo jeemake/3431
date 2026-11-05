@@ -1,39 +1,44 @@
-"""Ecriture des facades de l'option C, d'apres la reference Capitude ABYA 2 (Assinie, villa R+1).
+"""Ecriture des facades et du patio de l'option C, d'apres les references Capitude de Palinda Kannangara
+Architects (Sri Lanka) : Casa Lineal (Battaramulla) et Casa Estudio.
 
-Ce que l'on reprend d'ABYA 2 (fiche projet, planches 26-29 « Coupes », « Facades », « Vue depuis le jardin ») :
-  - une toiture-ombriere : dalle plate mince qui deborde largement des parois (ABYA : 2 a 5 m, toiture +6,60) ;
-  - des persiennes bois devant les baies de l'etage et des garde-corps a barreaudage ;
-  - un claustra de briques ajourees pour tout ce qui est service (pavillon de service d'ABYA) ;
-  - des sejours vitres toute hauteur sous les debords.
-Complements tires de Capitude :
-  - claustra devant la cage d'escalier (CDD Cotonou : « claustras devant les cages d'escalier et le hall ») ;
-  - double peau sur la facade exposee a l'Ouest (Typologie urbaine 8 : loggia derriere claustra) ;
-  - cloture sur rue en lames bois et portail en planches (House on Pali Hill : « ecran de lattes, portail en planches »).
-Adaptation au lot 1728 : le rez-de-chaussee est en BTC apparents (terre du brief initial), l'etage en enduit
-blanc casse, la toiture-ombriere en beton blanc ; bois = iroko ou teck local.
+Le concept du patio central de l'option C est conserve tel quel (patio plante a ciel ouvert, terrasse couverte,
+passerelle bois a l'etage, claustra haute au Sud). La reference change son traitement et l'aspect du batiment.
+
+Ce que disent les fiches Capitude (projets, motifs, pieces, liaisons, legendes des planches) :
+  Casa Lineal : beton, murs en moellons de pierre, ciment poli, bois de jacquier de recuperation ; patio central
+    plante sous lanterneau, franchi a l'etage par des passerelles bois ; bio-bassin entre le jardin d'entree et le
+    sejour vitre ; ecrans bois et stores bambou ; toiture vegetalisee, jardinieres engazonnees en rive.
+    Sequence : jardin d'entree -> bio-bassin -> sejour -> escalier -> SAM -> patio ; SAM -> cuisine -> cour de
+    cuisine -> chambre de service ; etage : escalier -> salon TV -> chambre parentale ; salon TV -> passerelles.
+  Casa Estudio : facade sur rue en double peau, brique a perforations aleatoires a l'exterieur, lames de verre
+    reglables a l'interieur ; beton apparent coffre en planches de bois local ; corniches beton a goutte d'eau ;
+    jardinieres de toiture ; parking en sol drainant prolongeant un jardin de pluie.
+Limite : les images des planches ne sont pas consultees (stockage prive) ; la lecture repose sur les donnees
+textuelles et les legendes de details de la base.
 
 Toutes les cotes sont en metres, repere du plan (x vers l'Est, y vers le Sud) ; z depuis le niveau du plancher
 du niveau concerne (RDC +0,45 ; R+1 +3,75).
 """
 
 REFERENCE = {
-    "cle": "abya-assinie",
-    "nom": "ABYA 2, villa R+1, Assinie",
-    "pourquoi": ("Seule villa R+1 ivoirienne de la base dont les façades sont documentées (4 élévations, coupes, "
-                 "axonométrie, vues) ; même climat lagunaire ; mêmes hauteurs (étage +3,50 et toiture +6,60, contre "
-                 "+3,75 et +6,85 ici) ; vocabulaire simple et économique : une dalle, des poteaux, des persiennes, "
-                 "un claustra."),
+    "cle": "ref-casa-lineal, ref-casa-estudio",
+    "nom": "Palinda Kannangara Architects : Casa Lineal et Casa Estudio (Sri Lanka)",
+    "pourquoi": ("Deux maisons tropicales humides sur petites parcelles, organisées autour d’un patio planté et "
+                 "d’une passerelle bois, comme l’option C. Leur matière (béton brut coffré planches, moellons, brique "
+                 "ajourée, bois, ciment poli) se trouve à Abidjan et vieillit bien sous la pluie. Climat proche : "
+                 "Colombo est à 7° N, Abidjan à 5° N, mêmes moussons et mêmes pluies d’orage."),
     "repris": [
-        ("Toiture-ombriere debordante", "Dalle plate mince, debord 1,4 m a l'Ouest, 1,2 m au Nord, 0,8 m a l'Est"),
-        ("Persiennes bois coulissantes", "Devant les baies de l'etage au Nord et a l'Est (chambres 2 et 3, salon familial)"),
-        ("Garde-corps a barreaudage", "Portes-fenetres de l'etage (chambre 2, salon familial)"),
-        ("Claustra de briques ajourees", "Cage d'escalier (lanterne d'angle), aile de service, cloture sur rue"),
-        ("Sejour vitre sous debord", "Baie coulissante 3,2 m du salon a l'Ouest sous la dalle du balcon"),
+        ("Double peau en brique ajourée", "Loggia filante de 0,9 m à l’étage Nord derrière un mur de brique à perforations aléatoires (Casa Estudio), lanterne d’escalier et balcon Ouest dans la même brique"),
+        ("Béton brut coffré planches", "Nez de dalle, corniches à goutte d’eau, porche et casquettes"),
+        ("Moellons de pierre", "Rez-de-chaussée sur les deux rues et socle de la clôture (Casa Lineal)"),
+        ("Patio : passerelle sous lanterneau", "Lanterneau vitré ventilé au-dessus de la passerelle, écrans en lattes de bois, bio-bassin agrandi au pied de l’arbre"),
+        ("Jardin d’entrée, bassin, séjour", "Bio-bassin devant le coulissant du salon dans la bande Ouest, comme la séquence d’arrivée de Casa Lineal"),
+        ("Toiture végétalisée", "Toiture extensive sur l’étage, jardinières engazonnées en rive (Casa Lineal, Casa Estudio)"),
+        ("Écrans bois et stores bambou", "Écrans coulissants en lattes devant les fenêtres Est et Sud, stores bambou sous les débords Ouest"),
     ],
     "complements": [
-        ("cdd", "Claustra devant la cage d'escalier"),
-        ("it8-typologie-urbaine-8", "Double peau sur la facade Ouest : balcon de la suite derriere un claustra"),
-        ("ref-pali-hill", "Portail et portillons en lames de bois, socle mineral sombre"),
+        ("ABYA 2 (Assinie)", "Débords de dalle généreux pour l’ombre et la pluie, conservés de la version précédente"),
+        ("CDD Cotonou", "Claustra devant la cage d’escalier, qui devient la lanterne de l’angle des deux rues"),
     ],
 }
 
@@ -78,38 +83,50 @@ OUVERTURES = [
     ("R+1", "h", 13.6, 16.6, 17.8, 1.8, 2.4, "jour"),      # SE chambre 3, axe de la fenetre de la chambre 3
 ]
 
-# Toiture-ombriere : rectangles des volumes R+1 + debords (N, W, E, S) ; face superieure a +7,07 (sous-face +6,85)
+# Toiture : dalle en beton brut debordante (corniche a goutte d'eau), vegetalisee en partie courante
 TOIT_Z = 7.07
-TOIT_EP = 0.22
+TOIT_EP = 0.18
 TOIT = [
     (3.2, 5.0, 14.9, 9.2, dict(n=1.2, w=1.6, e=0.0, s=0.0)),
-    (3.2, 9.2, 9.2, 16.5, dict(n=0.0, w=1.6, e=0.0, s=1.0)),
-    (14.9, 8.6, 18.5, 13.6, dict(n=0.6, w=0.0, e=0.8, s=0.6)),
-    (9.2, 9.2, 14.9, 10.4, dict(n=0.0, w=0.0, e=0.0, s=0.6)),   # passerelle : debord sur le patio
+    (3.2, 9.2, 9.2, 16.5, dict(n=0.0, w=1.6, e=0.0, s=0.8)),
+    (14.9, 8.6, 18.5, 13.6, dict(n=0.6, w=0.0, e=0.6, s=0.6)),
 ]
-# Casquette du RDC au Nord (dalle +3,75 prolongee) et porche d'entree
+TOITURE_VEGETALE = [(3.6, 5.3, 14.6, 8.9), (3.6, 9.2, 8.9, 16.2), (15.2, 8.9, 18.2, 13.3)]   # substrat 15 cm
+# Lanterneau vitre ventile au-dessus de la passerelle (Casa Lineal) : verre feuillete sur chassis acier, sur rehausse
+LANTERNEAU = (9.2, 9.2, 14.9, 10.4, 7.12)
+# Casquette du RDC au Nord = plancher de la loggia de l'etage ; porche d'entree
 CASQUETTES = [
-    (5.6, 4.1, 14.9, 5.0, 3.75),     # 0,9 m au-dessus de la SAM et de la cuisine
+    (5.6, 4.1, 14.9, 5.0, 3.75),     # 0,9 m : loggia R+1 au-dessus de la SAM et de la cuisine
     (6.2, 3.3, 8.8, 4.1, 3.75),      # porche d'entree, 1,7 m au total
 ]
-# Persiennes coulissantes : panneaux de lames horizontales en applique devant les baies (niveau, sens, ligne, a, b, z0, z1)
-PERSIENNES = [   # vantaux tires sur le trumeau voisin, de meme largeur que la baie
-    ("R+1", "h", 5.0, 6.5, 8.3, 0.0, 2.4),     # salon familial (axe B)
-    ("R+1", "h", 5.0, 10.4, 11.8, 0.0, 2.4),   # chambre 2 (axe C)
-    ("R+1", "h", 8.6, 15.4, 16.6, 1.0, 2.4),   # chambre 3
+# Double peau en brique a perforations aleatoires (x0, y0, x1, y1, z0, z1) - z absolus
+DOUBLE_PEAU = [
+    (5.6, 4.1, 14.9, 4.22, 3.75, 6.85),    # loggia Nord de l'etage (Casa Estudio) ; perforations denses au droit des baies
+    (2.0, 12.2, 2.12, 16.5, 3.75, 6.85),   # balcon Ouest de la suite
+]
+# Zones de perforations denses de la loggia Nord (x), dans l'axe des baies B et C et des jours
+DENSE_NORD = [(5.95, 6.65), (8.3, 10.1), (11.8, 13.2), (13.8, 14.5)]
+# Ecrans coulissants en lattes de bois verticales (niveau, sens, ligne, a, b, z0, z1)
+ECRANS = [
+    ("R+1", "h", 8.6, 15.4, 16.6, 1.0, 2.4),   # chambre 3 (vantail tire)
     ("R+1", "h", 16.5, 3.3, 4.4, 1.0, 2.4),    # chambre parentale (Sud)
 ]
-# Barreaudage des portes-fenetres de l'etage (h 1,0 m)
-BARREAUDAGES = [("R+1", "h", 5.0, 8.3, 10.1), ("R+1", "h", 5.0, 11.8, 13.2)]
-# Claustras BTC ajoures autonomes (x0, y0, x1, y1, z0, z1)
+# Ecrans bois de la passerelle (x0, x1) sur la rive Sud, au-dessus du garde-corps
+ECRANS_PASSERELLE = [(9.3, 10.9), (13.2, 14.8)]
+# Bio-bassins (x0, y0, x1, y1)
+BIO_BASSINS = [(0.8, 11.6, 2.6, 16.0),       # devant le coulissant du salon, bande Ouest
+               (9.6, 11.8, 12.4, 13.2)]      # patio, au pied de l'arbre, alimente par les eaux pluviales
+# Claustras en brique ajouree autonomes (x0, y0, x1, y1, z0, z1)
 CLAUSTRAS = [
-    (2.0, 12.2, 2.14, 16.5, 3.75, 6.85),      # double peau du balcon Ouest de la suite (pleine hauteur)
     (18.5, 2.5, 20.0, 2.64, 0.0, 2.9),        # aile de service : face Nord du sechoir
     (19.86, 2.6, 20.0, 8.6, 0.0, 2.9),        # sechoir, en limite Est
 ]
-# Cloture sur rue : socle maconne 1,0 m + claustra BTC 1,2 m ; portail et portillons en lames bois
+# Cloture sur rue : socle en moellons 1,0 m + brique ajouree 1,2 m ; portail et portillons en lames bois
 CLOTURE_SOCLE = 1.0
 CLOTURE_H = 2.2
+# Materiaux des murs exterieurs : RDC sur rue en moellons, RDC sur patio et jardins en enduit a la chaux,
+# etage en beton brut coffre planches
+RUES = [("h", 5.0), ("v", 3.2)]
 
 
 def resume():

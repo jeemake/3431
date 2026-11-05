@@ -413,12 +413,12 @@ EXTERIEURS = [
 ]
 
 PLUS_VALUES = [
-    ("Menuiseries bois persiennées (jalousies) sur séjour et chambres", "m2", 120_000, "Prix de marché (hypothèse)",
-     {"A": 30, "B": 28, "C": 34, "L": 0}, False),
+    ("Menuiseries bois persiennées (jalousies) / écrans coulissants en lattes", "m2", 120_000, "Prix de marché (hypothèse)",
+     {"A": 30, "B": 28, "C": 8, "L": 0}, False),
     ("Claustras en terre cuite / BTC ajourée (cour de service, façades Ouest, coursive)", "m2", 30_000,
-     "Prix de marché (hypothèse)", {"A": 35, "B": 35, "C": 40, "L": 60}, False),
+     "Prix de marché (hypothèse)", {"A": 35, "B": 35, "C": 18, "L": 60}, False),
     ("Brise-soleil à lames (façades Ouest)", "m2", 60_000, "Prix de marché (hypothèse)",
-     {"A": 14, "B": 14, "C": 10, "L": 12}, False),
+     {"A": 14, "B": 14, "C": 0, "L": 12}, False),
     ("Débords de toiture et casquettes (hors clos)", "m2", 60_000, "Prix de marché (hypothèse)",
      {"A": 50, "B": 55, "C": 45, "L": 0}, False),
     ("Patio : arbre (frangipanier), massifs, bassin à recirculation, éclairage", "ens", 3_000_000, "Prix de marché (hypothèse)",
@@ -428,7 +428,22 @@ PLUS_VALUES = [
     ("Patio : caniveau grillé périphérique + exutoire", "ens", 1_200_000, "Prix de marché (hypothèse)",
      {"A": 0, "B": 0, "C": 1, "L": 0}, False),
     ("Moins-value murs BTC (vs agglos enduits 2 faces)", "m2", -5_000, "Prix de marché (hypothèse)",
-     {"A": 250, "B": 270, "C": 290, "L": 320}, False),
+     {"A": 250, "B": 270, "C": 0, "L": 320}, False),
+    # Option C, ecriture Palinda Kannangara (Casa Lineal, Casa Estudio) : postes propres
+    ("Double peau en brique de terre cuite à perforations aléatoires (loggia Nord, lanterne d'escalier, balcon Ouest)",
+     "m2", 38_000, "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 82, "L": 0}, False),
+    ("Plus-value parement en moellons de granite (RDC sur rues, guérite, socle de clôture)", "m2", 28_000,
+     "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 95, "L": 0}, False),
+    ("Plus-value béton brut coffré planches (nez de dalle, corniches à goutte d'eau, porche)", "m2", 15_000,
+     "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 60, "L": 0}, False),
+    ("Toiture végétalisée extensive (substrat 15 cm, drainage, étanchéité anti-racines) + jardinières de rive",
+     "m2", 25_000, "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 105, "L": 0}, False),
+    ("Lanterneau vitré ventilé sur la passerelle (verre feuilleté, châssis acier, rehausses)", "m2", 180_000,
+     "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 6.8, "L": 0}, False),
+    ("Bio-bassin devant le salon (bande Ouest) : margelle pierre, étanchéité, plantes épuratrices", "ens", 1_600_000,
+     "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 1, "L": 0}, False),
+    ("Écrans en lattes de bois de la passerelle et stores bambou sous débords Ouest", "ens", 900_000,
+     "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 1, "L": 0}, False),
 ]
 
 FRAIS = [  # % du montant travaux HT (base Eco-donnees, recap Pavillon Akpo)

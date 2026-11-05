@@ -12,7 +12,7 @@ A (villa compacte, nounou à l'étage), B (villa avec aile de service, recommand
 | 1. Analyse de site, étude Capitude, trois options de villa, locatif, revues senior | `01_Esquisse_Lot1728_Palmeraie.pdf` |
 | 2. Estimatif sommaire (ratios Éco-données ÷ 2) | `02_Estimatif_Lot1728_Palmeraie.pdf`, `.xlsx` (formules actives) |
 | 3. Business plan de l'investissement locatif | `03_Business_Plan_Lot1728_Palmeraie.pdf`, `.xlsx` (hypothèses modifiables) |
-| Option C, façades (référence Capitude ABYA 2) : élévations annotées, vues | `C_Facades_Lot1728.pdf` |
+| Option C, façades et patio (références Capitude Palinda Kannangara : Casa Lineal, Casa Estudio) : élévations annotées, vues | `C_Facades_Lot1728.pdf` |
 
 Les plans sont aussi fournis en SVG et PNG (`out/svg`, `out/png`).
 

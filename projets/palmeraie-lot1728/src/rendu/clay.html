@@ -26,7 +26,11 @@ const M = {
   patio: new THREE.MeshStandardMaterial({color:'#cfd6c4', roughness:1}),
   feuillage: new THREE.MeshStandardMaterial({color:'#c9d1bf', roughness:1}),
   eau: new THREE.MeshStandardMaterial({color:'#9fb0b5', roughness:0.1}),
-  claustra: new THREE.MeshStandardMaterial({color:'#dccab2', roughness:1}),
+  claustra: new THREE.MeshStandardMaterial({color:'#cdae98', roughness:1}),
+  moellons: new THREE.MeshStandardMaterial({color:'#bdb3a4', roughness:1}),
+  enduit: new THREE.MeshStandardMaterial({color:'#ece8e0', roughness:0.95}),
+  beton_brut: new THREE.MeshStandardMaterial({color:'#d6d3cc', roughness:0.95}),
+  vegetal: new THREE.MeshStandardMaterial({color:'#b9c3a3', roughness:1}),
   btc: new THREE.MeshStandardMaterial({color:'#e8dccb', roughness:1}),
   ombriere: new THREE.MeshStandardMaterial({color:'#f4f2ed', roughness:0.9}),
   socle_sombre: new THREE.MeshStandardMaterial({color:'#9c968c', roughness:1}),
@@ -66,6 +70,25 @@ for (const c of (data.claustras||[])){
   const alongX = (c.x1-c.x0) >= (c.y1-c.y0), L = alongX ? c.x1-c.x0 : c.y1-c.y0, H = c.z1-c.z0;
   const part = (u0,u1,z0,z1)=> alongX ? box(c.x0+u0,c.y0,c.x0+u1,c.y1,c.z0+z0,c.z0+z1,M.claustra)
                                        : box(c.x0,c.y0+u0,c.x1,c.y0+u1,c.z0+z0,c.z0+z1,M.claustra);
+  if (c.random){ // brique a perforations aleatoires (Casa Estudio) : rangs de 0,075 m, briques de 0,23 m, ~30 % de vides
+    let seed = Math.floor((c.x0*73.1 + c.y0*37.7 + c.z0*11.3)*1000) >>> 0;
+    const rnd = () => { seed = (seed + 0x6D2B79F5) >>> 0; let t = seed; t = Math.imul(t ^ t>>>15, t|1);
+      t ^= t + Math.imul(t ^ t>>>7, t|61); return ((t ^ t>>>14) >>> 0) / 4294967296; };
+    const rh = 0.15, bl = 0.24, nr = Math.max(1, Math.round(H/rh)), h = H/nr;
+    for (let k=0;k<nr;k++){
+      const off = (k%2) ? bl/2 : 0; let u = -off, run0 = 0;
+      const solid = [];
+      while (u < L){ const a = Math.max(0,u), b = Math.min(L, u+bl);
+        const um = (a+b)/2, dense = (c.dense||[]).some(([d0,d1]) => um>=d0 && um<=d1);
+        const hole = (k>0 && k<nr-1 && a>0.1 && b<L-0.1 && rnd() < (dense ? 0.62 : (c.p ?? 0.28)));
+        solid.push([a,b,!hole]); u += bl; }
+      let cur = null;
+      for (const [a,b,sd] of solid){ if (sd){ if (!cur) cur=[a,b]; else cur[1]=b; } else { if (cur) part(cur[0],cur[1],k*h,(k+1)*h); cur=null;
+          part(a,b,k*h,k*h+0.02); } }
+      if (cur) part(cur[0],cur[1],k*h,(k+1)*h);
+    }
+    continue;
+  }
   const bw = c.bw || 0.15, pas = c.pas || 0.30, rh = c.rh || 0.30, jt = c.jt || 0.10;
   const nr = Math.max(1, Math.round(H/rh));
   const h = H/nr;
@@ -113,7 +136,7 @@ for (const t of data.trees){
     const c = new THREE.Mesh(new THREE.IcosahedronGeometry(t.r*rr,1), M.feuillage);
     c.position.set(t.x+dx, t.h*0.78+dy, t.y+dz); c.castShadow = true; c.receiveShadow = true; scene.add(c); }
 }
-for (const e of data.water) box(e.x0,e.y0,e.x1,e.y1,0,0.3,M.eau);
+for (const e of data.water) box(e.x0,e.y0,e.x1,e.y1,0,e.z1||0.3,M.eau);
 // lumiere : soleil calcule (azimut depuis le Nord, sens horaire ; Nord = -z)
 const az = cam.sun_az*Math.PI/180, el = cam.sun_el*Math.PI/180;
 const sun = new THREE.DirectionalLight('#fff4e6', cam.sun_int ?? 2.2);
