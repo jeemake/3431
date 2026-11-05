@@ -23,20 +23,20 @@ ELEV = {
 NOTES = {
     "N": [(8.5, 7.0, "Toiture-ombriere en beton blanc, debord 1,2 m", 1),
           (4.4, 6.0, "Lanterne d'escalier en claustra BTC", 0),
-          (8.0, 5.6, "Salon familial : persiennes bois coulissantes", 0),
-          (12.1, 5.3, "Chambre 2 : porte-fenetre, barreaudage", 1),
+          (9.2, 5.6, "Salon familial : persiennes bois coulissantes", 0),
+          (12.5, 5.3, "Chambre 2 : porte-fenetre, barreaudage", 1),
           (17.0, 3.9, "Aile de service de plain-pied", 0),
           (7.5, 1.4, "Entree sous porche 1,7 m", 2),
-          (9.8, 1.6, "SAM", 2), (13.2, 1.9, "Cuisine", 2),
+          (9.2, 1.7, "SAM", 2), (12.5, 1.7, "Cuisine", 2),
           (17.7, 1.6, "Preau cuisine africaine, claustra BTC", 2)],
     "O": [(7.2, 6.0, "Lanterne d'escalier (2 niveaux)", 0),
           (14.3, 5.8, "Balcon de la suite derriere une double peau en claustra", 0),
           (10.9, 5.9, "Jour SdB", 1),
           (8.0, 7.0, "Debord 1,6 m", 1),
-          (13.4, 1.5, "Salon : coulissant 4,4 m sous la dalle du balcon", 2)],
+          (14.2, 1.5, "Salon : coulissant 3,2 m sous la dalle du balcon", 2)],
     "S": [(6.2, 5.5, "Chambre parentale", 0), (12.0, 3.0, "Pergola et claustra haute du patio", 1),
           (6.4, 1.4, "Salon : baie 4,0 m sur le jardin", 2), (16.7, 1.6, "Chambre nounou", 2)],
-    "E": [(11.1, 6.0, "Chambre 3 : jour haut", 0), (5.6, 1.5, "Sechoir couvert, claustra en limite", 2),
+    "E": [(11.3, 6.0, "Chambre 3 : deux jours hauts", 0), (5.6, 1.5, "Sechoir couvert, claustra en limite", 2),
           (10.1, 1.1, "Buanderie", 2), (14.8, 1.1, "Nounou", 2)],
 }
 NIVEAUX = [(0.0, "±0,00 TN"), (0.45, "+0,45 RDC"), (3.75, "+3,75 R+1"), (7.07, "+7,07 toiture")]
@@ -123,7 +123,7 @@ def page_reference(n, doc):
         ("Persiennes bois coulissantes", "Devant les baies de l’étage au Nord, à l’Est et au Sud : intimité côté rue, ventilation volets fermés."),
         ("Garde-corps à barreaudage", "Portes-fenêtres du salon familial et de la chambre 2, comme les balcons d’ABYA 2."),
         ("Claustra de briques ajourées", "Pour tout ce qui sert : cage d’escalier, aile de service, clôture. Ici en BTC, la terre du brief."),
-        ("Séjour vitré sous débord", "Coulissant de 4,4 m du salon à l’Ouest sous la dalle du balcon, baie de 4,0 m au Sud."),
+        ("Séjour vitré sous débord", "Coulissant de 3,2 m du salon à l’Ouest sous la dalle du balcon, baie de 4,0 m au Sud."),
     ])
     compl = "".join(f"<li><b>{k}</b> : {t}</li>" for k, t in [
         ("CDD Cotonou", "claustra devant la cage d’escalier, qui devient la lanterne de l’angle des deux rues"),
@@ -177,6 +177,7 @@ def page_elevations(n, doc, codes=("N", "O")):
     <p>{climat}</p>
     <p>Élévations tirées de la maquette 3D du modèle (ouvertures listées dans <code>facade.py</code>), clôtures, guérite
     et arbres masqués ; lumière conventionnelle à 45°.</p>
+    <p><b>Alignements.</b> Axes verticaux communs au rez-de-chaussée et à l’étage (claustra d’escalier, baies, jours) ; linteaux à 2,40 m partout ; allèges à 1,00 m pour les fenêtres, 1,80 m pour les jours hauts, 0 pour les baies.</p>
   </div>
 </div>"""
     return page(body, n, doc)
@@ -189,9 +190,10 @@ def page_vues(n, doc):
     body = f"""
 <div class="kicker">Option C · Façades</div>
 <h2>L’angle des deux rues et le patio</h2>
+<p class="small muted" style="margin:0">Perspectives à deux points de fuite (axe de visée horizontal, cadrage par décentrement) : les verticales restent verticales.</p>
 <div class="grid g2" style="gap:4mm 6mm;margin-top:2mm">
   {fig(REND / 'clay_rue.png', "Depuis le carrefour au Nord-Ouest, 16 h 30. La clôture (socle de 1,0 m et claustra en BTC jusqu’à 2,2 m) laisse passer l’air ; au-dessus, la toiture-ombrière, la lanterne d’escalier et la double peau de la suite.")}
-  {fig(REND / 'clay_aerien.png', "Vue aérienne depuis le Nord-Ouest : la dalle de toiture unique, la casquette et le porche au Nord, l’aile de service basse à l’Est, le patio ouvert au cœur.")}
+  {fig(REND / 'clay_aerien.png', "Axonométrie depuis le Nord-Ouest : la dalle de toiture unique, la casquette et le porche au Nord, l’aile de service basse à l’Est, le patio ouvert au cœur.")}
   {fig(REND / 'clay_patio.png', "Le patio depuis le jardin Sud, 8 h 30 en novembre : terrasse couverte, poteaux bois, passerelle à lames de l’étage.")}
   {fig(REND / 'ia_v1_provisoire' / 'patio_1.png', "Rendu d’ambiance généré par IA (Sume) à partir de la maquette du patio, avant la reprise des façades sur rue ; les façades du patio n’ont pas changé. Image indicative : matières et végétation interprétées.")}
 </div>"""

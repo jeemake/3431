@@ -127,7 +127,9 @@ const camera = cam.ortho
   : new THREE.PerspectiveCamera(cam.fov || 55, W/H, 0.1, 400);
 if (cam.nofog) scene.fog = null;
 camera.position.set(cam.pos[0], cam.pos[2], cam.pos[1]);
-camera.lookAt(cam.target[0], cam.target[2], cam.target[1]);
+// perspective a 2 points de fuite : axe de visee horizontal (verticales verticales), cadrage par decentrement
+camera.lookAt(cam.target[0], cam.level ? cam.pos[2] : cam.target[2], cam.target[1]);
+if (cam.shift) camera.setViewOffset(W, H, 0, -cam.shift*H, W, H);
 renderer.render(scene, camera);
 document.title = 'done';
 </script></body></html>
