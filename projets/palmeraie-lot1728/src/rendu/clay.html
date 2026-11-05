@@ -8,6 +8,11 @@ const data = window.SCENE;
 const cam = JSON.parse(P.get('cam'));
 if (cam.hide) for (const k in data) if (Array.isArray(data[k])) data[k] = data[k].filter(o => !(cam.hide.includes(o.grp) || cam.hide.includes(o.m)));
 const renderer = new THREE.WebGLRenderer({antialias:true, preserveDrawingBuffer:true});
+if (cam.clip){ // coupe : {axis:'x'|'y', at, keep:'lt'|'gt'} en coordonnees du plan
+  const s = cam.clip.keep === 'lt' ? -1 : 1;
+  const n = cam.clip.axis === 'x' ? new THREE.Vector3(s,0,0) : new THREE.Vector3(0,0,s);
+  renderer.clippingPlanes = [new THREE.Plane(n, -s*cam.clip.at)];
+}
 renderer.setSize(W, H); renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = cam.exposure || 1.0;
 document.body.appendChild(renderer.domElement);
@@ -150,6 +155,7 @@ const camera = cam.ortho
   : new THREE.PerspectiveCamera(cam.fov || 55, W/H, 0.1, 400);
 if (cam.nofog) scene.fog = null;
 camera.position.set(cam.pos[0], cam.pos[2], cam.pos[1]);
+if (cam.up) camera.up.set(cam.up[0], cam.up[2], cam.up[1]);
 // perspective a 2 points de fuite : axe de visee horizontal (verticales verticales), cadrage par decentrement
 camera.lookAt(cam.target[0], cam.level ? cam.pos[2] : cam.target[2], cam.target[1]);
 if (cam.shift) camera.setViewOffset(W, H, 0, -cam.shift*H, W, H);

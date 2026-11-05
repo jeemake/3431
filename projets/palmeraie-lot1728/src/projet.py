@@ -223,7 +223,8 @@ OPTION_C = {
     "code": "C",
     "nom": "Option C — Maison à patio central",
     "titre_court": "Maison à patio",
-    "ref": "Casa Lineal (patio central et passerelle bois), Anthurium MV, EMIIKA (sas de service), JIK",
+    "ref": ("Palinda Kannangara : Casa Lineal (patio, passerelle, matières) et Casa Estudio (double peau de brique), "
+            "Anthurium MV, EMIIKA (sas de service), JIK"),
     "parti": ("Les pièces s'organisent autour d'un patio planté à ciel ouvert, bordé au Nord par une terrasse couverte "
               "et fermé au Sud par une pergola et une claustra haute qui le protègent des vues du locatif. Salon à "
               "l'Ouest, salle à manger et cuisine au Nord, service et nounou à l'Est. Un passage de 1,50 m fait le tour "
@@ -261,6 +262,8 @@ OPTION_C = {
         R("SE ch.3", "R+1", (14.9, 12.2, 18.5, 13.6), "eau"),
         R("Passerelle bois", "R+1", (9.2, 9.2, 14.9, 10.4), "balcon", clos=False),
         R("Balcon Ouest (suite)", "R+1", (2.0, 12.2, 3.2, 16.5), "balcon", clos=False),
+        # ecriture Casa Estudio : loggia filante derriere une double peau de brique ajouree (casquette du RDC)
+        R("Loggia Nord", "R+1", (5.6, 4.1, 14.9, 5.0), "balcon", clos=False),
     ],
     "portes": [
         ("RDC", 7.5, 5.0, "h", 0.9),    # porte d'entree (blindee)
@@ -280,23 +283,27 @@ OPTION_C = {
         ("RDC", 18.5, 14.8, "v", 0.8),  # chambre nounou -> passage Est (porte independante)
         ("RDC", 16.7, 13.2, "h", 0.7),  # chambre nounou -> SE
         ("RDC", 9.2, 13.0, "v", 4.0),   # salon -> galerie / patio (baies)
-        ("RDC", 3.2, 13.0, "v", 2.4),   # salon -> jardin Ouest
+        ("RDC", 3.2, 14.2, "v", 3.2),   # salon -> jardin Ouest et bio-bassin (coulissant 3,2 m, facade.py)
+        ("RDC", 6.4, 16.5, "h", 4.0),   # salon -> jardin Sud (baie 4,0 m)
         ("RDC", 5.6, 2.7, "h", 0.8),    # guerite
         ("R+1", 5.6, 8.8, "v", 0.7),    # escalier (arrivee) -> palier
         ("R+1", 9.8, 9.2, "h", 1.0),    # salon familial -> passerelle
         ("R+1", 7.1, 9.2, "h", 0.9),    # palier -> dressing (suite)
         ("R+1", 6.2, 10.7, "v", 0.8),   # dressing -> SdB
         ("R+1", 7.7, 12.2, "h", 0.9),   # dressing -> chambre
-        ("R+1", 3.2, 14.3, "v", 1.8),   # chambre parentale -> balcon Ouest
+        ("R+1", 3.2, 14.2, "v", 3.2),   # chambre parentale -> balcon Ouest (derriere la brique ajouree)
+        ("R+1", 9.2, 5.0, "h", 1.8),    # salon familial -> loggia Nord (axe B)
+        ("R+1", 12.5, 5.0, "h", 1.4),   # chambre 2 -> loggia Nord (axe C)
         ("R+1", 10.4, 8.2, "v", 0.9),   # palier -> chambre 2 (directe)
         ("R+1", 13.4, 6.4, "v", 0.8),   # chambre 2 -> SE (coulissante)
         ("R+1", 13.4, 8.5, "v", 0.8),   # chambre 2 -> placard
         ("R+1", 14.9, 9.8, "v", 0.9),   # passerelle -> chambre 3
         ("R+1", 16.7, 12.2, "h", 0.8),  # chambre 3 -> SE (au-dessus de la SE nounou)
     ],
-    "toiture": ("Toitures bac acier isolé à pente vers l'extérieur (pas d'eau de toiture dans le patio), débords de "
-                "1,2 m ; caniveau grillé et exutoire autour du patio ; conduit de la cuisine africaine monté à 1 m "
-                "au-dessus de l'égout de l'étage"),
+    "toiture": ("Toiture-terrasse en béton brut, végétalisée (substrat 15 cm), pentes vers l'extérieur et descentes "
+                "en façade : seule l'eau du lanterneau rejoint le bio-bassin du patio ; débords de 0,6 à 1,6 m, "
+                "corniches à goutte d'eau ; caniveau grillé et exutoire autour du patio ; conduit de la cuisine "
+                "africaine monté à 1 m au-dessus de l'acrotère de l'aile"),
 }
 
 # Indications de mobilier (mur d'appui) quand la regle automatique gene une porte
@@ -420,7 +427,7 @@ PLUS_VALUES = [
     ("Brise-soleil à lames (façades Ouest)", "m2", 60_000, "Prix de marché (hypothèse)",
      {"A": 14, "B": 14, "C": 0, "L": 12}, False),
     ("Débords de toiture et casquettes (hors clos)", "m2", 60_000, "Prix de marché (hypothèse)",
-     {"A": 50, "B": 55, "C": 45, "L": 0}, False),
+     {"A": 50, "B": 55, "C": 37, "L": 0}, False),
     ("Patio : arbre (frangipanier), massifs, bassin à recirculation, éclairage", "ens", 3_000_000, "Prix de marché (hypothèse)",
      {"A": 0, "B": 0, "C": 1, "L": 0}, False),
     ("Patio : claustra haute 4 m + pergola plantée (fermeture Sud)", "ens", 1_500_000, "Prix de marché (hypothèse)",

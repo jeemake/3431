@@ -12,6 +12,7 @@ A (villa compacte, nounou à l'étage), B (villa avec aile de service, recommand
 | 1. Analyse de site, étude Capitude, trois options de villa, locatif, revues senior | `01_Esquisse_Lot1728_Palmeraie.pdf` |
 | 2. Estimatif sommaire (ratios Éco-données ÷ 2) | `02_Estimatif_Lot1728_Palmeraie.pdf`, `.xlsx` (formules actives) |
 | 3. Business plan de l'investissement locatif | `03_Business_Plan_Lot1728_Palmeraie.pdf`, `.xlsx` (hypothèses modifiables) |
+| 4. Option C, dossier de présentation : plans, coupes, élévations, vues 3D (maquette), surfaces, estimatif | `04_Dossier_Option_C_Lot1728.pdf` |
 | Option C, façades et patio (références Capitude Palinda Kannangara : Casa Lineal, Casa Estudio) : élévations annotées, vues | `C_Facades_Lot1728.pdf` |
 
 Les plans sont aussi fournis en SVG et PNG (`out/svg`, `out/png`).
@@ -36,5 +37,6 @@ python3 estimatif.py  # classeur estimatif
 python3 bp.py         # classeur business plan
 python3 doc.py        # 3 PDF (Chromium / Playwright)
 python3 rendu/scene.py  # maquette 3D de l'option C (facades : facade.py)
+python3 doc_dossier_C.py  # dossier de presentation de l'option C
 python3 doc_facade.py   # planches facades (apres rendu des vues clay, voir rendu/render_clay.js)
 ```

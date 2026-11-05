@@ -396,10 +396,13 @@ def front_parking(c, opt, labels=True):
 
 def villa_exterieurs(c, opt, niveau):
     front_parking(c, opt)
+    k = opt["code"]
     tree(c, 1.6, 2.2, 1.2)
     tree(c, 1.4, 9.0, 1.1)
-    tree(c, 1.5, 14.5, 1.0, "#c4d4a8")
-    k = opt["code"]
+    if k == "C":
+        tree(c, 1.3, 17.1, 0.9, "#c4d4a8")
+    else:
+        tree(c, 1.5, 14.5, 1.0, "#c4d4a8")
     if k == "A":
         tree(c, 4.5, 16.9, 1.1)
         tree(c, 11.5, 16.9, 1.0, "#c4d4a8")
@@ -418,6 +421,64 @@ def villa_exterieurs(c, opt, niveau):
     c.text(10, 18.55, "mur séparatif + haie (vers la parcelle locative)", size=7, fill=MUTED)
 
 
+BRIQUE = "#c98f6c"
+
+
+def brick_line(c, x0, y0, x1, y1):
+    """Ecran en brique ajouree : bande hachuree terre cuite."""
+    c.rect(x0, y0, x1, y1, fill="#e8c9b3", stroke=BRIQUE, sw=0.8)
+    horiz = (x1 - x0) >= (y1 - y0)
+    L = (x1 - x0) if horiz else (y1 - y0)
+    n = int(L / 0.25)
+    for i in range(n):
+        u = (i + 0.5) * L / n
+        if horiz:
+            c.line(x0 + u, y0, x0 + u, y1, stroke=BRIQUE, sw=0.6)
+        else:
+            c.line(x0, y0 + u, x1, y0 + u, stroke=BRIQUE, sw=0.6)
+
+
+def draw_windows(c, niveau, portes):
+    """Fenetres, jours et claustras des facades composees (facade.py), option C."""
+    import facade as F
+    doors = {(n, s_, round(l, 2)) for n, x, y, s_, w in portes for l in [(y if s_ == "h" else x)]}
+    for niv, sens, line, a, b, z0, z1, kind in F.OUVERTURES:
+        if niv != niveau or kind == "porte":
+            continue
+        if kind == "baie" and any(n == niv and s_ == sens and abs((y if s_ == "h" else x) - line) < 0.06
+                                  and abs((x if s_ == "h" else y) - (a + b) / 2) < (b - a) / 2 + 0.05
+                                  for n, x, y, s_, w in portes):
+            continue
+        if kind == "claustra":
+            if sens == "h":
+                brick_line(c, a, line - 0.27 if line < 9 else line + 0.12, b, line - 0.12 if line < 9 else line + 0.27)
+            else:
+                brick_line(c, line - 0.27, a, line - 0.12, b)
+        col = "#5f8fa3"
+        if sens == "h":
+            c.line(a, line, b, line, stroke="#ffffff", sw=3.4)
+            for d in (-0.06, 0.06):
+                c.line(a, line + d, b, line + d, stroke=col, sw=0.7, dash="2 1.5" if kind == "jour" else None)
+            for x in (a, b):
+                c.line(x, line - 0.12, x, line + 0.12, stroke=INK, sw=0.9)
+        else:
+            c.line(line, a, line, b, stroke="#ffffff", sw=3.4)
+            for d in (-0.06, 0.06):
+                c.line(line + d, a, line + d, b, stroke=col, sw=0.7, dash="2 1.5" if kind == "jour" else None)
+            for y in (a, b):
+                c.line(line - 0.12, y, line + 0.12, y, stroke=INK, sw=0.9)
+
+
+def section_marks(c):
+    """Traits de coupe AA (Nord-Sud, x = 12,6) et BB (Est-Ouest, y = 13,0)."""
+    for (x0, y0, x1, y1, lab, dx, dy) in [(12.6, 3.0, 12.6, 18.6, "A", -0.7, 0), (-0.6, 13.0, 20.6, 13.0, "B", 0, -0.7)]:
+        c.line(x0, y0, x1, y1, stroke="#b5653a", sw=0.9, dash="8 3 2 3")
+        for (x, y) in ((x0, y0), (x1, y1)):
+            c.raw(f'<circle cx="{c.X(x):.1f}" cy="{c.Y(y):.1f}" r="9" fill="#b5653a"/>')
+            c.text(x, y + 0.13, lab, size=9, fill="#ffffff", weight=700)
+            c.line(x, y, x + dx, y + dy, stroke="#b5653a", sw=2.0)
+
+
 def plan_villa(opt, niveau, s=24):
     c = Canvas(-1.6, -1.6, 21.0, 19.2, s=s, pad=18)
     parcel_frame(c, 0, 18)
@@ -430,14 +491,31 @@ def plan_villa(opt, niveau, s=24):
                 for x0, y0, x1, y1 in r["rects"]:
                     c.rect(x0, y0, x1, y1, fill="#f4f1ec", stroke=LINE, sw=0.4, dash="2 2")
     draw_rooms(c, opt["pieces"], niveau, portes=opt["portes"])
-    if opt["code"] == "C" and niveau == "RDC":
-        tree(c, 12.0, 15.4, 1.8)
-        c.raw(f'<rect x="{c.X(10.8):.1f}" y="{c.Y(11.4):.1f}" width="{2.8 * c.s:.1f}" height="{0.9 * c.s:.1f}" '
-              f'rx="4" fill="#bcd6e0" stroke="{MUTED}" stroke-width="0.5"/>')
-        c.text(11.0, 13.25, "bassin", size=6.5, fill=MUTED)
-        c.line(9.2, 18.0, 14.9, 18.0, stroke="#7c9566", sw=3.0)
-        for x, y in ((9.9, 15.8), (14.2, 12.3)):
-            tree(c, x, y, 0.45, "#c4d4a8")
+    if opt["code"] == "C":
+        import facade as F
+        draw_windows(c, niveau, opt["portes"])
+        if niveau == "RDC":
+            for i, (x0, y0, x1, y1) in enumerate(F.BIO_BASSINS):
+                c.rect(x0 - 0.2, y0 - 0.2, x1 + 0.2, y1 + 0.2, fill="#d9d2c6", stroke=MUTED, sw=0.5)
+                c.rect(x0, y0, x1, y1, fill="#bcd6e0", stroke=MUTED, sw=0.5)
+                c.text((x0 + x1) / 2, (y0 + y1) / 2 + 0.1, "bio-bassin", size=6.5, fill="#2f4a6d",
+                       rot=-90 if (y1 - y0) > (x1 - x0) else 0)
+            tree(c, 12.8, 14.8, 1.5)
+            for x, y in ((10.0, 15.8), (14.2, 12.3)):
+                tree(c, x, y, 0.45, "#c4d4a8")
+            c.rect(6.2, 3.3, 8.8, 5.0, stroke=MUTED, sw=0.6, dash="3 2")
+            c.text(7.5, 3.75, "porche", size=6.5, fill=MUTED)
+            brick_line(c, 9.2, 17.85, 14.9, 18.0)
+            section_marks(c)
+        else:
+            for x0, y0, x1, y1, z0, z1 in F.DOUBLE_PEAU:
+                brick_line(c, x0, y0, x1, y1)
+            lx0, ly0, lx1, ly1, _ = F.LANTERNEAU
+            c.rect(lx0 + 0.1, ly0 + 0.1, lx1 - 0.1, ly1 - 0.1, stroke="#5f8fa3", sw=0.7, dash="4 2")
+            c.text((lx0 + lx1) / 2, ly1 + 0.45, "lanterneau vitré au-dessus", size=6.5, fill="#2f4a6d")
+            for a, b in F.ECRANS_PASSERELLE:
+                c.line(a, 10.4, b, 10.4, stroke="#8a6a4f", sw=2.2)
+            c.text(12.05, 13.3, "vide sur patio", size=7.5, fill=MUTED, italic=True)
     north_arrow(c, 19.6, 1.4, 0.7)
     return c.svg()
 
