@@ -219,104 +219,106 @@ OPTION_B = {
                 "remonté au-dessus de l'égout de l'étage"),
 }
 
-# Option C v4 : trame du client (markup du 07-11-2026). X : recul Ouest 3,5 | 3 | 3,5 | 3,5 | 2 | 3,5 | passage Est 1 ;
-# Y : parking 4,5 | bande avant 1,2 | bande Nord 5,5 | bande Sud 5,8 | passage 1 | mur vegetalise en limite.
-CX = (3.5, 6.5, 10.0, 13.5, 15.5, 19.0)
-CY = (4.5, 5.7, 11.2, 17.0, 18.0)
+# Option C v5 : trame du client (markup du 10-11-2026). X : recul Ouest 2,5 | 3 | 3,5 | 3,5 | 2 | 3,5 | passage Est 2 ;
+# Y : parking 4,5 | loggia / passage couvert 1,0 | bande Nord 5,5 | bande Sud 5,8 | passage 1,2 | mur vegetalise en limite.
+# Cloison cuisine / cuisine africaine alignee sur l'axe 5 (x = 14,5), comme le bureau ; porte cuisine -> terrasse supprimee.
+CX = (2.5, 5.5, 9.0, 12.5, 14.5, 18.0)
+CY = (4.5, 5.5, 11.0, 16.8, 18.0)
+NIVEAUX = {"RDC": 0.0, "R+1": 3.30, "TOIT": 6.60, "PERGOLA": 9.00}   # cotes du client (markup coupe BB)
 OPTION_C = {
     "code": "C",
     "nom": "Option C — Maison à patio",
     "titre_court": "Maison à patio",
-    "ref": ("Palinda Kannangara : Casa Lineal (patio, galerie, matières) et Casa Estudio (double peau de brique), "
-            "Typologie urbaine 8 (résille), Anthurium MV, EMIIKA, JIK"),
+    "ref": ("Images de référence du client (claustra de lames de bois ; bardage bois, claustra béton, moellons, grand "
+            "débord), Palinda Kannangara (Casa Lineal, Casa Estudio) pour le patio, Anthurium MV, EMIIKA, JIK"),
     "parti": ("Les pièces s'organisent autour d'un patio planté à ciel ouvert, bordé au Nord par une terrasse couverte "
               "et ouvert au Sud sur un mur végétalisé en limite. Au rez-de-chaussée : salon à l'Ouest, salle à manger "
               "et cuisine au Nord, bureau et nounou à l'Est. À l'étage, un plan en L : salon familial et deux chambres "
-              "le long de la rue, chambre principale au fond. L'escalier monte jusqu'à un toit-terrasse sous pergola."),
+              "le long de la rue, chambre principale au fond. L'escalier monte jusqu'à un toit-terrasse couvert."),
     "pieces": [
-        R("Guérite + WC gardien", "RDC", (4.4, 0.3, 6.8, 2.7), "service"),
-        R("Local GE + niche compteurs", "RDC", (0.3, 0.3, 3.3, 2.5), "service", clos=False),
-        R("Passage couvert d'entrée", "RDC", (3.5, 4.5, 16.5, 5.7), "terrasse", clos=False),
-        R("Escalier", "RDC", (3.5, 5.7, 6.5, 9.9), "escalier"),
-        R("WC visiteurs", "RDC", (3.5, 9.9, 6.5, 11.2), "eau"),
-        R("Hall d'entrée", "RDC", (6.5, 5.7, 8.5, 11.2), "circ"),
-        R("Salle à manger", "RDC", (8.5, 5.7, 13.5, 11.2), "sejour"),
-        R("Cuisine", "RDC", (13.5, 5.7, 16.5, 11.2), "cuisine"),
-        R("Cuisine africaine", "RDC", (16.5, 5.7, 19.0, 9.6), "cuis_afr"),
-        R("Buanderie (sas)", "RDC", (16.5, 9.6, 19.0, 11.2), "service"),
-        R("Salon", "RDC", (3.5, 11.2, 10.0, 17.0), "sejour"),
-        R("Terrasse couverte sur patio", "RDC", (10.0, 11.2, 15.5, 13.6), "terrasse", clos=False),
-        R("Patio planté", "RDC", (10.0, 13.6, 15.5, 18.0), "patio", clos=False),
-        R("Bureau", "RDC", (15.5, 11.2, 19.0, 13.2), "chambre"),
-        R("SE nounou", "RDC", (15.5, 13.2, 19.0, 14.6), "eau"),
-        R("Chambre nounou", "RDC", (15.5, 14.6, 19.0, 17.0), "chambre"),
-        R("Préau cuisine africaine", "RDC", (16.5, 2.6, 19.0, 5.7), "terrasse", clos=False),
-        R("Séchoir à ciel ouvert", "RDC", (16.5, 0.2, 19.8, 2.6), "patio", clos=False),
+        R("Guérite + WC gardien", "RDC", (3.3, 0.3, 5.7, 2.7), "service"),
+        R("Local GE + niche compteurs", "RDC", (0.3, 0.3, 3.0, 2.5), "service", clos=False),
+        R("Passage couvert d'entrée", "RDC", (2.5, 4.5, 15.5, 5.5), "terrasse", clos=False),
+        R("Escalier", "RDC", (2.5, 5.5, 5.5, 9.7), "escalier"),
+        R("WC visiteurs", "RDC", (2.5, 9.7, 5.5, 11.0), "eau"),
+        R("Hall d'entrée", "RDC", (5.5, 5.5, 7.5, 11.0), "circ"),
+        R("Salle à manger", "RDC", (7.5, 5.5, 12.5, 11.0), "sejour"),
+        R("Cuisine", "RDC", (12.5, 5.5, 14.5, 11.0), "cuisine"),
+        R("Cuisine africaine", "RDC", (14.5, 5.5, 18.0, 9.4), "cuis_afr"),
+        R("Buanderie (sas)", "RDC", (14.5, 9.4, 18.0, 11.0), "service"),
+        R("Salon", "RDC", (2.5, 11.0, 9.0, 16.8), "sejour"),
+        R("Terrasse couverte sur patio", "RDC", (9.0, 11.0, 14.5, 13.4), "terrasse", clos=False),
+        R("Patio planté", "RDC", (9.0, 13.4, 14.5, 18.0), "patio", clos=False),
+        R("Bureau", "RDC", (14.5, 11.0, 18.0, 13.0), "chambre"),
+        R("SE nounou", "RDC", (14.5, 13.0, 18.0, 14.4), "eau"),
+        R("Chambre nounou", "RDC", (14.5, 14.4, 18.0, 16.8), "chambre"),
+        R("Préau cuisine africaine", "RDC", (15.5, 2.6, 18.0, 5.5), "terrasse", clos=False),
+        R("Séchoir à ciel ouvert", "RDC", (14.5, 0.2, 18.0, 2.6), "patio", clos=False),
         # etage en L
-        R("Rangement", "R+1", (3.5, 4.5, 6.5, 5.7), "dressing"),
-        R("Loggia Nord (rangements)", "R+1", (6.5, 4.5, 19.0, 5.7), "balcon", clos=False),
-        R("Escalier", "R+1", (3.5, 5.7, 6.5, 9.9), "escalier"),
-        R("Lingerie", "R+1", (3.5, 9.9, 6.5, 11.2), "dressing"),
-        R("Salon familial", "R+1", (6.5, 5.7, 10.0, 11.2), "sejour"),
-        R("Chambre 1", "R+1", (10.0, 5.7, 13.5, 10.0), "chambre"),
-        R("SE ch.1", "R+1", (13.5, 5.7, 15.5, 7.85), "eau"),
-        R("SE ch.2", "R+1", (13.5, 7.85, 15.5, 10.0), "eau"),
-        R("Galerie sur patio", "R+1", (10.0, 10.0, 15.5, 11.2), "circ"),
-        R("Chambre 2", "R+1", (15.5, 5.7, 19.0, 11.2), "chambre"),
-        R("SdB parentale", "R+1", (3.5, 11.2, 6.5, 13.8), "eau"),
-        R("Dressing parental", "R+1", (6.5, 11.2, 10.0, 13.8), "dressing"),
-        R("Chambre principale", "R+1", (3.5, 13.8, 10.0, 17.0), "chambre"),
-        R("Jardinière Ouest", "R+1", (2.7, 13.8, 3.5, 17.0), "balcon", clos=False),
-        # niveau pergola (toit-terrasse)
-        R("Édicule d'escalier", "TOIT", (3.5, 5.7, 6.5, 9.9), "escalier"),
-        R("Toit-terrasse sous pergola", "TOIT", [(6.5, 5.7, 19.0, 11.2), (3.5, 9.9, 6.5, 11.2), (3.5, 11.2, 10.0, 17.0)],
+        R("Rangement", "R+1", (2.5, 4.5, 5.5, 5.5), "dressing"),
+        R("Loggia Nord (rangements)", "R+1", (5.5, 4.5, 18.0, 5.5), "balcon", clos=False),
+        R("Escalier", "R+1", (2.5, 5.5, 5.5, 9.7), "escalier"),
+        R("Lingerie", "R+1", (2.5, 9.7, 5.5, 11.0), "dressing"),
+        R("Salon familial", "R+1", (5.5, 5.5, 9.0, 11.0), "sejour"),
+        R("Chambre 1", "R+1", (9.0, 5.5, 12.5, 9.8), "chambre"),
+        R("SE ch.1", "R+1", (12.5, 5.5, 14.5, 7.65), "eau"),
+        R("SE ch.2", "R+1", (12.5, 7.65, 14.5, 9.8), "eau"),
+        R("Galerie sur patio", "R+1", (9.0, 9.8, 14.5, 11.0), "circ"),
+        R("Chambre 2", "R+1", (14.5, 5.5, 18.0, 11.0), "chambre"),
+        R("SdB parentale", "R+1", (2.5, 11.0, 5.5, 13.6), "eau"),
+        R("Dressing parental", "R+1", (5.5, 11.0, 9.0, 13.6), "dressing"),
+        R("Chambre principale", "R+1", (2.5, 13.6, 9.0, 16.8), "chambre"),
+        R("Jardinière Ouest", "R+1", (1.7, 13.6, 2.5, 16.8), "balcon", clos=False),
+        # niveau haut : toit-terrasse couvert (pergola V1 sous toiture plate, V2 sous toit en croupe)
+        R("Édicule d'escalier", "TOIT", (2.5, 5.5, 5.5, 9.7), "escalier"),
+        R("Toit-terrasse couvert", "TOIT", [(5.5, 5.5, 18.0, 11.0), (2.5, 9.7, 5.5, 11.0), (2.5, 11.0, 9.0, 16.8)],
           "toit_jard", clos=False),
-        R("Jardinière (firecracker plants)", "TOIT", (3.5, 4.5, 19.0, 5.7), "jardin", clos=False),
+        R("Jardinière (firecracker plants)", "TOIT", (2.5, 4.5, 18.0, 5.5), "jardin", clos=False),
     ],
     "portes": [
-        ("RDC", 7.5, 5.7, "h", 1.2),    # porte d'entree pivotante (axe 7,5)
-        ("RDC", 6.5, 8.6, "v", 0.9),    # hall -> escalier
-        ("RDC", 6.5, 10.55, "v", 0.7),  # hall -> WC visiteurs
-        ("RDC", 8.5, 7.6, "v", 1.2),    # hall -> salle a manger
-        ("RDC", 7.6, 11.2, "h", 1.6),   # hall -> salon
-        ("RDC", 9.25, 11.2, "h", 1.2),  # salle a manger <-> salon (ouverture)
-        ("RDC", 11.75, 11.2, "h", 2.4), # salle a manger -> terrasse (baie)
-        ("RDC", 13.5, 7.6, "v", 0.9),   # salle a manger -> cuisine
-        ("RDC", 14.5, 11.2, "h", 0.9),  # cuisine -> terrasse
-        ("RDC", 16.5, 10.4, "v", 0.8),  # cuisine -> buanderie (sas)
-        ("RDC", 17.75, 9.6, "h", 0.8),  # buanderie -> cuisine africaine
-        ("RDC", 19.0, 10.4, "v", 0.8),  # buanderie -> passage Est
-        ("RDC", 17.25, 5.7, "h", 1.2),  # cuisine africaine -> preau / livraisons
-        ("RDC", 10.0, 14.1, "v", 4.0),  # salon -> terrasse et patio (baies)
-        ("RDC", 3.5, 15.4, "v", 2.4),   # salon -> jardin Ouest et bio-bassin
-        ("RDC", 15.5, 12.2, "v", 0.9),  # bureau -> terrasse
-        ("RDC", 17.25, 14.6, "h", 0.7), # chambre nounou -> SE
-        ("RDC", 19.0, 15.8, "v", 0.8),  # chambre nounou -> passage Est (porte independante)
-        ("RDC", 5.6, 2.7, "h", 0.8),    # guerite
-        ("R+1", 6.5, 8.6, "v", 0.9),    # escalier -> salon familial
-        ("R+1", 6.5, 10.55, "v", 0.7),  # salon familial -> lingerie
-        ("R+1", 5.0, 5.7, "h", 0.8),    # escalier -> rangement
-        ("R+1", 8.3, 11.2, "h", 0.9),   # salon familial -> dressing (suite)
-        ("R+1", 6.5, 12.5, "v", 0.8),   # dressing -> SdB
-        ("R+1", 8.3, 13.8, "h", 0.9),   # dressing -> chambre principale
-        ("R+1", 3.5, 15.4, "v", 2.4),   # chambre principale -> jardiniere Ouest (baie)
-        ("R+1", 10.0, 10.6, "v", 0.9),  # salon familial -> galerie
-        ("R+1", 11.75, 10.0, "h", 0.9), # galerie -> chambre 1
-        ("R+1", 13.5, 6.8, "v", 0.8),   # chambre 1 -> SE ch.1
-        ("R+1", 15.5, 10.6, "v", 0.9),  # galerie -> chambre 2
-        ("R+1", 15.5, 8.9, "v", 0.8),   # chambre 2 -> SE ch.2
-        ("R+1", 7.5, 5.7, "h", 1.6),    # salon familial -> loggia (axe 7,5)
-        ("R+1", 11.75, 5.7, "h", 1.4),  # chambre 1 -> loggia
-        ("R+1", 17.25, 5.7, "h", 1.4),  # chambre 2 -> loggia
-        ("TOIT", 6.5, 8.6, "v", 0.9),   # edicule -> toit-terrasse
+        ("RDC", 6.5, 5.5, "h", 1.2),    # porte d'entree pivotante (axe 6,5)
+        ("RDC", 5.5, 8.4, "v", 0.9),    # hall -> escalier
+        ("RDC", 5.5, 10.35, "v", 0.7),  # hall -> WC visiteurs
+        ("RDC", 7.5, 7.4, "v", 1.2),    # hall -> salle a manger
+        ("RDC", 6.6, 11.0, "h", 1.6),   # hall -> salon
+        ("RDC", 8.25, 11.0, "h", 1.2),  # salle a manger <-> salon (ouverture)
+        ("RDC", 10.75, 11.0, "h", 2.4), # salle a manger -> terrasse (baie)
+        ("RDC", 12.5, 6.4, "v", 0.9),   # salle a manger -> cuisine
+        ("RDC", 14.5, 10.2, "v", 0.8),  # cuisine -> buanderie (sas)
+        ("RDC", 16.25, 9.4, "h", 0.8),  # buanderie -> cuisine africaine
+        ("RDC", 18.0, 10.2, "v", 0.8),  # buanderie -> passage Est
+        ("RDC", 16.25, 5.5, "h", 1.2),  # cuisine africaine -> preau / livraisons
+        ("RDC", 9.0, 13.9, "v", 4.0),   # salon -> terrasse et patio (baies)
+        ("RDC", 2.5, 15.2, "v", 2.4),   # salon -> jardin Ouest
+        ("RDC", 14.5, 12.0, "v", 0.9),  # bureau -> terrasse
+        ("RDC", 16.25, 14.4, "h", 0.7), # chambre nounou -> SE
+        ("RDC", 18.0, 15.6, "v", 0.8),  # chambre nounou -> passage Est (porte independante)
+        ("RDC", 4.5, 2.7, "h", 0.8),    # guerite
+        ("R+1", 5.5, 8.4, "v", 0.9),    # escalier -> salon familial
+        ("R+1", 5.5, 10.35, "v", 0.7),  # salon familial -> lingerie
+        ("R+1", 4.0, 5.5, "h", 0.8),    # escalier -> rangement
+        ("R+1", 7.3, 11.0, "h", 0.9),   # salon familial -> dressing (suite)
+        ("R+1", 5.5, 12.3, "v", 0.8),   # dressing -> SdB
+        ("R+1", 7.3, 13.6, "h", 0.9),   # dressing -> chambre principale
+        ("R+1", 2.5, 15.2, "v", 2.4),   # chambre principale -> jardiniere Ouest (baie)
+        ("R+1", 9.0, 10.4, "v", 0.9),   # salon familial -> galerie
+        ("R+1", 10.75, 9.8, "h", 0.9),  # galerie -> chambre 1
+        ("R+1", 12.5, 6.6, "v", 0.8),   # chambre 1 -> SE ch.1
+        ("R+1", 14.5, 10.4, "v", 0.9),  # galerie -> chambre 2
+        ("R+1", 14.5, 8.7, "v", 0.8),   # chambre 2 -> SE ch.2
+        ("R+1", 6.5, 5.5, "h", 1.6),    # salon familial -> loggia (axe 6,5)
+        ("R+1", 10.75, 5.5, "h", 1.4),  # chambre 1 -> loggia
+        ("R+1", 16.25, 5.5, "h", 1.4),  # chambre 2 -> loggia
+        ("TOIT", 5.5, 8.4, "v", 0.9),   # edicule -> toit-terrasse
     ],
-    "toiture": ("Toit-terrasse accessible en béton, étanché, sous une pergola bois sur poteaux acier, jardinière "
-                "continue sur la façade Nord (firecracker plants retombant sur la double peau) ; toitures végétalisées "
-                "sur l'aile Est et la terrasse couverte ; descentes en façade, aucune eau de toiture dans le patio"),
+    "toiture": ("Toit-terrasse accessible en béton, étanché, couvert à +9,00 (V1 : toiture plate mince à grand débord ; "
+                "V2 : toit en croupe à faible pente, sous-face en lames de bois), jardinière continue de firecracker "
+                "plants sur la façade Nord ; toitures végétalisées sur l'aile Est et la terrasse couverte ; descentes "
+                "en façade, aucune eau de toiture dans le patio"),
 }
 for _r in OPTION_C["pieces"]:
     if (_r["niveau"], _r["nom"]) == ("RDC", "Cuisine"):
-        _r["plan"] = "N"
+        _r["plan"] = "O"     # plan de travail en L le long du mur Ouest et du mur Sud (markup)
     if (_r["niveau"], _r["nom"]) == ("R+1", "Chambre 2"):
         _r["lit"] = "E"
 
@@ -391,31 +393,36 @@ LOCATIF = {
 }
 
 # ---------------------------------------------------------------------------
-# Locatif v2 (markup du 07-11-2026) : 3 maisons duplex en bande, chacune avec pergola en toiture.
-# Trame X : allee 2 | 6 | 6 | 6 ; trame Y (depuis la limite villa) : jardins 3 | 5,5 | 3,5 | stationnement 3.
+# Locatif v3 (markup du 10-11-2026) : 2 maisons duplex au lieu de 3, chacune avec toit-terrasse sous pergola.
+# Trame X : bande Ouest 3 (allee + stationnement) | 8,5 | 8,5 ; trame Y (depuis la limite villa) :
+# jardins 3 | bande jour / nuit 6,5 | bande de service 2,5 | cour d'entree 3.
 # ---------------------------------------------------------------------------
-MX = (2.0, 8.0, 14.0, 20.0)
-MY = (18.0, 21.0, 26.5, 30.0, 33.0)
+MX = (3.0, 11.5, 20.0)
+MY = (18.0, 21.0, 27.5, 30.0, 33.0)
 
 
 def maison(n, x0):
     y1, y2, y3 = MY[1], MY[2], MY[3]
     m = f"M{n}"
     p = [
-        R(f"{m} Séjour-SAM", "RDC", (x0, y1, x0 + 6, y2), "l_sejour"),
-        R(f"{m} Entrée, escalier, WC", "RDC", (x0, y2, x0 + 2.6, y3), "l_circ"),
-        R(f"{m} Cuisine", "RDC", (x0 + 2.6, y2, x0 + 6, y3), "l_kitch"),
-        R(f"{m} Jardin privé", "RDC", (x0, MY[0], x0 + 6, y1), "jardin", clos=False),
-        R(f"{m} Stationnement", "RDC", (x0, y3, x0 + 6, MY[4]), "parvis", clos=False),
-        R(f"{m} Chambre 1", "R+1", (x0, y1, x0 + 3, y2), "l_chambre"),
-        R(f"{m} Chambre 2", "R+1", (x0 + 3, y1, x0 + 6, y2), "l_chambre"),
-        R(f"{m} Palier, escalier", "R+1", (x0, y2, x0 + 2.6, y3), "l_circ"),
-        R(f"{m} Dégagement", "R+1", (x0 + 2.6, y2, x0 + 3.8, 28.0), "l_circ"),
-        R(f"{m} Placard", "R+1", (x0 + 2.6, 28.0, x0 + 3.8, y3), "l_circ"),
-        R(f"{m} SE", "R+1", (x0 + 3.8, y2, x0 + 6, y3), "l_eau"),
-        R(f"{m} Édicule d'escalier", "TOIT", (x0, y2, x0 + 2.6, y3), "escalier"),
-        R(f"{m} Toit-terrasse sous pergola", "TOIT", [(x0, y1, x0 + 6, y2), (x0 + 2.6, y2, x0 + 6, y3)], "toit_jard",
-          clos=False),
+        R(f"{m} Séjour-SAM", "RDC", [(x0, y1, x0 + 5.5, y2), (x0 + 5.5, y1, x0 + 8.5, 24.0)], "l_sejour"),
+        R(f"{m} Cuisine", "RDC", (x0 + 5.5, 24.0, x0 + 8.5, y2), "l_kitch"),
+        R(f"{m} Entrée", "RDC", (x0, y2, x0 + 2.0, y3), "l_circ"),
+        R(f"{m} Escalier", "RDC", (x0 + 2.0, y2, x0 + 5.6, y3), "escalier"),
+        R(f"{m} WC", "RDC", (x0 + 5.6, y2, x0 + 7.0, y3), "l_eau"),
+        R(f"{m} Cellier", "RDC", (x0 + 7.0, y2, x0 + 8.5, y3), "l_circ"),
+        R(f"{m} Jardin privé", "RDC", (x0, MY[0], x0 + 8.5, y1), "jardin", clos=False),
+        R(f"{m} Cour d'entrée", "RDC", (x0, y3, x0 + 8.5, MY[4]), "parvis", clos=False),
+        R(f"{m} Chambre 2", "R+1", (x0, y1, x0 + 3.6, 26.3), "l_chambre"),
+        R(f"{m} Chambre principale", "R+1", (x0 + 3.6, y1, x0 + 8.5, 25.0), "l_chambre"),
+        R(f"{m} Dressing", "R+1", (x0 + 5.6, 25.0, x0 + 8.5, y2), "dressing"),
+        R(f"{m} Dégagement", "R+1", [(x0, 26.3, x0 + 5.6, y2), (x0 + 3.6, 25.0, x0 + 5.6, 26.3)], "l_circ"),
+        R(f"{m} Escalier", "R+1", (x0 + 2.0, y2, x0 + 5.6, y3), "escalier"),
+        R(f"{m} SE", "R+1", (x0, y2, x0 + 2.0, y3), "l_eau"),
+        R(f"{m} SdB parentale", "R+1", (x0 + 5.6, y2, x0 + 8.5, y3), "l_eau"),
+        R(f"{m} Édicule d'escalier", "TOIT", (x0 + 2.0, y2, x0 + 5.6, y3), "escalier"),
+        R(f"{m} Toit-terrasse sous pergola", "TOIT",
+          [(x0, y1, x0 + 8.5, y2), (x0, y2, x0 + 2.0, y3), (x0 + 5.6, y2, x0 + 8.5, y3)], "toit_jard", clos=False),
     ]
     for r in p:
         r["logement"] = m
@@ -426,36 +433,41 @@ def maison(n, x0):
 def portes_maison(x0):
     y1, y2, y3 = MY[1], MY[2], MY[3]
     return [
-        ("RDC", x0 + 1.3, y3, "h", 1.0),       # entree depuis le stationnement
-        ("RDC", x0 + 1.3, y2, "h", 0.9),       # entree -> sejour
-        ("RDC", x0 + 4.3, y2, "h", 0.9),       # sejour -> cuisine
-        ("RDC", x0 + 5.2, y3, "h", 0.8),       # cuisine -> cour de service / stationnement
-        ("RDC", x0 + 3.0, y1, "h", 3.6),       # sejour -> jardin prive (baie coulissante)
-        ("R+1", x0 + 1.3, y2, "h", 0.8),       # palier -> chambre 1
-        ("R+1", x0 + 2.6, 27.25, "v", 0.8),    # palier -> degagement
-        ("R+1", x0 + 3.3, y2, "h", 0.8),       # degagement -> chambre 2
-        ("R+1", x0 + 3.8, 27.25, "v", 0.7),    # degagement -> SE
-        ("R+1", x0 + 3.2, 28.0, "h", 0.6),     # degagement -> placard
-        ("TOIT", x0 + 1.3, y2, "h", 0.9),      # edicule -> toit-terrasse
+        ("RDC", x0 + 1.0, y3, "h", 1.0),       # entree depuis la cour d'entree
+        ("RDC", x0 + 1.0, y2, "h", 0.9),       # entree -> sejour
+        ("RDC", x0 + 2.0, 28.75, "v", 0.9),    # entree -> escalier
+        ("RDC", x0 + 5.5, 26.0, "v", 1.2),     # sejour -> cuisine
+        ("RDC", x0 + 6.3, y2, "h", 0.7),       # cuisine -> WC
+        ("RDC", x0 + 7.75, y2, "h", 0.7),      # cuisine -> cellier
+        ("RDC", x0 + 7.75, y3, "h", 0.8),      # cellier -> cour (service)
+        ("RDC", x0 + 1.8, y1, "h", 2.8),       # sejour -> jardin prive (baie, axe 1,8 commun avec la chambre 2)
+        ("RDC", x0 + 7.0, y1, "h", 2.4),       # coin repas -> jardin (baie)
+        ("R+1", x0 + 1.8, 26.3, "h", 0.8),     # degagement -> chambre 2
+        ("R+1", x0 + 4.6, 25.0, "h", 0.9),     # degagement -> chambre principale
+        ("R+1", x0 + 7.0, 25.0, "h", 0.8),     # chambre principale -> dressing
+        ("R+1", x0 + 7.0, y2, "h", 0.8),       # dressing -> SdB parentale
+        ("R+1", x0 + 1.0, y2, "h", 0.7),       # degagement -> SE
+        ("TOIT", x0 + 3.8, y2, "h", 0.9),      # edicule -> toit-terrasse
     ]
 
 
 LOCATIF_M = {
     "code": "M",
-    "nom": "Locatif — 3 maisons duplex avec toit-terrasse sous pergola",
-    "pieces": [r for n, x0 in enumerate(MX[:3], 1) for r in maison(n, x0)]
-              + [R("Allée piétonne (rue Ouest)", "RDC", (0.0, 18.0, 2.0, 33.0), "parvis", clos=False)],
-    "portes": [d for x0 in MX[:3] for d in portes_maison(x0)],
+    "nom": "Locatif — 2 maisons duplex avec toit-terrasse sous pergola",
+    "pieces": [r for n, x0 in enumerate(MX[:2], 1) for r in maison(n, x0)]
+              + [R("Stationnement 2 places (rue Ouest)", "RDC", (0.0, 18.0, 3.0, 30.0), "parvis", clos=False),
+                 R("Allée piétonne", "RDC", (0.0, 30.0, 3.0, 33.0), "parvis", clos=False)],
+    "portes": [d for x0 in MX[:2] for d in portes_maison(x0)],
 }
 for _r in LOCATIF_M["pieces"]:
     if _r["nom"].endswith("Cuisine"):
-        _r["plan"] = "S"
+        _r["plan"] = "E"
 
 # Logements : surfaces et loyers de marche (Riviera Palmeraie, 2026)
 # Fourchettes de marche nu : studio 90-160 k, 2 pieces 160-280 k FCFA / mois
 LOYERS = {
-    # maison duplex 2 chambres, jardin et toit-terrasse : hypothese de marche a valider avec deux agences
-    "MD":    {"nu": 450_000, "meuble": 650_000, "nuit": 75_000},
+    # maison duplex de 150 m² (2 chambres dont une suite, jardin, toit-terrasse) : hypothese a valider avec deux agences
+    "MD":    {"nu": 600_000, "meuble": 850_000, "nuit": 95_000},
     "2P":    {"nu": 230_000, "meuble": 320_000, "nuit": 40_000},
     "T1bis": {"nu": 140_000, "meuble": 200_000, "nuit": 28_000},
 }
@@ -468,9 +480,9 @@ LOYERS = {
 # ---------------------------------------------------------------------------
 EXTERIEURS = [
     ("Parking, allée et aire de livraison pavés (pavés drainants)", "m2", 85_000,
-     "Villa Cacao 6 - patio (assimilé)", {"A": 65, "B": 65, "C": 60, "L": 75}, True),
+     "Villa Cacao 6 - patio (assimilé)", {"A": 65, "B": 65, "C": 55, "L": 75, "M": 75}, True),
     ("Jardins plantés (terre végétale, gazon, arbres d'ombrage)", "m2", 20_000, "Les Flamboyants - jardins",
-     {"A": 100, "B": 85, "C": 70, "L": 45, "M": 0}, True),
+     {"A": 100, "B": 85, "C": 70, "L": 45, "M": 51}, True),
     ("Bâche à eau + surpresseur", "ens", 4_047_076, "Pavillon Akpo 2022 - bâche + surpresseur",
      {"A": 1, "B": 1, "C": 1, "L": 1, "M": 1}, True),
     ("Réfection clôture existante + portail coulissant + portillon", "ens", 3_000_000, "Prix de marché (hypothèse)",
@@ -478,13 +490,13 @@ EXTERIEURS = [
     ("Mur séparatif villa / locatif (h 2,5 m) + claustras de la cour de service", "ml", 60_000,
      "Prix de marché (hypothèse)", {"A": 28, "B": 28, "C": 8, "L": 0, "M": 0}, False),
     ("Assainissement autonome (fosse + puisard) + branchements CIE / SODECI", "ens", 3_500_000,
-     "Prix de marché (hypothèse)", {"A": 1, "B": 1, "C": 1, "L": 1.5, "M": 1.5}, False),
+     "Prix de marché (hypothèse)", {"A": 1, "B": 1, "C": 1, "L": 1.5, "M": 1.2}, False),
     ("Traitement anti-termites du sol + remblai de plateforme", "m2", 8_000, "Prix de marché (hypothèse)",
-     {"A": 125, "B": 150, "C": 160, "L": 145, "M": 170}, False),
+     {"A": 125, "B": 150, "C": 160, "L": 145, "M": 160}, False),
     ("Grilles de défense RDC et étage + moustiquaires", "m2", 45_000, "Prix de marché (hypothèse)",
      {"A": 70, "B": 70, "C": 70, "L": 30, "M": 45}, False),
     ("Chauffe-eau solaires + attentes climatisation (par logement)", "u", 900_000, "Prix de marché (hypothèse)",
-     {"A": 2.5, "B": 2.5, "C": 2.5, "L": 6, "M": 3}, False),
+     {"A": 2.5, "B": 2.5, "C": 2.5, "L": 6, "M": 2}, False),
     ("Cuisine africaine : hotte d'extraction, évier double bac, cage à bouteilles de gaz", "ens", 900_000,
      "Prix de marché (hypothèse)", {"A": 1, "B": 1, "C": 1, "L": 0, "M": 0}, False),
 ]
@@ -498,7 +510,7 @@ PLUS_VALUES = [
      {"A": 14, "B": 14, "C": 0, "L": 12, "M": 0}, False),
     ("Débords de toiture et casquettes (hors clos)", "m2", 60_000, "Prix de marché (hypothèse)",
      {"A": 50, "B": 55, "C": 15, "L": 0, "M": 0}, False),
-    ("Patio : arbre (frangipanier), massifs, bassin à recirculation, éclairage", "ens", 3_000_000, "Prix de marché (hypothèse)",
+    ("Patio : arbre (frangipanier), massifs, éclairage (bassins supprimés, markup)", "ens", 2_200_000, "Prix de marché (hypothèse)",
      {"A": 0, "B": 0, "C": 1, "L": 0, "M": 0}, False),
     ("Patio : claustra haute 4 m + pergola plantée (fermeture Sud)", "ens", 1_500_000, "Prix de marché (hypothèse)",
      {"A": 0, "B": 0, "C": 0, "L": 0, "M": 0}, False),
@@ -507,29 +519,33 @@ PLUS_VALUES = [
     ("Moins-value murs BTC (vs agglos enduits 2 faces)", "m2", -5_000, "Prix de marché (hypothèse)",
      {"A": 250, "B": 270, "C": 0, "L": 320, "M": 0}, False),
     # Option C, ecriture Palinda Kannangara (Casa Lineal, Casa Estudio) : postes propres
-    ("Double peau en brique de terre cuite à perforations aléatoires (loggia Nord, lanterne d'escalier, balcon Ouest)",
-     "m2", 38_000, "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 57, "L": 0, "M": 0}, False),
+    ("Peau de l'étage en lames de bois dur traité, sur toutes les faces (V1 damier ; V2 bardage et brise-soleil)",
+     "m2", 85_000, "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 110, "L": 0, "M": 133}, False),
+    ("Claustra en blocs de béton ajourés (clôture sur rue, lanterne d'escalier)", "m2", 32_000,
+     "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 30, "L": 0, "M": 0}, False),
     ("Plus-value parement en moellons de granite (RDC sur rues, guérite, socle de clôture)", "m2", 28_000,
      "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 100, "L": 0, "M": 0}, False),
     ("Plus-value béton brut coffré planches (nez de dalle, corniches à goutte d'eau, porche)", "m2", 15_000,
-     "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 60, "L": 0, "M": 0}, False),
+     "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 60, "L": 0, "M": 30}, False),
     ("Toiture végétalisée extensive (substrat 15 cm, drainage, étanchéité anti-racines) + jardinières de rive",
      "m2", 25_000, "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 33.5, "L": 0, "M": 0}, False),
     ("Lanterneau vitré ventilé sur la passerelle (verre feuilleté, châssis acier, rehausses)", "m2", 180_000,
      "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 0, "L": 0, "M": 0}, False),
-    ("Bio-bassin devant le salon (bande Ouest) : margelle pierre, étanchéité, plantes épuratrices", "ens", 1_600_000,
-     "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 1, "L": 0, "M": 0}, False),
+    ("Bio-bassin devant le salon (bande Ouest) : supprimé (markup du 10-11-2026)", "ens", 1_600_000,
+     "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 0, "L": 0, "M": 0}, False),
     ("Écrans en lattes de bois de la passerelle et stores bambou sous débords Ouest", "ens", 900_000,
      "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 1, "L": 0, "M": 0}, False),
     # markup du 07-11-2026 : niveau pergola, jardinieres, mur vegetalise, garde-corps des toits-terrasses
     ("Pergola bois sur poteaux acier, niveau toit-terrasse", "m2", 45_000, "Prix de marché (hypothèse)",
-     {"A": 0, "B": 0, "C": 110, "L": 0, "M": 99}, False),
-    ("Jardinière continue en façade (firecracker plants, goutte-à-goutte)", "ml", 75_000, "Prix de marché (hypothèse)",
-     {"A": 0, "B": 0, "C": 15.5, "L": 0, "M": 18}, False),
-    ("Mur végétalisé en limite villa / locatif (treillis inox, jardinières, arrosage)", "m2", 55_000,
-     "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 60, "L": 0, "M": 0}, False),
+     {"A": 0, "B": 0, "C": 0, "L": 0, "M": 0}, False),
+    ("Couverture du toit-terrasse à +9,00 sur poteaux acier, sous-face bois (V1 toiture plate mince, V2 croupe)",
+     "m2", 70_000, "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 150, "L": 0, "M": 178}, False),
+    ("Jardinière continue en rive de toiture (plantation basse, sans retombées ; goutte-à-goutte)", "ml", 75_000, "Prix de marché (hypothèse)",
+     {"A": 0, "B": 0, "C": 15.5, "L": 0, "M": 17}, False),
+    ("Mur végétalisé de 3,50 m en limite villa / locatif (treillis inox, jardinières, arrosage)", "m2", 55_000,
+     "Prix de marché (hypothèse)", {"A": 0, "B": 0, "C": 70, "L": 0, "M": 0}, False),
     ("Garde-corps des toits-terrasses (acrotère 1,0 m + lisse)", "ml", 35_000, "Prix de marché (hypothèse)",
-     {"A": 0, "B": 0, "C": 45, "L": 0, "M": 72}, False),
+     {"A": 0, "B": 0, "C": 45, "L": 0, "M": 52}, False),
     ("Local GE + niche compteurs (dalle, claustra, porte)", "ens", 1_200_000, "Prix de marché (hypothèse)",
      {"A": 0, "B": 0, "C": 1, "L": 0, "M": 0}, False),
 ]

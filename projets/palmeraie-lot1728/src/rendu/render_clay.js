@@ -3,7 +3,7 @@ const { chromium } = require('playwright');
 (async () => {
   const [html, scene, out, cam] = process.argv.slice(2);
   const b = await chromium.launch({args: ['--allow-file-access-from-files', '--use-gl=swiftshader']});
-  const p = await b.newPage({viewport: {width: 1600, height: 1000}});
+  const cj = JSON.parse(cam); const p = await b.newPage({viewport: {width: cj.w || 1600, height: cj.h || 1000}});
   p.on('console', m => console.log('console:', m.text()));
   p.on('pageerror', e => console.log('err:', e.message));
   await p.addInitScript(s => { window.SCENE = s; }, JSON.parse(require('fs').readFileSync(scene, 'utf8')));
