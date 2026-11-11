@@ -1,0 +1,141 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Business plan – Lot 1728 Riviera Palmeraie</title><style>
+@page { size: A4 landscape; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: Inter, 'Liberation Sans', sans-serif; color: #23262b; font-size: 9.6pt; line-height: 1.45;
+       -webkit-print-color-adjust: exact; print-color-adjust: exact; background: #fff; }
+.page { width: 297mm; height: 210mm; padding: 13mm 15mm 12mm; position: relative; overflow: hidden;
+        page-break-after: always; background: #fff; }
+.portrait .page { width: 210mm; height: auto; padding: 0 15mm; overflow: visible; }
+.portrait .folio { display: none; }
+thead { display: table-header-group; } tr { break-inside: avoid; }
+.page:last-child { page-break-after: auto; }
+.folio { position: absolute; bottom: 6mm; left: 15mm; right: 15mm; display: flex; justify-content: space-between;
+         font-size: 7.2pt; color: #8a8e94; border-top: 0.4pt solid #d9d4ca; padding-top: 2mm; }
+h1 { font-size: 21pt; font-weight: 600; margin: 0 0 3mm; letter-spacing: -0.2pt; }
+h2 { font-size: 15pt; font-weight: 600; margin: 0 0 1.5mm; letter-spacing: -0.1pt; }
+h3 { font-size: 10.5pt; font-weight: 600; margin: 4mm 0 1.5mm; color: #2f4a6d; }
+.kicker { font-size: 7.6pt; letter-spacing: 1.2pt; text-transform: uppercase; color: #b5653a; font-weight: 600;
+          margin-bottom: 1.5mm; }
+.lead { font-size: 10.4pt; color: #45484e; max-width: 230mm; margin: 0 0 4mm; }
+p { margin: 0 0 2mm; }
+.muted { color: #6b6f76; }
+.small { font-size: 8pt; }
+.grid { display: grid; gap: 7mm; }
+.g2 { grid-template-columns: 1fr 1fr; }
+.g3 { grid-template-columns: 1fr 1fr 1fr; }
+.g21 { grid-template-columns: 1.35fr 1fr; }
+.g12 { grid-template-columns: 1fr 1.35fr; }
+.plan svg { width: 100%; height: auto; display: block; }
+.plan-cap { font-size: 8pt; color: #6b6f76; margin-top: 1mm; display: flex; justify-content: space-between; }
+table { border-collapse: collapse; width: 100%; font-size: 8.4pt; }
+th { text-align: left; font-weight: 600; color: #fff; background: #2f4a6d; padding: 1.4mm 2mm; font-size: 7.8pt; }
+td { padding: 1.1mm 2mm; border-bottom: 0.4pt solid #e3ded4; vertical-align: top; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.sub td { background: #f1efe9; font-weight: 600; }
+tr.tot td { background: #23262b; color: #fff; font-weight: 600; }
+tr.sec td { color: #2f4a6d; font-weight: 600; border-bottom: 0.6pt solid #2f4a6d; padding-top: 2.2mm; }
+ul { margin: 0 0 2mm; padding-left: 4.5mm; }
+li { margin-bottom: 1mm; }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm; margin: 2mm 0 5mm; }
+.kpi { border-top: 1.4pt solid #23262b; padding-top: 2mm; }
+.kpi .v { font-size: 17pt; font-weight: 600; letter-spacing: -0.3pt; }
+.kpi .l { font-size: 7.8pt; color: #6b6f76; }
+.card { border: 0.5pt solid #d9d4ca; border-radius: 2mm; padding: 4mm 4.5mm; background: #fbfaf7; }
+.card h3 { margin-top: 0; }
+.tag { display: inline-block; font-size: 7pt; padding: 0.5mm 2mm; border-radius: 3mm; background: #eef1f5;
+       color: #2f4a6d; font-weight: 600; margin-right: 1.5mm; }
+.tag.t { background: #f6e9df; color: #9a4f25; }
+.tag.g { background: #e7eedf; color: #4f6b3a; }
+.legend { display: flex; gap: 4mm; flex-wrap: wrap; font-size: 7.4pt; color: #6b6f76; margin-top: 1.5mm; }
+.legend span::before { content: ''; display: inline-block; width: 3mm; height: 3mm; border-radius: 0.6mm;
+                       margin-right: 1.2mm; vertical-align: -0.5mm; background: var(--c); border: 0.3pt solid #bbb; }
+.cover { display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
+.cover h1 { font-size: 34pt; line-height: 1.08; margin-bottom: 4mm; }
+.cover .sub { font-size: 13pt; color: #2f4a6d; }
+.rule { height: 1.4pt; background: #23262b; width: 40mm; margin: 6mm 0; }
+.callout { border-left: 2pt solid #b5653a; padding: 1mm 0 1mm 4mm; margin: 2mm 0 3mm; color: #3b3e44; }
+.rev h3 { margin-top: 3mm; }
+.rev p, .rev li { font-size: 8.5pt; }
+.two-col { column-count: 2; column-gap: 8mm; }
+.two-col h3 { break-after: avoid; }
+.two-col li, .two-col p { break-inside: avoid; }
+table.tight { font-size: 7.5pt; } table.tight td { padding: 0.55mm 1.6mm; } table.tight th { padding: 1mm 1.6mm; }
+</style></head><body class=""><section class="page "><div class="kicker">Document 3 / 3</div><h1>Business plan de l'investissement</h1>
+<p class="lead">L'investissement analysé est le bâtiment locatif de 6 logements. La villa, occupée par le propriétaire,
+entre dans le plan de financement global mais ne produit pas de revenu. Tous les calculs sont repris dans le classeur Excel
+joint, avec des hypothèses modifiables.</p>
+<div class="kpis"><div class="kpi"><div class="v">125,6 M</div><div class="l">Investissement locatif en montage optimisé (S4, HT, frais compris, hors foncier)</div></div>
+<div class="kpi"><div class="v">1 200 000</div><div class="l">Loyers mensuels potentiels en location nue (FCFA)</div></div>
+<div class="kpi"><div class="v">8,8 %</div><div class="l">Rendement net stabilisé (S4) · 5,8 % en S1</div></div>
+<div class="kpi"><div class="v">9,8 %</div><div class="l">TRI sur 15 ans sans crédit (S4) · 5,0 % en S1</div></div></div>
+<h3>Ce qu'il faut retenir</h3>
+<ul style="font-size:8.6pt"><li><b>Confié à des entreprises au coût TTC (S1), le locatif ne rapporte pas assez</b> : TRI de 5,0 %, rendement
+net de 5,8 %, et les loyers ne couvrent pas une annuité de crédit (couverture de 0,81).
+C'est la conclusion honnête après intégration de la revue senior (aléas à 10 %, équipements, gardien).</li>
+<li><b>En montage optimisé (S4), l'opération atteint 9,8 %</b> avec le même loyer. Les leviers : marchés par lots
+avec des artisans non assujettis à la TVA, conception assurée par le maître d'ouvrage (architecte), gestion en direct, gardien
+partagé avec la villa. Le capital est récupéré en environ 11 ans, la couverture de dette est de 1,26.</li>
+<li><b>Repères pour décider</b> : pour un TRI de 10 % en location nue gérée par agence, il faut un coût de construction
+d'au plus 98,0 M (362 833 FCFA/m² tout compris), ou des loyers de 340 614 / 207 330 FCFA,
+au-dessus du marché.</li>
+<li><b>Le meublé (S2) et la courte durée (S3) ne sont pas intéressants ici</b> : la prime de loyer est absorbée par les charges
+incluses, les commissions et 24 M de mobilier. La courte durée peut se tester sur 1 ou 2 T1 bis seulement.</li>
+<li><b>Ne pas lancer le locatif tant que les devis par lots ne confirment pas un coût proche de celui de S4</b>
+(122,1 M HT hors frais annexes).</li></ul>
+<h3>Résultats par scénario</h3>
+<table class="tight"><tr><th>Indicateur</th><th class="n">S1 · Location nue longue duree</th><th class="n">S4 · Location nue, montage optimise</th><th class="n">S2 · Meuble moyenne duree (1 a 6 mois)</th><th class="n">S3 · Courte duree (plateformes)</th></tr>
+<tr><td>Coût de construction retenu</td><td class="n">154,0 M</td><td class="n">122,1 M</td><td class="n">154,0 M</td><td class="n">154,0 M</td></tr>
+<tr><td>Investissement (hors foncier)</td><td class="n">157,5 M</td><td class="n">125,6 M</td><td class="n">181,5 M</td><td class="n">181,5 M</td></tr>
+<tr><td>Revenu annuel stabilisé</td><td class="n">13,5 M</td><td class="n">13,5 M</td><td class="n">17,5 M</td><td class="n">44,2 M</td></tr>
+<tr><td>Résultat d'exploitation stabilisé (an 2)</td><td class="n">9,1 M</td><td class="n">11,1 M</td><td class="n">7,6 M</td><td class="n">9,0 M</td></tr>
+<tr><td>Rendement brut / net</td><td class="n">8,4 % / 5,8 %</td><td class="n">10,5 % / 8,8 %</td><td class="n">9,4 % / 4,2 %</td><td class="n">23,9 % / 4,9 %</td></tr>
+<tr class="sub"><td>TRI 15 ans sans crédit</td><td class="n">5,0 %</td><td class="n">9,8 %</td><td class="n">1,5 %</td><td class="n">3,0 %</td></tr>
+<tr><td>TRI avec crédit (60 % du coût, 8,5 %, 15 ans)</td><td class="n">2,5 %</td><td class="n">10,7 %</td><td class="n">-3,0 %</td><td class="n">-0,3 %</td></tr>
+<tr><td>TRI avec le foncier valorisé à 45 M</td><td class="n">2,5 %</td><td class="n">6,4 %</td><td class="n">-0,5 %</td><td class="n">0,9 %</td></tr>
+<tr><td>VAN à 10 % (sans crédit)</td><td class="n">-57,0 M</td><td class="n">-1,7 M</td><td class="n">-100,2 M</td><td class="n">-86,5 M</td></tr>
+<tr><td>Couverture de la dette (an 2)</td><td class="n">0,81</td><td class="n">1,26</td><td class="n">0,68</td><td class="n">0,81</td></tr></table><div class="folio"><span>Lot 1728 · Riviera Palmeraie · Business plan</span><span>1</span></div></section><section class="page "><div class="kicker">Hypothèses</div><h2>Marché, coûts et exploitation</h2>
+<div class="grid g2" style="gap:6mm"><div><h3>Marché locatif (Riviera Palmeraie, janv.-févr. 2026)</h3>
+<table><tr><th>Typologie</th><th class="n">Fourchette marché</th><th class="n">Retenu (neuf, design)</th></tr>
+<tr><td>Studio / T1 bis, nu</td><td class="n">90–160 k</td><td class="n">140 000</td></tr>
+<tr><td>2 pièces, nu</td><td class="n">160–280 k</td><td class="n">230 000</td></tr>
+<tr><td>Meublé (prime)</td><td class="n">+30 à 50 %</td><td class="n">+40 %</td></tr>
+<tr><td>Studio meublé, courte durée</td><td class="n">≈ 30 k / nuit</td><td class="n">28 000 / nuit</td></tr>
+<tr><td>2 pièces meublé, courte durée</td><td class="n">—</td><td class="n">40 000 / nuit</td></tr></table>
+<p class="small muted" style="margin-top:1.5mm">Sources : moyenne des annonces et agences d'Abidjan publiée début 2026
+(blog.iambeezy.app, « prix des loyers à Abidjan par quartier ») et annonces de studios meublés à la Palmeraie (expat.com).
+Les loyers sont pris dans le haut de la fourchette pour un produit neuf, traversant, avec patio ou terrasse. Ils sont à confirmer auprès d'agences.</p>
+<h3>Paramètres des scénarios</h3>
+<table><tr><th>Paramètre</th><th class="n">S1</th><th class="n">S4</th><th class="n">S2</th><th class="n">S3</th></tr><tr><td>Occupation stabilisée</td><td class=n>92 %</td><td class=n>92 %</td><td class=n>85 %</td><td class=n>55 %</td></tr><tr><td>Occupation an 1</td><td class=n>70 %</td><td class=n>70 %</td><td class=n>65 %</td><td class=n>40 %</td></tr><tr><td>Gestion / conciergerie</td><td class=n>10 %</td><td class=n>0 %</td><td class=n>10 %</td><td class=n>20 %</td></tr><tr><td>Charges incluses</td><td class=n>0 %</td><td class=n>0 %</td><td class=n>12 %</td><td class=n>18 %</td></tr><tr><td>Commission plateforme</td><td class=n>0 %</td><td class=n>0 %</td><td class=n>0 %</td><td class=n>15 %</td></tr><tr><td>Entretien</td><td class=n>5 %</td><td class=n>5 %</td><td class=n>5 %</td><td class=n>5 %</td></tr><tr><td>Fiscalité foncière (hyp.)</td><td class=n>7 %</td><td class=n>7 %</td><td class=n>7 %</td><td class=n>10 %</td></tr><tr><td>Provision mobilier (% / an)</td><td class=n>0 %</td><td class=n>0 %</td><td class=n>10 %</td><td class=n>15 %</td></tr></table></div>
+<div><h3>Hypothèses générales (modifiables dans l'Excel)</h3><table><tr><th>Hypothèse</th><th class="n">Valeur</th></tr><tr><td>Cout du batiment locatif TTC (estimatif, prix / 2)</td><td class="n">153 980 518</td></tr><tr><td>Permis, frais administratifs, raccordement, mise en location</td><td class="n">3 500 000</td></tr><tr><td>Valeur du foncier (hypothese a confirmer), FCFA / m2</td><td class="n">150 000</td></tr><tr><td>Surface de la parcelle locative (m2)</td><td class="n">300</td></tr><tr><td>Nombre de 2 pieces (48,6 m2)</td><td class="n">4</td></tr><tr><td>Nombre de T1 bis (32,4 m2)</td><td class="n">2</td></tr><tr><td>Loyer mensuel 2 pieces nu</td><td class="n">230 000</td></tr><tr><td>Loyer mensuel T1 bis nu</td><td class="n">140 000</td></tr><tr><td>Loyer mensuel 2 pieces meuble (moyenne duree)</td><td class="n">320 000</td></tr><tr><td>Loyer mensuel T1 bis meuble (moyenne duree)</td><td class="n">200 000</td></tr><tr><td>Nuitee 2 pieces (courte duree)</td><td class="n">40 000</td></tr><tr><td>Nuitee T1 bis (courte duree)</td><td class="n">28 000</td></tr><tr><td>Mobilier + equipement par 2 pieces</td><td class="n">4 500 000</td></tr><tr><td>Mobilier + equipement par T1 bis</td><td class="n">3 000 000</td></tr><tr><td>Indexation annuelle des loyers</td><td class="n">2,0 %</td></tr><tr><td>Indexation annuelle des charges fixes</td><td class="n">3,0 %</td></tr><tr><td>Assurance proprietaire (% du cout de construction / an)</td><td class="n">0,1 %</td></tr><tr><td>Gardiennage + entretien des parties communes (FCFA / an)</td><td class="n">1 200 000</td></tr><tr><td>Taux de capitalisation pour la valeur de sortie (annee 15)</td><td class="n">10,0 %</td></tr><tr><td>Taux d'actualisation (VAN)</td><td class="n">10,0 %</td></tr><tr><td>Part financee par credit (du cout de construction TTC)</td><td class="n">60,0 %</td></tr><tr><td>Taux du credit immobilier</td><td class="n">8,5 %</td></tr><tr><td>Duree du credit (ans)</td><td class="n">15</td></tr></table></div></div><div class="folio"><span>Lot 1728 · Riviera Palmeraie · Business plan</span><span>2</span></div></section><section class="page "><div class="kicker">Trajectoire et sensibilité</div><h2>Quand l'investissement est-il remboursé ?</h2>
+<p class="muted small">Trésorerie cumulée sans crédit, en FCFA, valeur de revente exclue. Seul S4 rembourse l'investissement dans l'horizon. Investissement en année 0, mise en location en année 1
+(montée en charge), loyers indexés de 2 % par an.</p>
+<div style="width:70%"><svg viewBox="0 0 640 270" style="width:100%;height:auto" font-family="Inter, sans-serif"><line x1="64" x2="520" y1="197.6" y2="197.6" stroke="#e6e4df" stroke-width="0.6"/><text x="58" y="200.6" font-size="9" fill="#52514e" text-anchor="end">-150 M</text><line x1="64" x2="520" y1="155.8" y2="155.8" stroke="#e6e4df" stroke-width="0.6"/><text x="58" y="158.8" font-size="9" fill="#52514e" text-anchor="end">-100 M</text><line x1="64" x2="520" y1="114.1" y2="114.1" stroke="#e6e4df" stroke-width="0.6"/><text x="58" y="117.1" font-size="9" fill="#52514e" text-anchor="end">-50 M</text><line x1="64" x2="520" y1="72.3" y2="72.3" stroke="#9a9a96" stroke-width="1"/><text x="58" y="75.3" font-size="9" fill="#52514e" text-anchor="end">0 M</text><line x1="64" x2="520" y1="30.6" y2="30.6" stroke="#e6e4df" stroke-width="0.6"/><text x="58" y="33.6" font-size="9" fill="#52514e" text-anchor="end">50 M</text><text x="64.0" y="250" font-size="9" fill="#52514e" text-anchor="middle">an 0</text><text x="155.2" y="250" font-size="9" fill="#52514e" text-anchor="middle">an 3</text><text x="246.4" y="250" font-size="9" fill="#52514e" text-anchor="middle">an 6</text><text x="337.6" y="250" font-size="9" fill="#52514e" text-anchor="middle">an 9</text><text x="428.8" y="250" font-size="9" fill="#52514e" text-anchor="middle">an 12</text><text x="520.0" y="250" font-size="9" fill="#52514e" text-anchor="middle">an 15</text><path d="M64.0,203.8 L94.4,198.5 L124.8,190.9 L155.2,183.2 L185.6,175.3 L216.0,167.3 L246.4,159.2 L276.8,150.9 L307.2,142.5 L337.6,133.9 L368.0,125.1 L398.4,116.2 L428.8,107.1 L459.2,97.9 L489.6,88.5 L520.0,78.9" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round"/><circle cx="520.0" cy="78.9" r="4" fill="#2a78d6" stroke="#fff" stroke-width="2"/><text x="528.0" y="81.9" font-size="9" fill="#0b0b0b">S1 · -8 M</text><path d="M64.0,177.2 L94.4,170.4 L124.8,161.2 L155.2,151.8 L185.6,142.1 L216.0,132.3 L246.4,122.4 L276.8,112.2 L307.2,101.8 L337.6,91.2 L368.0,80.4 L398.4,69.4 L428.8,58.2 L459.2,46.8 L489.6,35.2 L520.0,23.3" fill="none" stroke="#eb6834" stroke-width="2" stroke-linejoin="round"/><circle cx="520.0" cy="23.3" r="4" fill="#eb6834" stroke="#fff" stroke-width="2"/><text x="528.0" y="26.3" font-size="9" fill="#0b0b0b">S4 · 59 M</text><path d="M64.0,223.9 L94.4,219.9 L124.8,213.5 L155.2,207.1 L185.6,200.6 L216.0,193.9 L246.4,187.2 L276.8,180.4 L307.2,173.5 L337.6,166.5 L368.0,159.4 L398.4,152.2 L428.8,144.8 L459.2,137.4 L489.6,129.9 L520.0,122.3" fill="none" stroke="#1baf7a" stroke-width="2" stroke-linejoin="round"/><circle cx="520.0" cy="122.3" r="4" fill="#1baf7a" stroke="#fff" stroke-width="2"/><text x="528.0" y="125.3" font-size="9" fill="#0b0b0b">S2 · -60 M</text><path d="M64.0,223.9 L94.4,219.7 L124.8,212.2 L155.2,204.6 L185.6,196.9 L216.0,189.0 L246.4,181.1 L276.8,173.1 L307.2,164.9 L337.6,156.7 L368.0,148.3 L398.4,139.9 L428.8,131.3 L459.2,122.6 L489.6,113.7 L520.0,104.8" fill="none" stroke="#eda100" stroke-width="2" stroke-linejoin="round"/><circle cx="520.0" cy="104.8" r="4" fill="#eda100" stroke="#fff" stroke-width="2"/><text x="528.0" y="107.8" font-size="9" fill="#0b0b0b">S3 · -39 M</text></svg><div class="legend"><span style="--c:#2a78d6">S1 · Location nue longue duree</span><span style="--c:#eb6834">S4 · Location nue, montage optimise</span><span style="--c:#1baf7a">S2 · Meuble moyenne duree (1 a 6 mois)</span><span style="--c:#eda100">S3 · Courte duree (plateformes)</span></div></div>
+<div class="grid g2" style="gap:6mm;margin-top:2mm"><div><h3>TRI en location nue gérée par agence selon le coût et les loyers</h3>
+<table class="tight"><tr><th>Base de coût</th><th class="n">Loyers −10 %</th><th class="n">Loyers cibles</th><th class="n">Loyers +10 %</th></tr><tr><td>Prix base non divisés (TTC)<br><span class="muted small">283,0 M</span></td><td class="n">-2,0 %<br><span class="muted small">net 2,7 %</span></td><td class="n">-0,9 %<br><span class="muted small">net 3,1 %</span></td><td class="n">0,1 %<br><span class="muted small">net 3,5 %</span></td></tr><tr><td>TTC, entreprises assujetties<br><span class="muted small">154,0 M</span></td><td class="n">3,7 %<br><span class="muted small">net 5,1 %</span></td><td class="n">5,0 %<br><span class="muted small">net 5,8 %</span></td><td class="n">6,2 %<br><span class="muted small">net 6,4 %</span></td></tr><tr><td>HT (lots, artisans non assujettis)<br><span class="muted small">130,5 M</span></td><td class="n">5,4 %<br><span class="muted small">net 6,0 %</span></td><td class="n">6,7 %<br><span class="muted small">net 6,8 %</span></td><td class="n">8,0 %<br><span class="muted small">net 7,6 %</span></td></tr><tr><td>HT sans honoraires architecte<br><span class="muted small">122,1 M</span></td><td class="n">6,1 %<br><span class="muted small">net 6,4 %</span></td><td class="n">7,5 %<br><span class="muted small">net 7,3 %</span></td><td class="n">8,7 %<br><span class="muted small">net 8,1 %</span></td></tr></table></div>
+<div><h3>Crédit : durée et couverture (S4, 60 % à 8,5 %)</h3>
+<table class="tight"><tr><th>Durée</th><th class="n">Annuité</th><th class="n">Couverture</th><th class="n">TRI avec crédit</th></tr><tr><td>10 ans</td><td class="n">11,2 M</td><td class="n">0,99</td><td class="n">10,4 %</td></tr><tr><td>15 ans</td><td class="n">8,8 M</td><td class="n">1,26</td><td class="n">10,7 %</td></tr><tr><td>20 ans</td><td class="n">7,7 M</td><td class="n">1,43</td><td class="n">11,0 %</td></tr></table>
+<p class="small muted" style="margin-top:1.5mm">Une banque demande en général une couverture d'au moins 1,2. En S4, elle est
+atteinte dès 15 ans. Le capital restant dû à l'année 15 est déduit de la valeur de sortie.</p></div></div><div class="folio"><span>Lot 1728 · Riviera Palmeraie · Business plan</span><span>3</span></div></section><section class="page "><div class="kicker">Financement global et risques</div><h2>Plan de financement de l'opération complète</h2>
+<div class="grid g2" style="gap:6mm"><div><h3>Budget global (option B + locatif)</h3>
+<table><tr><th>Poste</th><th class="n">FCFA</th></tr>
+<tr><td>Villa option B : travaux, honoraires, aléas (TTC)</td><td class="n">193 671 183</td></tr>
+<tr><td>Bâtiment locatif (TTC)</td><td class="n">153 980 518</td></tr>
+<tr><td>Frais annexes villa et locatif (permis, raccordements, divers)</td><td class="n">7 000 000</td></tr>
+<tr class="tot"><td>Total à financer, entreprises TTC (hors foncier)</td><td class="n">354 651 701</td></tr>
+<tr><td>Montage optimisé : lots HT, sans honoraires d'architecte</td><td class="n">282 619 999</td></tr></table>
+<h3>Phasage conseillé</h3>
+<table><tr><th>Phase</th><th>Contenu</th><th class="n">Durée</th></tr>
+<tr><td>0</td><td>Bornage, étude de sol, permis, clôture et mur séparatif</td><td class="n">3–4 mois</td></tr>
+<tr><td>1</td><td>Bâtiment locatif, mise en location</td><td class="n">9–10 mois</td></tr>
+<tr><td>2</td><td>Villa (les loyers, environ 1,1 M par mois, couvrent une partie des appels de fonds)</td><td class="n">12–14 mois</td></tr></table>
+<p class="small muted" style="margin-top:1.5mm">Une installation de chantier commune aux deux ouvrages ferait gagner environ 2 à 3 % sur
+les travaux, mais elle repousse les premiers loyers d'un an.</p></div>
+<div><h3>Risques principaux et parades</h3>
+<table><tr><th>Risque</th><th>Parade</th></tr>
+<tr><td>Dérive des coûts (le ratio ÷ 2 est ambitieux)</td><td>Aux prix de base non divisés, le TRI devient négatif (-0,9 %). Marchés par lots à prix fermes, aléas de 10 %, consultation dès l'APS.</td></tr>
+<tr><td>Loyers inférieurs aux cibles</td><td>À −10 % de loyers et au coût HT, le TRI tombe à 5,4 %. Le gardien, l'eau continue et la cuisine fermée soutiennent le loyer.</td></tr>
+<tr><td>Vacance, impayés</td><td>Gestion par une agence (10 %), caution de 2 mois et avance de 2 mois, bail écrit.</td></tr>
+<tr><td>Réglementaire (reculs, limite Est)</td><td>Certificat d'urbanisme avant l'APS. Si des reculs de 3 m sont imposés au Sud et à l'Est, la barre passe à 11,4 × 9,0 m (environ −20 %, 5 logements).</td></tr>
+<tr><td>Termites, humidité (bois, terre)</td><td>Bois traités et certifiés, soubassements béton, débords. Les prototypes sont testés avant le marché.</td></tr>
+<tr><td>Fiscalité foncière</td><td>Taux hypothétique de 7 %. À valider avec un fiscaliste, ainsi que les exonérations éventuelles pour construction neuve.</td></tr></table></div></div><div class="folio"><span>Lot 1728 · Riviera Palmeraie · Business plan</span><span>4</span></div></section></body></html>
