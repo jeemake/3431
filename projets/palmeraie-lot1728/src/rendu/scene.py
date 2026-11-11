@@ -382,7 +382,7 @@ def build(variante="V1"):
         data["boxes"].append({"x0": px - 0.06, "y0": py - 0.06, "x1": px + 0.06, "y1": py + 0.06, "z0": 0, "z1": 2.9, "m": "bois_dur"})
     # patio et bandes plantees (aucun bassin, markup)
     tx, ty = F.ARBRE_PATIO
-    data["trees"] += [{"x": tx, "y": ty, "r": 1.7, "h": 6.5},
+    data["trees"] += [{"x": tx, "y": ty, "r": 1.7, "h": 6.5, "grp": "arbres"},
                       {"x": 1.2, "y": 8.4, "r": 1.6, "h": 5.5, "grp": "arbres"},
                       {"x": 1.3, "y": 3.8, "r": 1.3, "h": 4.6, "grp": "arbres"},
                       {"x": 1.2, "y": 15.9, "r": 1.3, "h": 5.0, "grp": "arbres"},

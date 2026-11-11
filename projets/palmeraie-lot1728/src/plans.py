@@ -300,7 +300,22 @@ def draw_furniture(c, pieces, niveau, portes):
                     _box(c, x0 + 1.0, y0 + 0.6, x0 + min(2.6, w - 0.4), y0 + 1.45, 4)
                     _box(c, x0 + 1.4, y0 + 1.9, x0 + 2.2, y0 + 2.9, 2)
         elif code in ("cuisine", "l_kitch") or (code == "cuis_afr"):
-            if r.get("plan") == "N":
+            if r.get("plan") == "O":      # plan en L : mur Ouest sous la porte de la SAM, retour sur le mur Sud
+                _box(c, x0 + 0.05, y0 + 1.5, x0 + 0.67, y1 - 0.05, 0, "#ffffff")
+                _box(c, x0 + 0.67, y1 - 0.67, x0 + 1.25, y1 - 0.05, 0, "#ffffff")
+                _box(c, x1 - 0.72, y0 + 0.05, x1 - 0.05, y0 + 0.75, 0, "#ffffff")     # refrigerateur
+                c.line(x1 - 0.72, y0 + 0.05, x1 - 0.05, y0 + 0.75, stroke=FURN, sw=0.4)
+                cx = x0 + 0.36
+                c.raw(f'<circle cx="{c.X(cx):.1f}" cy="{c.Y(y0 + 2.6):.1f}" r="{0.14 * c.s:.1f}" fill="none" stroke="{FURN}" stroke-width="0.5"/>'
+                      f'<circle cx="{c.X(cx):.1f}" cy="{c.Y(y0 + 3.0):.1f}" r="{0.14 * c.s:.1f}" fill="none" stroke="{FURN}" stroke-width="0.5"/>')
+                c.raw(f'<rect x="{c.X(x0 + 0.12):.1f}" y="{c.Y(y0 + 4.1):.1f}" width="{0.45 * c.s:.1f}" height="{0.6 * c.s:.1f}" rx="2" fill="none" stroke="{FURN}" stroke-width="0.5"/>')
+            elif r.get("plan") == "E":    # plan lineaire contre le mur Est
+                _box(c, x1 - 0.67, y0 + 0.05, x1 - 0.05, y1 - 0.05, 0, "#ffffff")
+                cx = x1 - 0.36
+                c.raw(f'<circle cx="{c.X(cx):.1f}" cy="{c.Y(y0 + 1.2):.1f}" r="{0.14 * c.s:.1f}" fill="none" stroke="{FURN}" stroke-width="0.5"/>'
+                      f'<circle cx="{c.X(cx):.1f}" cy="{c.Y(y0 + 1.6):.1f}" r="{0.14 * c.s:.1f}" fill="none" stroke="{FURN}" stroke-width="0.5"/>')
+                c.raw(f'<rect x="{c.X(x1 - 0.6):.1f}" y="{c.Y(y0 + 2.4):.1f}" width="{0.45 * c.s:.1f}" height="{0.6 * c.s:.1f}" rx="2" fill="none" stroke="{FURN}" stroke-width="0.5"/>')
+            elif r.get("plan") == "N":
                 _box(c, x0 + 0.05, y0 + 0.05, x1 - 0.05, y0 + 0.65, 0, "#f3f0ea")
                 _box(c, x0 + 0.05, y0 + 0.65, x0 + 0.65, y0 + 1.9, 0, "#f3f0ea")
                 cx = (x0 + x1) / 2 + 0.2

@@ -13,6 +13,7 @@ A (villa compacte, nounou à l'étage), B (villa avec aile de service, recommand
 | 2. Estimatif sommaire (ratios Éco-données ÷ 2) | `02_Estimatif_Lot1728_Palmeraie.pdf`, `.xlsx` (formules actives) |
 | 3. Business plan de l'investissement locatif | `03_Business_Plan_Lot1728_Palmeraie.pdf`, `.xlsx` (hypothèses modifiables) |
 | 4. Option C v4 (markup du 07-11-2026) et locatif en 3 duplex : plans aux conventions Capitude avec blocs Archibooks, coupes, élévations, double peau en 2 variantes, rendus IA, surfaces, estimatif | `04_Dossier_Option_C_Lot1728.pdf` |
+| 5. Option C v5 (markups du 10-11-2026) et locatif en 2 duplex : dossier A3 au gabarit Capitude (PRESENTATION-PROJETS-ARCHI v4, GABARIT-VISUEL-PLANS v3), façades V1 / V2 d'après les références du client harmonisées villa + duplex, détails de façade, vues d'ambiance Sume (GPT Image 2.6), surfaces, estimatif | `05_Dossier_Option_C_v5_Lot1728.pdf` |
 | Option C, façades et patio (références Capitude Palinda Kannangara : Casa Lineal, Casa Estudio) : élévations annotées, vues | `C_Facades_Lot1728.pdf` |
 
 Les plans sont aussi fournis en SVG et PNG (`out/svg`, `out/png`).
@@ -39,7 +40,9 @@ python3 doc.py        # 3 PDF (Chromium / Playwright)
 python3 rendu/scene.py  # maquette 3D de l'option C (facades : facade.py)
 python3 -c 'import blocs_archibooks as B; B.sync()'  # cache des blocs Capitude (SUPABASE_URL, SUPABASE_SERVICE_KEY)
 python3 rendu/scene.py  # maquettes 3D V1 / V2 (double peau)
-python3 doc_dossier_C.py  # dossier de presentation de l'option C v4
+python3 doc_dossier_C.py  # dossier de presentation de l'option C v4 (version precedente)
+python3 rendu/scene.py && python3 rendu/vues.py  # maquette 3D, vues clay et rendus au trait (elevations, coupes)
+python3 doc_dossier_v5.py  # dossier A3 de l'option C v5 (05_Dossier_Option_C_v5_Lot1728.pdf)
 python3 doc_facade.py   # planches facades (apres rendu des vues clay, voir rendu/render_clay.js)
 ```
 

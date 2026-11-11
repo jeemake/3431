@@ -273,7 +273,7 @@ OPTION_C = {
         R("Édicule d'escalier", "TOIT", (2.5, 5.5, 5.5, 9.7), "escalier"),
         R("Toit-terrasse couvert", "TOIT", [(5.5, 5.5, 18.0, 11.0), (2.5, 9.7, 5.5, 11.0), (2.5, 11.0, 9.0, 16.8)],
           "toit_jard", clos=False),
-        R("Jardinière (firecracker plants)", "TOIT", (2.5, 4.5, 18.0, 5.5), "jardin", clos=False),
+        R("Jardinière (plantation basse)", "TOIT", (2.5, 4.5, 18.0, 5.5), "jardin", clos=False),
     ],
     "portes": [
         ("RDC", 6.5, 5.5, "h", 1.2),    # porte d'entree pivotante (axe 6,5)
@@ -437,6 +437,7 @@ def portes_maison(x0):
         ("RDC", x0 + 1.0, y2, "h", 0.9),       # entree -> sejour
         ("RDC", x0 + 2.0, 28.75, "v", 0.9),    # entree -> escalier
         ("RDC", x0 + 5.5, 26.0, "v", 1.2),     # sejour -> cuisine
+        ("RDC", x0 + 7.0, 24.0, "h", 1.6),     # coin repas <-> cuisine (ouverture a deux vantaux)
         ("RDC", x0 + 6.3, y2, "h", 0.7),       # cuisine -> WC
         ("RDC", x0 + 7.75, y2, "h", 0.7),      # cuisine -> cellier
         ("RDC", x0 + 7.75, y3, "h", 0.8),      # cellier -> cour (service)

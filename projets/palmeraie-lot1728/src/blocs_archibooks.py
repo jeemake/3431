@@ -37,9 +37,9 @@ STYLE = {
     "BLOC_MUR": (1.4, "#000000", "none"), "BLOC_OUVRANT": (1.0, "#000000", "none"),
     "BLOC_DEBATTEMENT": (0.5, "#000000", "none"), "BLOC_AXE": (0.4, "#000000", "none"),
     "BLOC_CONTOUR": (0.5, "#000000", "none"), "BLOC_HACHURE": (0.35, "#3a3a3a", "none"),
-    "BLOC_TEXTURE": (0.35, "#3d6d84", "none"),
-    "BLOC_FEUILLAGE": (0.3, "#2f3a2c", "none"), "BLOC_BRANCHES": (0.35, "#2f3a2c", "none"),
-    "BLOC_TRONC": (0.7, "#1f241d", "none"),
+    "BLOC_TEXTURE": (0.3, "#6b6b6b", "none"),
+    "BLOC_FEUILLAGE": (0.3, "#3a3a3a", "none"), "BLOC_BRANCHES": (0.35, "#3a3a3a", "none"),
+    "BLOC_TRONC": (0.7, "#2a2a2a", "none"),
 }
 DEF_STYLE = (0.35, "#2b2b2b", "none")
 
@@ -72,10 +72,40 @@ def sync(ids=UTILISES):
         dest.write_bytes(data)
 
 
+def sync_base(prefixes=("vegetation-elcroquis-v1/",)):
+    """Catalogue vivant (table blocs_archibooks, lecture seule) + DXF des dossiers recents, SHA-256 controle."""
+    url, key = os.environ.get("SUPABASE_URL"), os.environ.get("SUPABASE_SERVICE_KEY")
+    if not url or not key:
+        raise RuntimeError("SUPABASE_URL / SUPABASE_SERVICE_KEY absents")
+    rows = json.loads(_get(f"{url}/rest/v1/blocs_archibooks?select=id,categorie,bloc_dxf,chemin_dxf,sha256_dxf,"
+                           f"dimensions,insertion,actif&actif=eq.true", key))
+    (CACHE / "catalogue_base.json").write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
+    for r in rows:
+        p = r.get("chemin_dxf")
+        if not p or not p.startswith(prefixes) or (CACHE / p).exists():
+            continue
+        data = _get(f"{url}/storage/v1/object/{BUCKET}/{p}", key)
+        if hashlib.sha256(data).hexdigest() != r["sha256_dxf"]:
+            raise RuntimeError(f"SHA-256 different pour {p}")
+        (CACHE / p).parent.mkdir(parents=True, exist_ok=True)
+        (CACHE / p).write_bytes(data)
+
+
+VEG_PLEIN = ("BLOC_FEUILLAGE_GRIS", "AB_VEG_ELEV_FEUILLAGE")    # aplats gris (ton par instance), El Croquis 225
+
+
 class Bibliotheque:
     def __init__(self):
         cat = json.loads((CACHE / "catalogue.json").read_text(encoding="utf-8"))
         self.cat = {b["id"]: b for b in cat["blocs"]}
+        base = CACHE / "catalogue_base.json"          # la base est la verite du catalogue (BLOCS-ARCHIBOOKS)
+        if base.exists():
+            for r in json.loads(base.read_text(encoding="utf-8")):
+                if r.get("chemin_dxf") and r["id"] not in self.cat:
+                    d = r.get("dimensions") or {}
+                    self.cat[r["id"]] = {"id": r["id"], "categorie": r["categorie"], "dxf": r["chemin_dxf"],
+                                         "nom_bloc": r["bloc_dxf"], "dimensions_m": {"largeur": d.get("largeur", 1),
+                                                                                      "hauteur": d.get("hauteur", 1)}}
         self._sym = {}
         self.utilises = set()
 
@@ -96,17 +126,36 @@ class Bibliotheque:
             lay = e.dxf.layer
             if tex and lay == "BLOC_CONTOUR":       # variante sans cadre : pas de grille visible en pavage
                 continue
-            try:
-                p = dpath.make_path(e)
-            except Exception:
+            if e.dxftype() == "HATCH":
+                paths = list(dpath.from_hatch(e))
+                lay = lay if lay in VEG_PLEIN else lay + "#plein"
+            elif e.dxftype() == "LWPOLYLINE" and any(p[2] or p[3] for p in e.get_points("xyseb")):
+                # polyligne a largeur variable (feuille, palme) : contour reel par TraceBuilder, rendu en aplat
+                from ezdxf.render.trace import TraceBuilder
+                lay = lay if lay in VEG_PLEIN else lay + "#plein"
+                for poly in TraceBuilder.from_polyline(e).polygons():
+                    pts = [(v.x, v.y) for v in poly]
+                    if len(pts) >= 3:
+                        groups.setdefault(lay, []).append("M" + " L".join(f"{x:.3f},{y:.3f}" for x, y in pts) + " Z")
                 continue
-            pts = list(p.flattening(0.004 if b["categorie"] in ("porte", "personnage") else 0.01))
-            if len(pts) < 2:
-                continue
-            d = "M" + " L".join(f"{v.x:.3f},{v.y:.3f}" for v in pts)
-            groups.setdefault(lay, []).append(d)
+            else:
+                try:
+                    paths = [dpath.make_path(e)]
+                except Exception:
+                    continue
+            for p in paths:
+                pts = list(p.flattening(0.004 if b["categorie"] in ("porte", "personnage") else 0.01))
+                if len(pts) < 2:
+                    continue
+                d = "M" + " L".join(f"{v.x:.3f},{v.y:.3f}" for v in pts) + (" Z" if e.dxftype() == "HATCH" else "")
+                groups.setdefault(lay, []).append(d)
         parts = []
         for lay, ds in groups.items():
+            if lay in VEG_PLEIN or lay.endswith("#plein"):
+                # aplat plein : la teinte vient de l'instance (<use fill=...>) ; tronc en pastille plus sombre
+                fill = "" if (lay in VEG_PLEIN or lay.startswith("BLOC_FEUILLAGE")) else ' fill="#4a4a4a"'
+                parts.append(f'<path d="{" ".join(ds)}" stroke="none" fill-rule="nonzero"{fill}/>')
+                continue
             w, col, fill = STYLE.get(lay, DEF_STYLE)
             if "CONTOUR" in lay and b["categorie"] == "personnage":
                 w = 0.6
@@ -121,25 +170,27 @@ class Bibliotheque:
         return "".join(self._symbol(i) for i in sorted(self.utilises))
 
     # ----------------------------------------------------------------- instances
-    def use(self, i, a, b_, c, d, e, f, opacity=1.0):
-        """Instance par matrice SVG (a b c d e f) appliquee aux coordonnees du bloc (metres, Y haut)."""
+    def use(self, i, a, b_, c, d, e, f, opacity=1.0, fill=None):
+        """Instance par matrice SVG (a b c d e f) appliquee aux coordonnees du bloc (metres, Y haut).
+        fill : ton gris de l'instance pour les aplats de vegetation (set_instance_tone)."""
         self.utilises.add(i)
         self._symbol(i)
+        f_ = f' fill="{fill}"' if fill else ""
         return (f'<use href="#ab_{i}" transform="matrix({a:.5f},{b_:.5f},{c:.5f},{d:.5f},{e:.2f},{f:.2f})" '
-                f'opacity="{opacity}"/>')
+                f'opacity="{opacity}"{f_}/>')
 
-    def plan(self, i, cx, cy, S, k=1.0, rot=0.0, opacity=1.0, X=None, Y=None):
+    def plan(self, i, cx, cy, S, k=1.0, rot=0.0, opacity=1.0, X=None, Y=None, fill=None):
         """Bloc vu en plan, centre (cx, cy) en metres du plan (Y vers le Sud) ; S px/m ; k echelle."""
         import math
         r = math.radians(rot)
         a, b_ = k * S * math.cos(r), k * S * math.sin(r)
         c, d = k * S * math.sin(r), -k * S * math.cos(r)      # Y du bloc (Nord) vers le haut de la feuille
-        return self.use(i, a, b_, c, d, X(cx), Y(cy), opacity)
+        return self.use(i, a, b_, c, d, X(cx), Y(cy), opacity, fill)
 
-    def elevation(self, i, x_px, y_px, S, k=1.0, mirror=False, opacity=1.0):
+    def elevation(self, i, x_px, y_px, S, k=1.0, mirror=False, opacity=1.0, fill=None):
         """Bloc de coupe / elevation (origine au pied), pose en (x_px, y_px) sur la feuille."""
         sx = -k * S if mirror else k * S
-        return self.use(i, sx, 0, 0, -k * S, x_px, y_px, opacity)
+        return self.use(i, sx, 0, 0, -k * S, x_px, y_px, opacity, fill)
 
     def texture(self, i, poly, S, X, Y, opacity=0.6, holes=(), cid=None, rot=0.0):
         """Recouvre un polygone (metres du plan) de panneaux 2 x 2 m, recadres exactement (clipPath, trous)."""

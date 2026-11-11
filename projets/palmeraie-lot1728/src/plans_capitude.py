@@ -1,11 +1,12 @@
-"""Plans de l'option C et du locatif aux conventions graphiques Capitude, avec les blocs Archibooks.
+"""Plans de l'option C v5 et du locatif au gabarit Capitude GABARIT-VISUEL-PLANS (v3, 10-11-2026).
 
-Regles appliquees (regles_agents, Capitude) : GRAPHISME-APLATS-LEGENDE-TRAME (aplats pastel a 45 % par usage,
-legende sur chaque plan, trame d'axes reperee en peripherie), GRAPHISME-OPACITES (murs, textes, cotes noirs
-opaques ; vegetation, sols, mobilier a opacites variees), GRAPHISME-ELCROQUIS-EXTERIEURS (sols differencies et
-recadres, strates, bassins), BLOCS-ARCHIBOOKS (portes, arbres, textures, eau depuis le bucket prive),
-PAYSAGE-TROPICAL-COMPOSITION (tailles et essences variees selon le role).
-Blocs absents du catalogue (signales) : appareils sanitaires, lits, canapes, tables, cuisines, voitures, cartouche.
+Noir et gris sur fond blanc, sans aplats d'usage (regle GRAPHISME-APLATS-LEGENDE-TRAME retiree) : murs coupes en
+poche noir, menuiseries en double trait fin, mobilier au trait (interieur blanc), sols en textures Archibooks grises,
+vegetation en canopees El Croquis (vegetation-elcroquis-v1) a 3-4 valeurs de gris, etiquettes de pieces en capitales
+avec surface, projections au-dessus du plan de coupe en tirets, reperes de coupe en equerres hors du dessin,
+police de la chaine Century Gothic (URW Gothic, lib/ du bucket blocs-archibooks).
+Blocs absents du catalogue (signales) : appareils sanitaires, lits, canapes, tables, cuisines, vehicules en plan,
+personnages vus de dessus : dessines au trait dans la grammaire du gabarit.
 """
 import math
 
@@ -15,6 +16,8 @@ from plans import Canvas, draw_furniture, esc
 from projet import CX, CY, LOCATIF_M, MX, MY, OPTION_C
 
 INK = "#000000"
+FONT = '"Century Gothic", "URW Gothic", "TeX Gyre Adventor", Questrial, Jost, sans-serif'
+TONS = {30: "#b3b3b3", 36: "#a3a3a3", 42: "#949494", 46: "#8a8a8a", 55: "#737373", 64: "#5c5c5c", 75: "#404040"}
 PAL = {   # usage : (couleur source, intitule) ; opacite 45 % appliquee une fois a l'aplat
     "SEJ": ("#F2E6C6", "Séjour, salon"),
     "RES": ("#EFD4BC", "Restauration : cuisines, salle à manger"),
@@ -46,6 +49,21 @@ def usage(r):
     return "SER"
 
 
+def nom_court(r):
+    """Etiquette : forme courte du libelle, sans parenthese ni variante (GABARIT-VISUEL-PLANS, section 4)."""
+    n = r["nom"].split(" ", 1)[1] if "logement" in r and r["nom"][:1] == "M" else r["nom"]
+    n = n.split(" (")[0]
+    table = {"Guérite + WC gardien": "Guérite", "Local GE + niche compteurs": "Local GE", "Hall d'entrée": "Hall",
+             "WC visiteurs": "WC", "Passage couvert d'entrée": "Passage couvert", "Terrasse couverte sur patio": "Terrasse couverte",
+             "Patio planté": "Patio", "SE nounou": "Salle d'eau", "SE ch.1": "Salle d'eau", "SE ch.2": "Salle d'eau",
+             "SE": "Salle d'eau", "SdB parentale": "Salle de bains", "Dressing parental": "Dressing",
+             "Galerie sur patio": "Galerie", "Loggia Nord": "Loggia", "Jardinière Ouest": "Jardinière",
+             "Préau cuisine africaine": "Préau", "Séchoir à ciel ouvert": "Séchoir", "Édicule d'escalier": "Édicule",
+             "Toit-terrasse couvert": "Toit-terrasse", "Toit-terrasse sous pergola": "Toit-terrasse", "Séjour-SAM": "Séjour",
+             "Cour d'entrée": "Cour", "Stationnement 2 places": "Stationnement", "Jardin privé": "Jardin"}
+    return table.get(n, n).upper()
+
+
 class Feuille:
     def __init__(self, opt, niveau, x0, y0, x1, y1, s, sid):
         self.opt, self.niveau, self.sid = opt, niveau, sid
@@ -55,7 +73,15 @@ class Feuille:
         self.pieces = [r for r in opt["pieces"] if r["niveau"] == niveau]
         self.portes = [p for p in opt["portes"] if p[0] == niveau]
         self.G = 0.05
+        self.reserve = []           # boites d'etiquettes reservees (x0, y0, x1, y1) en metres
         self._grid()
+
+    def pt(self, n):
+        """Corps en points -> unites SVG, a l'echelle 1:100 (1 m = 10 mm)."""
+        return n * 0.3528 * self.S / 10
+
+    def mm(self, n):
+        return n * self.S / 10
 
     # ------------------------------------------------------------------ geometrie
     def _grid(self):
@@ -112,10 +138,12 @@ class Feuille:
         self.raw(self.lib.texture(i, poly, self.S, c.X, c.Y, opacity=opacity, holes=holes,
                                   cid=f"{self.sid}_{len(c.el)}"))
 
-    def arbre(self, i, x, y, diam, opacity=0.6):
+    def arbre(self, i, x, y, diam, ton=None, rot=0.0, opacity=1.0):
+        """Canopee El Croquis (aplat gris opaque, ton en % de noir) ou arbre au trait (opacite)."""
         b = self.lib.info(i)["dimensions_m"]
         k = diam / max(b["largeur"], b["hauteur"])
-        self.raw(self.lib.plan(i, x, y, self.S, k=k, opacity=opacity, X=self.c.X, Y=self.c.Y))
+        fill = TONS.get(ton, ton) if ton else None
+        self.raw(self.lib.plan(i, x, y, self.S, k=k, rot=rot, opacity=opacity, X=self.c.X, Y=self.c.Y, fill=fill))
 
     def poly(self, pts, fill="none", stroke=INK, sw=0.8, op=1.0, dash=None):
         c = self.c
@@ -132,12 +160,17 @@ class Feuille:
                 self.c.rect(x0, y0, x1, y1, fill=PAL[u][0], stroke="none", sw=0, extra='fill-opacity="0.45"')
 
     def mobilier(self):
+        """Mobilier et sanitaires au trait fin, interieur blanc (blocs absents du catalogue, dessines et signales)."""
+        import re
         c = self.c
         n0 = len(c.el)
         draw_furniture(c, self.pieces, self.niveau, self.portes)
-        sub = c.el[n0:]
+        sub = "".join(c.el[n0:])
         del c.el[n0:]
-        self.raw('<g opacity="0.8">' + "".join(sub) + "</g>")
+        sub = re.sub(r'fill="#(?!fff)[0-9a-fA-F]{6}"', 'fill="#ffffff"', sub)
+        sub = re.sub(r'stroke="#[0-9a-fA-F]{6}"', 'stroke="#000000"', sub)
+        sub = re.sub(r'stroke-width="[0-9.]+"', f'stroke-width="{self.mm(0.15):.2f}"', sub)
+        self.raw('<g opacity="0.85">' + sub + "</g>")
 
     def escalier_u(self, x0, y0, x1, y1, palier="N", fleche=True, n=8):
         """Escalier a deux volees le long de y, palier au Nord (y0) ou au Sud."""
@@ -149,12 +182,12 @@ class Feuille:
         g = []
         for k in range(n + 1):
             y = ya + k * step
-            g.append(f'<line x1="{c.X(x0 + 0.05):.1f}" y1="{c.Y(y):.1f}" x2="{c.X(x1 - 0.05):.1f}" y2="{c.Y(y):.1f}" stroke="{INK}" stroke-width="0.45"/>')
-        g.append(f'<line x1="{c.X(xm):.1f}" y1="{c.Y(ya):.1f}" x2="{c.X(xm):.1f}" y2="{c.Y(yb):.1f}" stroke="{INK}" stroke-width="0.9"/>')
+            g.append(f'<line x1="{c.X(x0 + 0.05):.1f}" y1="{c.Y(y):.1f}" x2="{c.X(x1 - 0.05):.1f}" y2="{c.Y(y):.1f}" stroke="{INK}" stroke-width="{self.mm(0.18):.2f}"/>')
+        g.append(f'<line x1="{c.X(xm):.1f}" y1="{c.Y(ya):.1f}" x2="{c.X(xm):.1f}" y2="{c.Y(yb):.1f}" stroke="{INK}" stroke-width="{self.mm(0.25):.2f}"/>')
         if fleche:
             yy0, yy1 = (yb - 0.2, ya + 0.3) if palier == "N" else (ya + 0.2, yb - 0.3)
             xa = (x0 + xm) / 2
-            g.append(f'<line x1="{c.X(xa):.1f}" y1="{c.Y(yy0):.1f}" x2="{c.X(xa):.1f}" y2="{c.Y(yy1):.1f}" stroke="{INK}" stroke-width="0.7" marker-end="url(#{self.sid}_fl)"/>')
+            g.append(f'<line x1="{c.X(xa):.1f}" y1="{c.Y(yy0):.1f}" x2="{c.X(xa):.1f}" y2="{c.Y(yy1):.1f}" stroke="{INK}" stroke-width="{self.mm(0.18):.2f}" marker-end="url(#{self.sid}_fl)"/>')
         self.raw("".join(g))
 
     def murs_dessin(self):
@@ -174,31 +207,32 @@ class Feuille:
 
     def vitrage(self, sens, line, a, b, jour=False):
         c = self.c
-        col = "#2f6f8a"
-        da = ' stroke-dasharray="3 2"' if jour else ""
+        col = INK
+        da = f' stroke-dasharray="{self.mm(1.2):.1f} {self.mm(0.8):.1f}"' if jour else ""
         for d in (-0.05, 0.05):
             if sens == "h":
-                self.raw(f'<line x1="{c.X(a):.1f}" y1="{c.Y(line + d):.1f}" x2="{c.X(b):.1f}" y2="{c.Y(line + d):.1f}" stroke="{col}" stroke-width="0.7"{da}/>')
+                self.raw(f'<line x1="{c.X(a):.1f}" y1="{c.Y(line + d):.1f}" x2="{c.X(b):.1f}" y2="{c.Y(line + d):.1f}" stroke="{col}" stroke-width="{self.mm(0.15):.2f}"{da}/>')
             else:
-                self.raw(f'<line x1="{c.X(line + d):.1f}" y1="{c.Y(a):.1f}" x2="{c.X(line + d):.1f}" y2="{c.Y(b):.1f}" stroke="{col}" stroke-width="0.7"{da}/>')
+                self.raw(f'<line x1="{c.X(line + d):.1f}" y1="{c.Y(a):.1f}" x2="{c.X(line + d):.1f}" y2="{c.Y(b):.1f}" stroke="{col}" stroke-width="{self.mm(0.15):.2f}"{da}/>')
         for p in (a, b):
             if sens == "h":
                 c.rect(p - 0.04, line - 0.12, p + 0.04, line + 0.12, fill=INK, stroke="none", sw=0)
             else:
                 c.rect(line - 0.12, p - 0.04, line + 0.12, p + 0.04, fill=INK, stroke="none", sw=0)
 
-    def brique(self, x0, y0, x1, y1):
+    def brique(self, x0, y0, x1, y1, pas=0.2):
+        """Claustra (blocs de beton ajoures, ou lames) coupe : contour fort, cloisons tous les 0,20 m."""
         c = self.c
-        c.rect(x0, y0, x1, y1, fill="#e7c3a9", stroke="#8a4f2f", sw=0.6)
+        c.rect(x0, y0, x1, y1, fill="#ffffff", stroke=INK, sw=self.mm(0.25))
         horiz = (x1 - x0) >= (y1 - y0)
         L = (x1 - x0) if horiz else (y1 - y0)
-        n = max(1, int(L / 0.22))
+        n = max(1, int(L / pas))
         for k in range(1, n):
             u = k * L / n
             if horiz:
-                c.line(x0 + u, y0, x0 + u, y1, stroke="#8a4f2f", sw=0.35)
+                c.line(x0 + u, y0, x0 + u, y1, stroke=INK, sw=self.mm(0.13))
             else:
-                c.line(x0, y0 + u, x1, y0 + u, stroke="#8a4f2f", sw=0.35)
+                c.line(x0, y0 + u, x1, y0 + u, stroke=INK, sw=self.mm(0.13))
 
     def ouvertures(self, liste):
         """Portes (blocs Archibooks), baies coulissantes et fenetres sur les murs du niveau."""
@@ -232,11 +266,11 @@ class Feuille:
                 self.vitrage(sens, line, a, b)
                 m = (a + b) / 2
                 if sens == "h":
-                    c.line(a, line - 0.05, m + 0.15, line - 0.05, stroke=INK, sw=0.9)
-                    c.line(m - 0.15, line + 0.05, b, line + 0.05, stroke=INK, sw=0.9)
+                    c.line(a, line - 0.05, m + 0.15, line - 0.05, stroke=INK, sw=self.mm(0.18))
+                    c.line(m - 0.15, line + 0.05, b, line + 0.05, stroke=INK, sw=self.mm(0.18))
                 else:
-                    c.line(line - 0.05, a, line - 0.05, m + 0.15, stroke=INK, sw=0.9)
-                    c.line(line + 0.05, m - 0.15, line + 0.05, b, stroke=INK, sw=0.9)
+                    c.line(line - 0.05, a, line - 0.05, m + 0.15, stroke=INK, sw=self.mm(0.18))
+                    c.line(line + 0.05, m - 0.15, line + 0.05, b, stroke=INK, sw=self.mm(0.18))
                 continue
             # cote d'ouverture : vers la piece la plus privee (ou vers l'interieur)
             if sens == "h":
@@ -256,37 +290,45 @@ class Feuille:
             m = porte_matrix(x, y, sens, w, swing, hinge_low, self.S, c.X, c.Y)
             self.raw(self.lib.use(ident, *m))
 
-    def etiquettes(self):
+    def etiquettes(self, ignorer=(), deplace=None):
+        """NOM en capitales (9 pt gras), surface (7 pt) ; tournee a 90 degres dans une piece etroite."""
         c = self.c
+        deplace = deplace or {}
+        cw = 0.62                                  # largeur moyenne d'un caractere (URW Gothic), en corps
         for r in self.pieces:
+            nom = nom_court(r)
+            if r["nom"] in ignorer or nom in ignorer:
+                continue
             x0, y0, x1, y1 = max(r["rects"], key=lambda q: (q[2] - q[0]) * (q[3] - q[1]))
             w, h = x1 - x0, y1 - y0
-            nom = r["nom"].split(" ", 1)[1] if "logement" in r else r["nom"]
-            if r["code"] in ("parvis", "jardin", "patio", "terrasse", "balcon", "toit_jard") and w * h < 4:
+            if r["code"] in ("parvis", "jardin", "patio", "terrasse", "balcon", "toit_jard") and w * h < 2.5:
                 continue
-            area = f"{r['surface']:.2f}".replace(".", ",") + " m²"
-            if not r["clos"] and r["code"] in ("parvis",):
+            area = f"{r['surface']:.1f}".replace(".", ",") + " m²"
+            if r["code"] in ("parvis", "jardin") or nom in ("LOCAL GE", "JARDINIÈRE"):
                 area = ""
-            size = 7.4 if w > 2.4 and h > 1.6 else 6.2
-            cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
-            if h > w * 1.6 and w < 1.8:
-                c.text(cx, cy, f"{nom} {area}".strip(), size=size - 0.6, fill=INK, rot=-90)
+            s9, s7 = self.pt(9), self.pt(7)
+            cx, cy = deplace.get(r["nom"], ((x0 + x1) / 2, (y0 + y1) / 2))
+            words = nom.split(" ")
+            lines = [nom]
+            larg = lambda t, s: len(t) * s * cw / self.S        # noqa: E731  (metres)
+            if larg(nom, s9) > w - 0.6 and len(words) > 1:
+                cut = max(range(1, len(words)), key=lambda k: -abs(len(" ".join(words[:k])) - len(" ".join(words[k:]))))
+                lines = [" ".join(words[:cut]), " ".join(words[cut:])]
+            wid = max(larg(t, s9) for t in lines)
+            haut = (len(lines) * s9 * 1.15 + (s7 * 1.2 if area else 0)) / self.S
+            rot = wid > w - 0.3 and h > w
+            if rot:
+                lines = [nom]
+                t = nom + ("  " + area if area else "")
+                c.text(cx, cy, t, size=s7 * 1.1, fill=INK, weight=700, rot=-90)
+                self.reserve.append((cx - 0.2, cy - larg(t, s7) / 2, cx + 0.2, cy + larg(t, s7) / 2))
                 continue
-            words, lines, cur = nom.split(" "), [], ""
-            maxch = max(6, int(w * c.s / (size * 0.56)))
-            for wd in words:
-                if len(cur) + len(wd) + 1 > maxch and cur:
-                    lines.append(cur)
-                    cur = wd
-                else:
-                    cur = (cur + " " + wd).strip()
-            lines.append(cur)
-            lh = size * 1.15 / c.s
-            top = cy - len(lines) * lh / 2 + lh * 0.55
+            top = cy - haut / 2 + s9 * 0.85 / self.S
             for k, ln in enumerate(lines):
-                c.text(cx, top + k * lh, ln, size=size, fill=INK, weight=600)
+                c.text(cx, top + k * s9 * 1.15 / self.S, ln, size=s9, fill=INK, weight=700)
             if area:
-                c.text(cx, top + len(lines) * lh, area, size=size - 0.8, fill=INK)
+                c.text(cx, top + len(lines) * s9 * 1.15 / self.S, area, size=s7, fill=INK)
+            self.reserve.append((cx - wid / 2, cy - haut / 2, cx + wid / 2, cy + haut / 2))
 
     # ------------------------------------------------------------------ habillage
     def cotes(self, xs, ys, xpos, ypos, total_x=None, total_y=None):
@@ -294,44 +336,44 @@ class Feuille:
         g = []
 
         def tick(px, py):
-            g.append(f'<line x1="{px - 3:.1f}" y1="{py + 3:.1f}" x2="{px + 3:.1f}" y2="{py - 3:.1f}" stroke="{INK}" stroke-width="0.8"/>')
+            g.append(f'<line x1="{px - 3:.1f}" y1="{py + 3:.1f}" x2="{px + 3:.1f}" y2="{py - 3:.1f}" stroke="{INK}" stroke-width="{self.mm(0.25):.2f}"/>')
 
         for chain, yy in ((xs, ypos),) + (((total_x, ypos - 0.62),) if total_x else ()):
             py = c.Y(yy)
-            g.append(f'<line x1="{c.X(chain[0]) - 6:.1f}" y1="{py:.1f}" x2="{c.X(chain[-1]) + 6:.1f}" y2="{py:.1f}" stroke="{INK}" stroke-width="0.4"/>')
+            g.append(f'<line x1="{c.X(chain[0]) - 6:.1f}" y1="{py:.1f}" x2="{c.X(chain[-1]) + 6:.1f}" y2="{py:.1f}" stroke="{INK}" stroke-width="{self.mm(0.1):.2f}"/>')
             for k, x in enumerate(chain):
                 tick(c.X(x), py)
                 if k:
                     v = f"{chain[k] - chain[k - 1]:.2f}".rstrip("0").rstrip(".").replace(".", ",")
-                    g.append(f'<text x="{(c.X(x) + c.X(chain[k - 1])) / 2:.1f}" y="{py - 3:.1f}" font-size="7" text-anchor="middle" fill="{INK}">{v}</text>')
+                    g.append(f'<text x="{(c.X(x) + c.X(chain[k - 1])) / 2:.1f}" y="{py - 3:.1f}" font-size="{self.pt(7):.2f}" text-anchor="middle" fill="{INK}">{v}</text>')
         for chain, xx in ((ys, xpos),) + (((total_y, xpos - 0.7),) if total_y else ()):
             px = c.X(xx)
-            g.append(f'<line x1="{px:.1f}" y1="{c.Y(chain[0]) - 6:.1f}" x2="{px:.1f}" y2="{c.Y(chain[-1]) + 6:.1f}" stroke="{INK}" stroke-width="0.4"/>')
+            g.append(f'<line x1="{px:.1f}" y1="{c.Y(chain[0]) - 6:.1f}" x2="{px:.1f}" y2="{c.Y(chain[-1]) + 6:.1f}" stroke="{INK}" stroke-width="{self.mm(0.1):.2f}"/>')
             for k, y in enumerate(chain):
                 tick(px, c.Y(y))
                 if k:
                     v = f"{chain[k] - chain[k - 1]:.2f}".rstrip("0").rstrip(".").replace(".", ",")
                     ym = (c.Y(y) + c.Y(chain[k - 1])) / 2
-                    g.append(f'<text x="{px - 3:.1f}" y="{ym:.1f}" font-size="7" text-anchor="middle" fill="{INK}" transform="rotate(-90 {px - 3:.1f} {ym:.1f})">{v}</text>')
+                    g.append(f'<text x="{px - 3:.1f}" y="{ym:.1f}" font-size="{self.pt(7):.2f}" text-anchor="middle" fill="{INK}" transform="rotate(-90 {px - 3:.1f} {ym:.1f})">{v}</text>')
         self.raw("".join(g))
 
     def axes(self, xs, ys, ytop, xleft, x_end, y_end):
         """Trame de reperage : bulles en peripherie, traits courts detaches du dessin."""
         c = self.c
         g = []
-        r = 0.32 * c.s
+        r = self.mm(2.4)
         for k, x in enumerate(xs, 1):
             px, py = c.X(x), c.Y(ytop)
             g.append(f'<line x1="{px:.1f}" y1="{py + r:.1f}" x2="{px:.1f}" y2="{py + r + 0.5 * c.s:.1f}" stroke="{INK}" stroke-width="0.5"/>'
                      f'<line x1="{px:.1f}" y1="{c.Y(y_end) + 0.2 * c.s:.1f}" x2="{px:.1f}" y2="{c.Y(y_end) + 0.6 * c.s:.1f}" stroke="{INK}" stroke-width="0.5"/>'
                      f'<circle cx="{px:.1f}" cy="{py:.1f}" r="{r:.1f}" fill="#fff" stroke="{INK}" stroke-width="0.7"/>'
-                     f'<text x="{px:.1f}" y="{py + 3:.1f}" font-size="8" text-anchor="middle" font-weight="600" fill="{INK}">{k}</text>')
+                     f'<text x="{px:.1f}" y="{py + 3:.1f}" font-size="{self.pt(7):.2f}" text-anchor="middle" font-weight="700" fill="{INK}">{k}</text>')
         for k, y in enumerate(ys):
             px, py = c.X(xleft), c.Y(y)
             g.append(f'<line x1="{px + r:.1f}" y1="{py:.1f}" x2="{px + r + 0.5 * c.s:.1f}" y2="{py:.1f}" stroke="{INK}" stroke-width="0.5"/>'
                      f'<line x1="{c.X(x_end) + 0.2 * c.s:.1f}" y1="{py:.1f}" x2="{c.X(x_end) + 0.6 * c.s:.1f}" y2="{py:.1f}" stroke="{INK}" stroke-width="0.5"/>'
                      f'<circle cx="{px:.1f}" cy="{py:.1f}" r="{r:.1f}" fill="#fff" stroke="{INK}" stroke-width="0.7"/>'
-                     f'<text x="{px:.1f}" y="{py + 3:.1f}" font-size="8" text-anchor="middle" font-weight="600" fill="{INK}">{chr(65 + k)}</text>')
+                     f'<text x="{px:.1f}" y="{py + 3:.1f}" font-size="{self.pt(7):.2f}" text-anchor="middle" font-weight="700" fill="{INK}">{chr(65 + k)}</text>')
         self.raw("".join(g))
 
     def legende(self, x, y, extra=()):
@@ -355,200 +397,297 @@ class Feuille:
         return yy
 
     def nord_echelle(self, x, y):
+        """Nord compact et echelle graphique a traits 0-1-3-5 m (bas a droite)."""
         c = self.c
-        cx, cy, R = c.X(x), c.Y(y), 0.8 * c.s
+        cx, cy, R = c.X(x), c.Y(y), self.mm(4)
         a = math.radians(-7.56)
         tip = (cx + R * math.sin(a), cy - R * math.cos(a))
-        l_ = (cx + 0.35 * R * math.sin(a - 2.4), cy - 0.35 * R * math.cos(a - 2.4))
-        r_ = (cx + 0.35 * R * math.sin(a + 2.4), cy - 0.35 * R * math.cos(a + 2.4))
+        l_ = (cx + 0.45 * R * math.sin(a - 2.6), cy - 0.45 * R * math.cos(a - 2.6))
+        r_ = (cx + 0.45 * R * math.sin(a + 2.6), cy - 0.45 * R * math.cos(a + 2.6))
         S = c.s
-        sx, sy = cx - 2.5 * S, cy + 1.6 * S
-        self.raw(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{R:.1f}" fill="none" stroke="{INK}" stroke-width="0.6"/>'
-                 f'<polygon points="{tip[0]:.1f},{tip[1]:.1f} {l_[0]:.1f},{l_[1]:.1f} {cx:.1f},{cy:.1f} {r_[0]:.1f},{r_[1]:.1f}" fill="{INK}"/>'
-                 f'<text x="{tip[0]:.1f}" y="{tip[1] - 4:.1f}" font-size="9" text-anchor="middle" font-weight="700" fill="{INK}">N</text>'
-                 f'<rect x="{sx:.1f}" y="{sy:.1f}" width="{5 * S:.1f}" height="4" fill="{INK}"/>'
-                 f'<rect x="{sx + S:.1f}" y="{sy:.1f}" width="{S:.1f}" height="4" fill="#fff" stroke="{INK}" stroke-width="0.4"/>'
-                 f'<rect x="{sx + 3 * S:.1f}" y="{sy:.1f}" width="{S:.1f}" height="4" fill="#fff" stroke="{INK}" stroke-width="0.4"/>'
-                 f'<text x="{sx:.1f}" y="{sy + 13:.1f}" font-size="7" fill="{INK}">0</text>'
-                 f'<text x="{sx + 5 * S:.1f}" y="{sy + 13:.1f}" font-size="7" text-anchor="middle" fill="{INK}">5 m</text>')
+        sx, sy = cx + self.mm(9), cy + self.mm(1)
+        g = [f'<polygon points="{tip[0]:.1f},{tip[1]:.1f} {l_[0]:.1f},{l_[1]:.1f} {cx:.1f},{cy:.1f} {r_[0]:.1f},{r_[1]:.1f}" fill="{INK}"/>',
+             f'<text x="{tip[0]:.1f}" y="{tip[1] - self.mm(1.2):.1f}" font-size="{self.pt(7):.2f}" text-anchor="middle" font-weight="700" fill="{INK}">N</text>',
+             f'<line x1="{sx:.1f}" y1="{sy:.1f}" x2="{sx + 5 * S:.1f}" y2="{sy:.1f}" stroke="{INK}" stroke-width="{self.mm(0.25):.2f}"/>']
+        for m in (0, 1, 3, 5):
+            g.append(f'<line x1="{sx + m * S:.1f}" y1="{sy - self.mm(1):.1f}" x2="{sx + m * S:.1f}" y2="{sy:.1f}" stroke="{INK}" stroke-width="{self.mm(0.18):.2f}"/>'
+                     f'<text x="{sx + m * S:.1f}" y="{sy + self.mm(3):.1f}" font-size="{self.pt(7):.2f}" text-anchor="middle" fill="{INK}">{m}{" m" if m == 5 else ""}</text>')
+        self.raw("".join(g))
+
+    def equerre(self, x, y, vers, lettre):
+        """Repere de coupe : equerre courte en trait fort, hors du dessin, tournee vers le sens du regard."""
+        c = self.c
+        L, t = self.mm(5), self.mm(0.45)
+        dx, dy = {"N": (0, -1), "S": (0, 1), "E": (1, 0), "O": (-1, 0)}[vers]
+        px, py = c.X(x), c.Y(y)
+        if dx == 0:      # trait de coupe vertical (coupe Nord-Sud) : equerre horizontale -> regard Est/Ouest
+            pass
+        g = []
+        if vers in ("E", "O"):
+            g.append(f'<path d="M{px:.1f},{py - L:.1f} L{px:.1f},{py:.1f} L{px + dx * L * 0.7:.1f},{py:.1f}" fill="none" stroke="{INK}" stroke-width="{t:.2f}"/>')
+            g.append(f'<text x="{px - dx * self.mm(2):.1f}" y="{py - L * 0.5:.1f}" font-size="{self.pt(9):.2f}" font-weight="700" text-anchor="middle" fill="{INK}">{lettre}</text>')
+        else:
+            g.append(f'<path d="M{px - L:.1f},{py:.1f} L{px:.1f},{py:.1f} L{px:.1f},{py + dy * L * 0.7:.1f}" fill="none" stroke="{INK}" stroke-width="{t:.2f}"/>')
+            g.append(f'<text x="{px - L * 0.5:.1f}" y="{py - dy * self.mm(2):.1f}" font-size="{self.pt(9):.2f}" font-weight="700" text-anchor="middle" fill="{INK}">{lettre}</text>')
+        self.raw("".join(g))
+
+    def tirets(self, pts, ferme=True):
+        """Projection au-dessus du plan de coupe : tirets noirs nets (0,25 mm, 2,5 / 1,2 mm)."""
+        c = self.c
+        d = "M" + " L".join(f"{c.X(x):.1f},{c.Y(y):.1f}" for x, y in pts) + (" Z" if ferme else "")
+        self.raw(f'<path d="{d}" fill="none" stroke="{INK}" stroke-width="{self.mm(0.25):.2f}" '
+                 f'stroke-dasharray="{self.mm(2.5):.1f} {self.mm(1.2):.1f}"/>')
+
+    def voiture(self, x, y, rot=0):
+        """Vehicule en plan (absent du catalogue Archibooks) : 4,50 x 1,80 m au trait fin, interieur blanc."""
+        c = self.c
+        g = (f'<g transform="translate({c.X(x):.1f},{c.Y(y):.1f}) rotate({rot})">'
+             f'<rect x="{-0.9 * c.s:.1f}" y="{-2.25 * c.s:.1f}" width="{1.8 * c.s:.1f}" height="{4.5 * c.s:.1f}" rx="{0.35 * c.s:.1f}" fill="#fff" stroke="{INK}" stroke-width="{self.mm(0.15):.2f}"/>'
+             f'<rect x="{-0.75 * c.s:.1f}" y="{-0.9 * c.s:.1f}" width="{1.5 * c.s:.1f}" height="{2.0 * c.s:.1f}" rx="{0.2 * c.s:.1f}" fill="#fff" stroke="{INK}" stroke-width="{self.mm(0.13):.2f}"/></g>')
+        self.raw(g)
+
+    def texte(self, x, y, t, size=7, anchor="middle", weight=400, rot=0):
+        self.c.text(x, y, t, size=self.pt(size), fill=INK, anchor=anchor, weight=weight, rot=rot)
 
     def svg(self):
         defs = (f'<defs>{self.lib.defs()}<marker id="{self.sid}_fl" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">'
                 f'<path d="M0,0 L6,3 L0,6 z" fill="{INK}"/></marker></defs>')
-        s = self.c.svg()
+        s = self.c.svg().replace('font-family="Inter, Liberation Sans, sans-serif"', f"font-family='{FONT}'")
+        s = s.replace('stroke-width="2.6">', f'stroke-width="{self.mm(0.8):.2f}">')     # halo blanc fin sous les textes
         i = s.index(">") + 1
         return s[:i] + defs + s[i:]
 
 
-SYM_PORTE = '<path d="M1,9 L1,1 M1,9 L10,9" stroke="#000" stroke-width="0.8" fill="none"/><path d="M1,1 A8,8 0 0 1 9,9" stroke="#000" stroke-width="0.5" fill="none"/>'
-SYM_VITRE = '<line x1="0" y1="3" x2="14" y2="3" stroke="#2f6f8a" stroke-width="0.8"/><line x1="0" y1="6" x2="14" y2="6" stroke="#2f6f8a" stroke-width="0.8"/>'
-SYM_JOUR = '<line x1="0" y1="3" x2="14" y2="3" stroke="#2f6f8a" stroke-width="0.8" stroke-dasharray="3 2"/><line x1="0" y1="6" x2="14" y2="6" stroke="#2f6f8a" stroke-width="0.8" stroke-dasharray="3 2"/>'
-SYM_BRIQUE = '<rect x="0" y="1" width="14" height="7" fill="#e7c3a9" stroke="#8a4f2f" stroke-width="0.6"/><line x1="5" y1="1" x2="5" y2="8" stroke="#8a4f2f" stroke-width="0.4"/><line x1="10" y1="1" x2="10" y2="8" stroke="#8a4f2f" stroke-width="0.4"/>'
-SYM_EAU = '<rect x="0" y="0" width="14" height="9" fill="#bcd6e0" fill-opacity="0.5" stroke="#000" stroke-width="0.5"/>'
-SYM_VEG = '<rect x="0" y="0" width="14" height="9" fill="#cfe0bf" stroke="#4f6b3a" stroke-width="0.5"/>'
-SYM_TRAME = '<circle cx="7" cy="4.5" r="4.2" fill="#fff" stroke="#000" stroke-width="0.6"/><text x="7" y="7" font-size="6" text-anchor="middle">1</text>'
-
-
-def _legende_commune(f, x, y, extra=()):
-    yy = f.legende(x, y, extra=[(SYM_PORTE, "Porte (bloc Archibooks)"), (SYM_VITRE, "Fenêtre, baie vitrée"),
-                                (SYM_JOUR, "Jour haut, allège 1,80 m"), (SYM_BRIQUE, "Brique ajourée"),
-                                (SYM_EAU, "Bassin (texture eau)"), (SYM_VEG, "Végétation, jardin")] + list(extra))
-    f.c.text(x, yy + 0.25, "Aplats à 45 % ; trame de conception", size=6.4, anchor="start", fill=INK)
-    f.c.text(x, yy + 0.75, "du client, à confirmer par le BET.", size=6.4, anchor="start", fill=INK)
-    return yy
 
 
 # =============================================================================== villa
-def villa(niveau, s=19, sid=None):
-    f = Feuille(OPTION_C, niveau, -4.0, -3.4, 30.2, 20.4, s, sid or f"vc_{niveau.replace('+', '')}")
+VILLA_CADRE = (-3.4, -4.6, 22.8, 20.6)
+TIRET_AXE = None
+
+
+def _pts(r):
+    x0, y0, x1, y1 = r
+    return [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
+
+
+def _limite(f, pts):
+    """Limite de propriete non batie : trait mixte long 0,25 mm."""
     c = f.c
-    # --- sols, eau, vegetation (au fond)
+    d = "M" + " L".join(f"{c.X(x):.1f},{c.Y(y):.1f}" for x, y in pts)
+    f.raw(f'<path d="{d}" fill="none" stroke="{INK}" stroke-width="{f.mm(0.25):.2f}" '
+          f'stroke-dasharray="{f.mm(6):.1f} {f.mm(1.5):.1f} {f.mm(1):.1f} {f.mm(1.5):.1f}"/>')
+
+
+def _couv(f, couv):
+    (a0, b0, a1, b1), (c0, d0, c1, d1) = couv
+    f.tirets([(a0, b0), (a1, b0), (a1, b1), (c1, b1), (c1, d1), (c0, d1)])
+
+
+def villa(niveau, s=19, sid=None, variante="V1"):
+    f = Feuille(OPTION_C, niveau, *VILLA_CADRE, s, sid or f"vc_{niveau.replace('+', '')}")
+    c = f.c
+    # --- 1. sols et textures (au fond), recadres a leur emprise
     if niveau == "RDC":
-        f.texture("texture_paves", [(7.0, 0.2), (16.4, 0.2), (16.4, 4.5), (7.0, 4.5)], 0.55,
-                  holes=[[(7.0, 0.2), (8.4, 0.2), (8.4, 4.5), (7.0, 4.5)]])
-        f.texture("texture_pierre_bandes", [(7.0, 0.2), (8.4, 0.2), (8.4, 4.5), (7.0, 4.5)], 0.7)
-        f.texture("texture_pierre_bandes", [(3.5, 4.5), (16.5, 4.5), (16.5, 5.7), (3.5, 5.7)], 0.65)
-        f.texture("texture_pierre_bandes", [(16.5, 2.6), (19.0, 2.6), (19.0, 5.7), (16.5, 5.7)], 0.65)
-        f.texture("texture_granulat_fin", [(16.5, 0.2), (19.8, 0.2), (19.8, 2.6), (16.5, 2.6)], 0.6)
-        f.texture("texture_granulat_fin", [(19.0, 2.6), (19.8, 2.6), (19.8, 17.4), (19.0, 17.4)], 0.6)
-        f.texture("texture_pas_irreguliers", [(3.5, 17.0), (19.0, 17.0), (19.0, 17.4), (3.5, 17.4)], 0.8)
-        bx0, by0, bx1, by1 = F.BIO_BASSINS[0]
-        f.texture("texture_couvre_sol", [(0.2, 2.7), (3.5, 2.7), (3.5, 17.4), (0.2, 17.4)], 0.6,
-                  holes=[[(bx0 - 0.2, by0 - 0.2), (bx1 + 0.2, by0 - 0.2), (bx1 + 0.2, by1 + 0.2), (bx0 - 0.2, by1 + 0.2)]])
-        f.texture("texture_massif_tropical", [(0.2, 17.4), (20.0, 17.4), (20.0, 17.82), (0.2, 17.82)], 0.7)
-        # patio : terrasse en pierre, massifs, pas, bassin
-        f.texture("texture_pierre_bandes", [(10.0, 11.2), (15.5, 11.2), (15.5, 13.6), (10.0, 13.6)], 0.65)
-        px0, py0, px1, py1 = F.BIO_BASSINS[1]
-        f.texture("texture_massif_tropical", [(10.0, 13.6), (15.5, 13.6), (15.5, 17.82), (10.0, 17.82)], 0.6,
-                  holes=[[(px0 - 0.2, py0 - 0.2), (px1 + 0.2, py0 - 0.2), (px1 + 0.2, py1 + 0.2), (px0 - 0.2, py1 + 0.2)],
-                         [(12.9, 13.6), (13.9, 13.6), (13.9, 17.4), (12.9, 17.4)]])
-        f.texture("texture_pas_irreguliers", [(12.9, 13.6), (13.9, 13.6), (13.9, 17.4), (12.9, 17.4)], 0.85)
-        for (x0, y0, x1, y1) in F.BIO_BASSINS:
-            c.rect(x0 - 0.2, y0 - 0.2, x1 + 0.2, y1 + 0.2, fill="#ffffff", stroke=INK, sw=0.6)
-            c.rect(x0, y0, x1, y1, fill="#bcd6e0", stroke=INK, sw=0.6, extra='fill-opacity="0.35"')
-            f.texture("texture_eau", [(x0, y0), (x1, y0), (x1, y1), (x0, y1)], 0.3)
-        # arbres : roles et tailles varies (PAYSAGE-TROPICAL-COMPOSITION)
-        f.arbre("arbre_frangipanier", *F.ARBRE_PATIO, 5.2, 0.62)          # arbre repere du patio
-        f.arbre("arbre_feuilles_ovales", 1.7, 8.6, 4.4, 0.5)              # ombre de la facade Ouest
-        f.arbre("arbre_touffes_frisees", 1.9, 4.2, 3.0, 0.5)              # angle des deux rues
-        f.arbre("arbre_feuillage_dense", 1.6, 17.0, 3.2, 0.48)            # fond de parcelle, devant le mur vegetal
-        f.arbre("arbre_touffes_frisees", 15.3, 2.4, 2.4, 0.45)            # entre parking et sechoir
+        x0, y0, x1, y1 = F.STATIONNEMENT
+        f.texture("texture_paves", _pts((x0, 0.2, x1, 4.5)), 0.6)
+        f.texture("texture_pierre_bandes", _pts((5.7, 0.2, 7.0, 4.5)), 0.65)                 # allee du portillon
+        f.texture("texture_pierre_bandes", _pts((2.5, 4.5, 15.5, 5.5)), 0.6)                 # passage couvert
+        f.texture("texture_pierre_bandes", _pts((15.5, 2.6, 18.0, 5.5)), 0.6)                # preau
+        f.texture("texture_granulat_fin", _pts((14.5, 0.34, 18.0, 2.6)), 0.6)                # sechoir
+        f.texture("texture_granulat_fin", _pts((18.0, 0.2, 19.8, 17.82)), 0.55)              # passage de service Est
+        f.texture("texture_pas_irreguliers", _pts((2.5, 16.8, 18.0, 17.82)), 0.8)            # passage Sud
+        f.texture("texture_couvre_sol", _pts((0.2, 2.7, 2.5, 17.82)), 0.55)                  # bande Ouest
+        f.texture("texture_pierre_bandes", _pts((9.0, 11.0, 14.5, 13.4)), 0.6)               # terrasse
+        f.texture("texture_litiere", _pts((9.0, 13.4, 14.5, 17.82)), 0.6, holes=[_pts((11.7, 13.4, 12.5, 17.6))])
+        f.texture("texture_pas_irreguliers", _pts((11.7, 13.4, 12.5, 17.6)), 0.85)          # pas japonais du patio
+        # --- 2. vegetation El Croquis : grands sujets clairs, petits sombres, groupes, debords
+        f.arbre("arbre_plan_canopee_semis_grande", 12.9, 15.9, 6.4, 36, rot=20)              # frangipanier du patio
+        for (x, y, d, r_) in ((9.6, 17.2, 1.6, 0), (10.6, 17.3, 1.3, 70), (14.0, 14.0, 1.5, 140), (13.9, 17.2, 1.4, 30)):
+            f.arbre("plante_plan_grandes_feuilles", x, y, d, 64, rot=r_)
+        f.arbre("arbre_plan_canopee_pleine_moyenne", 0.9, 8.2, 4.8, 46, rot=15)             # ombre de la facade Ouest
+        f.arbre("arbre_plan_canopee_pleine_petite", 1.1, 4.4, 3.2, 64, rot=80)
+        f.arbre("arbre_plan_canopee_semis_moyenne", 0.8, 15.4, 5.0, 42, rot=200)
+        f.arbre("palmier_plan_penne", 1.3, 12.0, 3.0, 55, rot=30)
+        f.arbre("palmier_plan_eventail", 19.0, 6.2, 2.0, 55)
+        f.arbre("palmier_plan_eventail", 19.1, 7.6, 1.6, 64, rot=40)
+        f.arbre("arbre_plan_canopee_pleine_petite", 13.5, 2.0, 2.8, 55, rot=150)            # entre parking et sechoir
+        f.arbre("arbre_plan_canopee_pleine_moyenne", 21.6, 9.0, 2.8, 30, rot=60)            # contexte Est (voisin)
+        f.arbre("plante_plan_grandes_feuilles", 1.0, 3.3, 1.4, 64, rot=40)
+        f.texture("texture_massif_tropical", _pts((0.2, 17.4, 19.8, 17.82)), 0.7)
     elif niveau == "R+1":
-        f.texture("texture_couvre_sol", [(15.5, 11.2), (19.0, 11.2), (19.0, 17.0), (15.5, 17.0)], 0.45)
-        f.texture("texture_couvre_sol", [(10.0, 11.2), (15.5, 11.2), (15.5, 13.6), (10.0, 13.6)], 0.45)
-        f.texture("texture_pierre_bandes", [(6.5, 4.5), (19.0, 4.5), (19.0, 5.7), (6.5, 5.7)], 0.6)
-        f.texture("texture_massif_tropical", [(2.7, 13.8), (3.5, 13.8), (3.5, 17.0), (2.7, 17.0)], 0.7)
-        f.arbre("arbre_frangipanier", *F.ARBRE_PATIO, 5.2, 0.4)
-        for r in OPTION_C["pieces"]:      # emprise du RDC en pointille
-            if r["niveau"] == "RDC" and r["clos"] and not r["nom"].startswith("Guérite"):
-                for x0, y0, x1, y1 in r["rects"]:
-                    c.rect(x0, y0, x1, y1, stroke="#555555", sw=0.35, dash="2 2")
+        f.texture("texture_couvre_sol", _pts((14.5, 11.0, 18.0, 16.8)), 0.45)
+        f.texture("texture_couvre_sol", _pts((9.0, 11.0, 14.5, 13.4)), 0.45)
+        f.texture("texture_pierre_bandes", _pts((5.5, 4.5, 18.0, 5.5)), 0.55)
+        f.texture("texture_massif_tropical", _pts((1.7, 13.6, 2.5, 16.8)), 0.7)
+        f.arbre("arbre_plan_canopee_semis_grande", 12.9, 15.9, 6.4, 30, rot=20)
+        f.arbre("arbre_plan_canopee_pleine_moyenne", 0.9, 8.2, 4.8, 46, rot=15)
     else:
-        f.texture("texture_pierre_bandes", [(6.5, 5.7), (19.0, 5.7), (19.0, 11.2), (6.5, 11.2)], 0.55)
-        f.texture("texture_pierre_bandes", [(3.5, 9.9), (10.0, 9.9), (10.0, 17.0), (3.5, 17.0)], 0.55,
-                  holes=[[(6.5, 9.9), (10.0, 9.9), (10.0, 11.2), (6.5, 11.2)]])
+        f.texture("texture_pierre_bandes", _pts((5.5, 5.5, 18.0, 11.0)), 0.5)
+        f.texture("texture_pierre_bandes", _pts((2.5, 9.7, 9.0, 16.8)), 0.5, holes=[_pts((5.5, 9.7, 9.0, 11.0))])
         x0, y0, x1, y1, _ = F.JARDINIERE
-        f.texture("texture_massif_tropical", [(x0, y0), (x1, y0), (x1, y1), (x0, y1)], 0.75)
+        f.texture("texture_massif_tropical", _pts((x0, y0, x1, y1)), 0.7)
         for (a, b, cc, d) in F.TOITURE_VEGETALE:
-            f.texture("texture_couvre_sol", [(a, b), (cc, b), (cc, d), (a, d)], 0.45)
-        f.arbre("arbre_frangipanier", *F.ARBRE_PATIO, 5.2, 0.4)
-    f.aplats()
+            f.texture("texture_couvre_sol", _pts((a, b, cc, d)), 0.45)
+        f.arbre("arbre_plan_canopee_semis_grande", 12.9, 15.9, 6.4, 30, rot=20)
+    # --- 3. mobilier, escalier, murs, ouvertures
     if niveau != "TOIT":
         f.mobilier()
-    f.escalier_u(3.55, 5.75, 6.45, 9.85, palier="N", fleche=niveau != "TOIT")
+    f.escalier_u(2.55, 5.55, 5.45, 9.65, palier="N", fleche=niveau != "TOIT")
     f.murs_dessin()
     f.ouvertures(F.OUVERTURES)
-    # --- elements de facade
+    # --- 4. peau de l'etage, projections au-dessus du plan de coupe (tirets)
+    couv = F.COUV_V1 if variante == "V1" else F.COUV_V2
     if niveau == "R+1":
-        x0, y0, x1, y1, z0, z1 = F.DOUBLE_PEAU
-        f.brique(x0, y0 - 0.06, x1, y1)
+        for sens, line, a, b, out, _ax in F.PEAU_VILLA:
+            lo, hi = sorted((line + out * 0.04, line + out * 0.16))
+            f.brique(a, lo, b, hi, pas=0.31) if sens == "h" else f.brique(lo, a, hi, b, pas=0.31)
         for a, b in F.ECRANS_GALERIE:
-            c.line(a, 11.32, b, 11.32, stroke="#6b4a2f", sw=2.2)
-        c.rect(2.7, 13.8, 3.5, 17.0, stroke=INK, sw=0.8)
+            c.line(a, 11.12, b, 11.12, stroke=INK, sw=f.mm(0.35))
+        c.rect(1.7, 13.6, 2.5, 16.8, stroke=INK, sw=f.mm(0.25))
+        _couv(f, couv)
+    if niveau == "RDC":
+        f.tirets([(2.5, 4.36), (18.0, 4.36)], ferme=False)                  # nez de dalle de l'etage (loggia)
+        f.tirets(_pts((15.5, 2.6, 18.0, 4.5)))                               # dalle du preau
+        f.tirets([(9.0, 13.4), (14.5, 13.4)], ferme=False)                   # rive de la terrasse couverte
+        f.voiture(8.4, 2.45)
+        f.voiture(11.1, 2.45)
     if niveau == "TOIT":
-        for (a, b, cc, d) in F.PERGOLA:     # poutres de la pergola, entraxe 0,60 m
-            n = int((cc - a) / 0.6)
-            for k in range(n + 1):
-                xx = a + k * (cc - a) / n
-                c.line(xx, b, xx, d, stroke="#6b4a2f", sw=0.5)
+        _couv(f, couv)
         for (px, py) in F.POTEAUX:
             c.rect(px - 0.08, py - 0.08, px + 0.08, py + 0.08, fill=INK, stroke="none", sw=0)
-        for pts in ([(3.5, 4.5), (19.0, 4.5), (19.0, 11.2), (10.0, 11.2), (10.0, 17.0), (3.5, 17.0)],):
-            f.poly(pts, stroke=INK, sw=2.2)
-        c.text(12.75, 14.6, "vide sur patio", size=7.5, fill=INK, italic=True)
-        c.text(17.25, 14.2, "toiture végétalisée", size=6.8, fill=INK, italic=True)
-        c.text(12.75, 12.4, "toiture végétalisée (terrasse)", size=6.4, fill=INK, italic=True)
+        f.poly([(2.5, 4.5), (18.0, 4.5), (18.0, 11.0), (9.0, 11.0), (9.0, 16.8), (2.5, 16.8)], stroke=INK, sw=f.mm(0.5))
+    # --- 5. limites, clotures
     if niveau == "RDC":
-        c.line(0.0, 17.91, 20.0, 17.91, stroke=INK, sw=3.0)
-        c.text(10.0, 18.55, "mur végétalisé en limite (h 3,0 m), côté villa et côté jardins du locatif", size=7, fill=INK)
-        # guerite, local GE, cloture
-        f.brique(16.5, 0.2, 19.8, 0.34)
-        c.rect(0.3, 0.3, 3.3, 2.5, fill="#D9DCE0", stroke=INK, sw=1.0, extra='fill-opacity="0.45"')
-        for x0, x1 in ((0.0, 7.0), (15.9, 17.0), (19.5, 20.0)):
-            c.rect(x0, 0.0, x1, 0.2, fill="#8a8a8a", stroke=INK, sw=0.4)
-        c.rect(0.0, 0.2, 0.2, 17.82, fill="#8a8a8a", stroke=INK, sw=0.4)
-        c.text(11.75, 2.4, "stationnement 3 places (4,50 m)", size=7, fill=INK)
-        c.text(7.7, -0.35, "portillon", size=6.5, fill=INK)
-        c.text(12.15, -0.35, "portail coulissant 7,5 m", size=6.5, fill=INK)
-        c.text(18.25, -0.35, "portillon de service", size=6.5, fill=INK)
-        c.text(10.0, -1.25, "", size=1)
-    c.text(10.0, -2.95 if False else -3.05, "", size=1)
-    f.etiquettes()
-    # --- habillage
-    f.cotes([0.0] + list(CX) + [20.0], [0.0] + list(CY), -1.0 if niveau != "RDC" else -1.0, -1.25,
-            total_x=[0.0, 20.0], total_y=[0.0, 18.0])
-    f.axes(list(CX), list(CY[:4]), -2.95, -3.15, 20.6, 18.6)
+        c.rect(0.0, 17.82, 20.0, 18.0, fill=INK, stroke="none", sw=0)                      # mur vegetalise h 3,50 (coupe)
+        for x0, x1 in ((0.0, 6.0), (12.5, 18.5), (19.5, 20.0)):
+            c.rect(x0, 0.0, x1, 0.2, fill=INK, stroke="none", sw=0)
+        c.rect(0.0, 0.2, 0.2, 17.82, fill=INK, stroke="none", sw=0)
+        c.rect(19.8, 0.2, 20.0, 17.82, fill=INK, stroke="none", sw=0)
+        for a, b in ((6.0, 7.0), (7.0, 12.5), (18.5, 19.5)):                                 # portillons et portail (lames)
+            c.line(a, 0.1, b, 0.1, stroke=INK, sw=f.mm(0.18))
+            c.line(a, -0.02, b, -0.02, stroke=INK, sw=f.mm(0.13))
+        f.brique(14.5, 0.2, 18.0, 0.34)
+        c.rect(0.3, 0.3, 3.0, 2.5, fill="#ffffff", stroke=INK, sw=f.mm(0.35))
+        f.texte(5.0, 18.7, "mur végétalisé en limite, h 3,50 m", 7)
+        f.texte(9.0, -0.45, "portail coulissant 5,50 m", 7)
+        f.texte(6.5, -0.45, "portillon", 7)
+        f.texte(19.0, -0.45, "service", 7)
+    else:
+        _limite(f, [(0.0, 18.0), (0.0, 0.0), (20.0, 0.0), (20.0, 18.0)])
+    f.texte(21.4, -0.6, "RUE NORD", 7, anchor="start", weight=700)
+    f.texte(-2.6, 19.9, "RUE OUEST", 7, anchor="start", weight=700)
+    # --- 6. etiquettes, cotes, axes, reperes de coupe, nord et echelle
+    dep = {"Patio planté": (10.6, 14.4), "Passage couvert d'entrée": (9.0, 5.0), "Escalier": (4.0, 6.15),
+           "Édicule d'escalier": (4.0, 6.15), "Cuisine": (13.75, 8.4), "Chambre 2": (16.25, 6.5),
+           "Salon familial": (7.25, 9.4), "SdB parentale": (4.2, 12.5),
+           "Terrasse couverte sur patio": (11.75, 12.2), "Séchoir à ciel ouvert": (16.25, 1.4),
+           "Préau cuisine africaine": (16.75, 3.55), "Loggia Nord (rangements)": (12.0, 5.0),
+           "Jardinière (plantation basse)": (12.0, 5.0), "Toit-terrasse couvert": (12.0, 8.2)}
+    f.etiquettes(ignorer=("Local GE + niche compteurs", "Jardinière Ouest", "Jardinière (plantation basse)"),
+                 deplace=dep)
     if niveau == "RDC":
-        for (x, y0, y1, lab) in ((12.75, 3.4, 19.2, "A"),):
-            c.line(x, y0, x, y1, stroke=INK, sw=0.7, dash="8 3 2 3")
-            for yy in (y0, y1):
-                c.raw(f'<circle cx="{c.X(x):.1f}" cy="{c.Y(yy):.1f}" r="7" fill="{INK}"/>')
-                c.text(x, yy + 0.12, lab, size=7.5, fill="#ffffff", weight=700)
-        c.line(-0.4, 15.0, 20.4, 15.0, stroke=INK, sw=0.7, dash="8 3 2 3")
-        for xx in (-0.4, 20.4):
-            c.raw(f'<circle cx="{c.X(xx):.1f}" cy="{c.Y(15.0):.1f}" r="7" fill="{INK}"/>')
-            c.text(xx, 15.12, "B", size=7.5, fill="#ffffff", weight=700)
-    f.nord_echelle(25.5, 0.2)
-    _legende_commune(f, 21.6, 3.6)
+        f.texte(1.65, 1.5, "LOCAL GE", 7, weight=700)
+        f.texte(9.75, 4.15, "STATIONNEMENT · 2 PLACES", 7, weight=700)
+    f.cotes([0.0] + list(CX) + [20.0], [0.0] + list(CY), -1.35, -1.25, total_x=[0.0, 20.0], total_y=[0.0, 18.0])
+    f.axes(list(CX), list(CY[:4]), -3.5, -3.0, 20.7, 18.9)
+    if niveau == "RDC":
+        f.equerre(10.75, -0.2, "O", "A")
+        f.equerre(10.75, 18.35, "O", "A")
+        f.equerre(-0.25, 14.8, "N", "B")
+        f.equerre(20.25, 14.8, "N", "B")
+    f.nord_echelle(16.8, 20.0)
     return f.svg()
 
 
 # =============================================================================== locatif
-def maisons(niveau, s=19, sid=None):
-    f = Feuille(LOCATIF_M, niveau, -4.0, 14.6, 30.2, 35.4, s, sid or f"lm_{niveau.replace('+', '')}")
+LOC_CADRE = (-3.4, 15.0, 22.8, 35.4)
+
+
+def maisons(niveau, s=19, sid=None, variante="V1"):
+    f = Feuille(LOCATIF_M, niveau, *LOC_CADRE, s, sid or f"lm_{niveau.replace('+', '')}")
     c = f.c
     if niveau == "RDC":
-        f.texture("texture_paves", [(2.0, 30.0), (20.0, 30.0), (20.0, 32.8), (2.0, 32.8)], 0.55)
-        f.texture("texture_pierre_bandes", [(0.2, 18.0), (2.0, 18.0), (2.0, 32.8), (0.2, 32.8)], 0.65)
-        for k, x0 in enumerate(MX[:3]):
-            f.texture("texture_couvre_sol", [(x0, 18.1), (x0 + 6, 18.1), (x0 + 6, 21.0), (x0, 21.0)], 0.55)
-            f.texture("texture_massif_tropical", [(x0, 18.1), (x0 + 6, 18.1), (x0 + 6, 18.6), (x0, 18.6)], 0.7)
-            f.arbre(["arbre_touffes_frisees", "arbre_feuilles_ovales", "arbre_touffes_frisees"][k], x0 + 1.4 + 1.6 * k % 3, 19.6, 2.6, 0.5)
-        c.line(0.0, 17.91, 20.0, 17.91, stroke=INK, sw=3.0)
-        c.text(10.0, 17.45, "mur végétalisé (limite avec la villa)", size=7, fill=INK)
-        c.rect(0.0, 18.0, 0.2, 33.0, fill="#8a8a8a", stroke=INK, sw=0.4)
+        f.texture("texture_paves", _pts((0.2, 18.0, 3.0, 30.0)), 0.6)
+        f.texture("texture_pierre_bandes", _pts((0.2, 30.0, 19.8, 32.8)), 0.6)
+        for x0 in MX[:2]:
+            f.texture("texture_couvre_sol", _pts((x0, 18.0, x0 + 8.5, 21.0)), 0.5)
+        f.arbre("arbre_plan_canopee_semis_moyenne", 4.7, 19.3, 4.2, 42, rot=40)
+        f.arbre("arbre_plan_canopee_pleine_petite", 7.0, 19.5, 2.6, 64, rot=110)
+        f.arbre("arbre_plan_canopee_semis_moyenne", 13.3, 19.2, 4.2, 36, rot=200)
+        f.arbre("palmier_plan_eventail", 19.0, 19.0, 2.0, 55)
+        for x in (3.6, 12.2, 18.6):
+            f.arbre("plante_plan_grandes_feuilles", x, 32.3, 1.4, 64, rot=x * 30)
+        f.texture("texture_massif_tropical", _pts((3.0, 18.0, 19.8, 18.4)), 0.7)
+        f.voiture(1.5, 21.4)
+        f.voiture(1.5, 27.0)
     elif niveau == "TOIT":
-        for x0 in MX[:3]:
-            f.texture("texture_pierre_bandes", [(x0, 21.0), (x0 + 6, 21.0), (x0 + 6, 30.0), (x0 + 2.6, 30.0),
-                                                (x0 + 2.6, 26.5), (x0, 26.5)], 0.55)
-            f.texture("texture_massif_tropical", [(x0, 21.0), (x0 + 6, 21.0), (x0 + 6, 21.6), (x0, 21.6)], 0.75)
-            for k in range(11):
-                xx = x0 + 0.1 + k * 0.58
-                c.line(xx, 21.0, xx, 26.5, stroke="#6b4a2f", sw=0.5)
-            for (px, py) in ((x0 + 0.1, 21.1), (x0 + 5.9, 21.1), (x0 + 0.1, 26.4), (x0 + 5.9, 26.4)):
-                c.rect(px - 0.07, py - 0.07, px + 0.07, py + 0.07, fill=INK, stroke="none", sw=0)
-            f.poly([(x0, 21.0), (x0 + 6, 21.0), (x0 + 6, 30.0), (x0, 30.0)], stroke=INK, sw=2.0)
-    f.aplats()
+        for x0 in MX[:2]:
+            f.texture("texture_pierre_bandes", [(x0, 21.0), (x0 + 8.5, 21.0), (x0 + 8.5, 30.0), (x0 + 5.6, 30.0),
+                                                (x0 + 5.6, 27.5), (x0 + 2.0, 27.5), (x0 + 2.0, 30.0), (x0, 30.0)], 0.5)
+            f.texture("texture_massif_tropical", _pts((x0 + 0.15, 21.0, x0 + 8.35, 21.45)), 0.7)
     if niveau != "TOIT":
         f.mobilier()
-    for x0 in MX[:3]:
-        f.escalier_u(x0 + 0.05, 26.55, x0 + 2.55, 29.95, palier="S", fleche=niveau != "TOIT", n=7)
+    for x0 in MX[:2]:                      # escalier droit a volee unique le long de x, depart cote entree
+        g = []
+        for k in range(11):
+            xx = x0 + 2.85 + k * 0.255
+            g.append(f'<line x1="{c.X(xx):.1f}" y1="{c.Y(27.6):.1f}" x2="{c.X(xx):.1f}" y2="{c.Y(28.7):.1f}" stroke="{INK}" stroke-width="{f.mm(0.18):.2f}"/>'
+                     f'<line x1="{c.X(xx):.1f}" y1="{c.Y(28.8):.1f}" x2="{c.X(xx):.1f}" y2="{c.Y(29.9):.1f}" stroke="{INK}" stroke-width="{f.mm(0.18):.2f}"/>')
+        g.append(f'<line x1="{c.X(x0 + 2.85):.1f}" y1="{c.Y(28.75):.1f}" x2="{c.X(x0 + 5.55):.1f}" y2="{c.Y(28.75):.1f}" stroke="{INK}" stroke-width="{f.mm(0.25):.2f}"/>')
+        if niveau != "TOIT":
+            g.append(f'<line x1="{c.X(x0 + 3.0):.1f}" y1="{c.Y(29.35):.1f}" x2="{c.X(x0 + 5.3):.1f}" y2="{c.Y(29.35):.1f}" stroke="{INK}" stroke-width="{f.mm(0.18):.2f}" marker-end="url(#{f.sid}_fl)"/>'
+                     f'<line x1="{c.X(x0 + 5.3):.1f}" y1="{c.Y(28.15):.1f}" x2="{c.X(x0 + 3.0):.1f}" y2="{c.Y(28.15):.1f}" stroke="{INK}" stroke-width="{f.mm(0.18):.2f}" marker-end="url(#{f.sid}_fl)"/>')
+        f.raw("".join(g))
     f.murs_dessin()
-    ouv = [o for k, x0 in enumerate(MX[:3]) for o in F.ouvertures_maison(x0, k == 0)]
-    f.ouvertures(ouv)
-    f.etiquettes()
-    f.cotes([0.0] + list(MX), list(MY), -1.0, 17.0, total_x=[0.0, 20.0], total_y=[18.0, 33.0])
-    f.axes(list(MX), list(MY), 15.45, -3.15, 20.6, 33.6)
-    f.nord_echelle(25.5, 16.2)
-    _legende_commune(f, 21.6, 19.6)
+    f.ouvertures([o for k, x0 in enumerate(MX[:2]) for o in F.ouvertures_maison(x0, k == 0)])
+    if niveau == "R+1":
+        for k, x0 in enumerate(MX[:2]):
+            for sens, line, a, b, out, _ax in F.peau_maison(x0, k == 0):
+                lo, hi = sorted((line + out * 0.04, line + out * 0.16))
+                f.brique(a, lo, b, hi, pas=0.31) if sens == "h" else f.brique(lo, a, hi, b, pas=0.31)
+    if niveau in ("R+1", "TOIT"):
+        for k, x0 in enumerate(MX[:2]):
+            f.tirets(_pts(F.couv_maison(x0, k == 0)))
+    if niveau == "TOIT":
+        for k, x0 in enumerate(MX[:2]):
+            x1 = x0 + 8.5
+            for px in (x0 + 0.15, x0 + 4.25, x1 - 0.15):
+                for py in (21.15, 27.35):
+                    c.rect(px - 0.08, py - 0.08, px + 0.08, py + 0.08, fill=INK, stroke="none", sw=0)
+            f.poly(_pts((x0, 21.0, x1, 30.0)), stroke=INK, sw=f.mm(0.5))
+    if niveau == "RDC":
+        c.rect(0.0, 17.82, 20.0, 18.0, fill=INK, stroke="none", sw=0)
+        c.rect(0.0, 18.0, 0.2, 18.5, fill=INK, stroke="none", sw=0)
+        c.rect(0.0, 30.0, 0.2, 30.2, fill=INK, stroke="none", sw=0)
+        c.rect(19.8, 18.0, 20.0, 33.0, fill=INK, stroke="none", sw=0)
+        c.rect(0.0, 32.8, 20.0, 33.0, fill=INK, stroke="none", sw=0)
+        for a, b in ((18.5, 30.0), (30.2, 33.0)):
+            c.line(0.1, a, 0.1, b, stroke=INK, sw=f.mm(0.18))
+        f.texte(14.0, 17.45, "mur végétalisé, h 3,50 m (limite avec la villa)", 7)
+    else:
+        _limite(f, [(0.0, 18.0), (0.0, 33.0), (20.0, 33.0), (20.0, 18.0)])
+    f.texte(-2.6, 34.7, "RUE OUEST", 7, anchor="start", weight=700)
+    if niveau == "RDC":
+        for k, x0 in enumerate(MX[:2]):
+            f.texte(x0 + 4.25, 33.75, f"MAISON {k + 1} · 153,0 m² SUR DEUX NIVEAUX", 7, weight=700)
+    dep = {}
+    for k, x0 in enumerate(MX[:2]):
+        dep[f"M{k + 1} Séjour-SAM"] = (x0 + 2.7, 23.4)
+        dep[f"M{k + 1} Toit-terrasse sous pergola"] = (x0 + 4.25, 24.2)
+        dep[f"M{k + 1} Jardin privé"] = (x0 + 6.6, 20.3)
+        dep[f"M{k + 1} Cour d'entrée"] = (x0 + 4.25, 31.5)
+        dep[f"M{k + 1} Dégagement"] = (x0 + 1.8, 26.95)
+    f.etiquettes(ignorer=("Allée piétonne", "Stationnement 2 places (rue Ouest)", "M1 Escalier", "M2 Escalier",
+                          "M1 Édicule d'escalier", "M2 Édicule d'escalier"), deplace=dep)
+    for x0 in MX[:2]:          # escalier : etiquette tournee sur le palier
+        nom = "ÉDICULE  9,0 m²" if niveau == "TOIT" else "ESCALIER  9,0 m²"
+        f.texte(x0 + 2.45, 28.75, nom, 6.5, weight=700, rot=-90)
+    if niveau == "RDC":
+        f.texte(1.5, 24.2, "STATIONNEMENT", 7, weight=700, rot=-90)
+    f.cotes([0.0] + list(MX), list(MY), -1.35, 16.4, total_x=[0.0, 20.0], total_y=[18.0, 33.0])
+    f.axes(list(MX), list(MY), 15.45, -3.0, 20.7, 33.9)
+    if niveau == "RDC":
+        f.equerre(7.5, 17.4, "O", "C")
+        f.equerre(7.5, 33.4, "O", "C")
+    f.nord_echelle(16.8, 34.8)
     return f.svg()

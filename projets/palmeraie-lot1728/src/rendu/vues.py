@@ -22,7 +22,9 @@ VUES = {
 TRAIT = {"lines": True, "nofog": True, "sun_az": 0, "sun_el": 60}
 ELEV = {
     "elev_N": {"ortho": ORTHO, "pos": [10.0, -60.0, ZC], "target": [10.0, 0.0, ZC], "hide": ["cloture", "arbres", "vegetal_fonce", "fleur", "contexte", "locatif", "arbres_m"]},
-    "elev_O": {"ortho": ORTHO, "pos": [-60.0, 10.0, ZC], "target": [0.0, 10.0, ZC], "hide": ["cloture", "arbres", "vegetal_fonce", "fleur", "locatif", "arbres_m", "contexte"]},
+    "elev_O": {"ortho": 37.0, "pos": [-60.0, 16.5, ZC], "target": [0.0, 16.5, ZC], "hide": ["cloture", "arbres", "vegetal_fonce", "fleur", "arbres_m", "contexte"]},
+    "elev_LN": {"ortho": ORTHO, "pos": [10.0, -60.0, ZC], "target": [10.0, 0.0, ZC], "clip": {"axis": "y", "at": 18.05, "keep": "gt"},
+                "hide": ["cloture", "arbres", "vegetal_fonce", "fleur", "arbres_m", "contexte", "maison", "guerite", "couverture"]},
     "elev_S": {"ortho": ORTHO, "pos": [10.0, 80.0, ZC], "target": [10.0, 0.0, ZC], "hide": ["cloture", "arbres", "vegetal_fonce", "fleur", "locatif", "arbres_m", "vegetal", "contexte"]},
     "elev_E": {"ortho": ORTHO, "pos": [80.0, 10.0, ZC], "target": [0.0, 10.0, ZC], "hide": ["cloture", "arbres", "vegetal_fonce", "fleur", "locatif", "arbres_m", "contexte"]},
     "coupe_AA": {"ortho": ORTHO, "pos": [-60.0, 10.0, ZC], "target": [0.0, 10.0, ZC], "clip": {"axis": "x", "at": 10.75, "keep": "gt"},
@@ -30,7 +32,7 @@ ELEV = {
     "coupe_BB": {"ortho": ORTHO, "pos": [10.0, 80.0, ZC], "target": [10.0, 0.0, ZC], "clip": {"axis": "y", "at": 14.8, "keep": "lt"},
                  "hide": ["cloture", "arbres", "vegetal_fonce", "fleur", "locatif", "arbres_m", "vegetal", "contexte"]},
     "coupe_CC": {"ortho": ORTHO, "pos": [-60.0, 25.0, ZC], "target": [0.0, 25.0, ZC], "clip": {"axis": "x", "at": 7.5, "keep": "gt"},
-                 "hide": ["cloture", "arbres", "vegetal_fonce", "fleur", "maison", "arbres", "couverture", "guerite", "contexte"]},
+                 "hide": ["cloture", "arbres", "vegetal_fonce", "fleur", "maison", "couverture", "guerite", "contexte", "arbres_m"]},
 }
 
 
