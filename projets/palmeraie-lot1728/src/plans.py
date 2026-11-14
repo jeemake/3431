@@ -215,7 +215,7 @@ def draw_furniture(c, pieces, niveau, portes):
         side, pos = _door_side((x0, y0, x1, y1), portes, niveau)
         code, nom = r["code"], r["nom"].lower()
         horiz = w >= h  # axe long horizontal
-        if code in ("eau", "l_eau") and "wc + rangement" not in nom:
+        if code in ("eau", "l_eau", "eau_std") and "wc + rangement" not in nom:
             # extremite opposee a la porte = douche ; cote porte = WC ; vasque au milieu
             far_is_max = True
             if horiz:

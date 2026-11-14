@@ -15,8 +15,8 @@ from PIL import Image
 import facade as F
 import plans_capitude as PC
 from blocs_archibooks import CACHE, Bibliotheque
-from doc import DIVISEUR, EXTERIEURS, FRAIS, IMPREVUS, OUT, RATIOS, TVA, a2, m, pct, to_pdf
-from projet import (CY, LOCATIF_M, LOYERS, MX, OPTION_C, PLUS_VALUES, budget, pu, pu_ligne, surfaces)
+from doc import EXTERIEURS, FRAIS, IMPREVUS, OUT, RATIOS, TVA, a2, m, pct, to_pdf
+from projet import (CY, DIVISEUR_V5 as DIV, LOCATIF_M, LOYERS, MX, OPTION_C, PLUS_VALUES, budget, pu, pu_ligne, surfaces)
 
 C = OPTION_C
 REND = OUT / "rendu"
@@ -524,7 +524,7 @@ def lignes(opt):
             a[0] += p["surface"]
         for key, (sf, code) in agg.items():
             rows.append(("l", key + (" (× 2)" if k == "M" and code not in ("parvis",) else ""), RATIOS[code][0], f"{fr(sf, 1)} m²",
-                         m(pu(code)), m(sf * pu(code))))
+                         m(pu(code, DIV)), m(sf * pu(code, DIV))))
     for titre, liste in (("AMÉNAGEMENTS EXTÉRIEURS ET VRD", EXTERIEURS), ("PLUS-VALUES DU PARTI", PLUS_VALUES)):
         ls = [lg for lg in liste if lg[4].get(k, 0)]
         if not ls:
@@ -532,9 +532,9 @@ def lignes(opt):
         rows.append(("sec", titre))
         for lg in ls:
             q = lg[4][k]
-            rows.append(("l", lg[0], f"base ÷ {DIVISEUR}" if lg[5] else "prix de marché", f"{fr(q, 1)} {lg[1]}",
-                         m(pu_ligne(lg)), m(q * pu_ligne(lg))))
-    b = budget(opt)
+            rows.append(("l", lg[0], f"base ÷ {fr(DIV, 1)}" if lg[5] else "prix de marché", f"{fr(q, 1)} {lg[1]}",
+                         m(pu_ligne(lg, DIV)), m(q * pu_ligne(lg, DIV))))
+    b = budget(opt, DIV)
     rows.append(("tot", "TOTAL TRAVAUX HT", m(b["travaux"])))
     for lib, taux in FRAIS + [("Imprévus (stade esquisse)", IMPREVUS)]:
         rows.append(("l", lib, "", pct(taux, 2), "", m(taux * b["travaux"])))
@@ -622,8 +622,8 @@ def plan_svg(svg):
 
 
 def build():
-    s, b = surfaces(C), budget(C)
-    sm, bm = surfaces(LOCATIF_M), budget(LOCATIF_M)
+    s, b = surfaces(C), budget(C, DIV)
+    sm, bm = surfaces(LOCATIF_M), budget(LOCATIF_M, DIV)
     P = []
 
     def add(n, titre, sous, corps, plein=False):
@@ -740,14 +740,15 @@ def build():
         rows = lignes(opt)
         half = (len(rows) + 1) // 2
         corps = (bloc(1, 6, 1, 4, table_estim(rows[:half])) + bloc(7, 12, 1, 4, table_estim(rows[half:])))
-        add(n, "Estimatif", f"{titre} · Éco-données ÷ {DIVISEUR}, FCFA", corps)
+        add(n, "Estimatif", f"{titre} · Éco-données ÷ {fr(DIV, 1)}, FCFA", corps)
     # 23. suite
     corps = bloc(1, 6, 1, 3, donnees([
         ("Villa", f"travaux {fr(b['travaux'] / 1e6, 1)} M HT · {fr(b['total_ttc'] / 1e6, 1)} M TTC"),
         ("Duplex", f"travaux {fr(bm['travaux'] / 1e6, 1)} M HT · {fr(bm['total_ttc'] / 1e6, 1)} M TTC"),
         ("À arbitrer", "variante de façade V1 ou V2 ; stationnement longitudinal des duplex ; loyer à confirmer"),
         ("À vérifier", "R+1 maximum : le niveau couvert à +9,00 est un toit-terrasse ouvert, à faire valider"),
-        ("Hors dossier", "esquisse, estimatif Excel et business plan 01 à 03 : versions précédentes"),
+        ("Recalage du coût", f"objectif 450 000 FCFA / m² clos : travaux villa {fr(b['travaux'] / s['clos'] / 1000, 0)} 000, duplex {fr(bm['travaux'] / sm['clos'] / 1000, 0)} 000 FCFA / m² ; ratios ÷ {fr(DIV, 1)}, finitions standard des pièces secondaires, plus-values re-spécifiées"),
+        ("Hors dossier", "esquisse et business plan 01 à 03 : versions précédentes, à recaler sur cet estimatif ; Excel des surfaces et de l'estimatif : fichier 06"),
     ]))
     add("22", "Suite", "Points à arbitrer", corps)
     html = (f'<!doctype html><html><head><meta charset="utf-8"><style>{police_css()}{CSS}</style></head><body>'

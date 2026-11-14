@@ -12,7 +12,7 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.page import PageMargins
 
-from projet import (DIVISEUR, EXTERIEURS, FRAIS, IMPREVUS, LOCATIF_M, LOYERS, OPTION_C, PLUS_VALUES, RATIOS, TVA)
+from projet import (DIVISEUR_V5 as DIVISEUR, EXTERIEURS, FRAIS, IMPREVUS, LOCATIF_M, LOYERS, OPTION_C, PLUS_VALUES, RATIOS, TVA)
 
 OUT = pathlib.Path(__file__).resolve().parent.parent / "out" / "06_Surfaces_Estimatif_Option_C_v5_Lot1728.xlsx"
 FONT = "Calibri"
@@ -94,7 +94,7 @@ def nom_affiche(r):
 def parametres(wb):
     ws = wb.create_sheet("PARAMETRES")
     titre(ws, "PARAMÈTRES ET BORDEREAU DE RATIOS", "Cellules en bleu = valeurs modifiables ; tout le reste se recalcule.")
-    ws["B4"], ws["B5"], ws["B6"] = "Coefficient diviseur des ratios Éco-données (consigne du client)", "TVA", "Imprévus (stade esquisse)"
+    ws["B4"], ws["B5"], ws["B6"] = "Coefficient diviseur des ratios Éco-données (recalage sur 450 000 FCFA / m² clos)", "TVA", "Imprévus (stade esquisse)"
     ws["C4"], ws["C5"], ws["C6"] = DIVISEUR, TVA, IMPREVUS
     ws["C5"].number_format = ws["C6"].number_format = '0.0%'
     for c in ("C4", "C5", "C6"):
@@ -359,7 +359,7 @@ def synthese(wb, SV, SD, EV, ED):
     r = 5 + len(lignes) + 1
     notes = [
         "Hypothèses et limites",
-        f"· Ratios par type de pièce : base Éco-données (Pavillon Akpo 2022, Résidences Anthurium 2021, Les Flamboyants, Villa Cacao 6), divisés par {DIVISEUR} sur consigne du client.",
+        f"· Ratios par type de pièce : base Éco-données (Pavillon Akpo 2022, Résidences Anthurium 2021, Les Flamboyants, Villa Cacao 6), divisés par {str(DIVISEUR).replace('.', ',')} (recalage sur l'objectif de 450 000 FCFA / m² clos, demande du client).",
         "· Postes hors base (clôture, façade bois, couverture à +9,00, mur végétalisé 3,50 m, pergola…) : prix de marché, hypothèses non divisées, à confirmer.",
         f"· Loyer d'un duplex retenu au business plan : {LOYERS['MD']['nu']:,} FCFA / mois (hypothèse à valider avec deux agences).".replace(",", " "),
         "· Le niveau couvert à +9,00 est un toit-terrasse ouvert : à faire valider au regard de la règle R+1 maximum.",
@@ -486,7 +486,7 @@ def cout_m2(wb, SV, SD, EV, ED):
         "plutôt haut si on le compare à un ratio de bâti seul.",
         "· Pour réutiliser ces ratios sur un autre projet, prendre la ligne « Travaux HT » (construction seule) et y ajouter les frais et imprévus "
         "(24,05 % des travaux : 14,05 % de frais et 10 % d'imprévus) puis la TVA (18 %).",
-        "· Les ratios Éco-données sont divisés par le coefficient de l'onglet PARAMETRES (consigne du client) ; les postes hors base sont des prix de marché non divisés, à confirmer.",
+        "· Les ratios Éco-données sont divisés par le coefficient de l'onglet PARAMETRES (voir RECALAGE 450K) ; les postes hors base sont des prix de marché non divisés, à confirmer.",
         "· Esquisse : les quantités viennent du modèle et restent à reprendre par le BET structure et l'économiste de la construction avant tout engagement.",
     ]
     for k, t in enumerate(notes):
@@ -500,6 +500,69 @@ def cout_m2(wb, SV, SD, EV, ED):
     return ws
 
 
+# =============================================================================== RECALAGE
+# Valeurs figees, calculees le 14-11-2026 en appliquant les etapes dans l'ordre sur l'estimatif precedent (ratios / 2).
+RECALAGE = {
+    "C": [("Estimatif précédent (ratios Éco-données ÷ 2)", 193663038, 704332),
+          ("1 · Toit-terrasse chiffré en finition seule (la dalle est déjà comptée sous l'étage)", 185386788, 674232),
+          ("2 · Plus-values re-spécifiées (bois local, couverture légère, mur galvanisé, patio) et doublons retirés", 173131788, 629662),
+          ("3 · Finition standard des pièces secondaires de la villa (SE, WC, lingerie, rangement)", 167229288, 608195),
+          ("4 · Coefficient diviseur des ratios de ÷ 2 à ÷ 3", 125832859, 457641)],
+    "M": [("Estimatif précédent (ratios Éco-données ÷ 2)", 171769038, 561337),
+          ("1 · Toit-terrasse chiffré en finition seule (la dalle est déjà comptée sous l'étage)", 161644038, 528248),
+          ("2 · Plus-values re-spécifiées (bois local, couverture légère, mur galvanisé, patio) et doublons retirés", 152904038, 499686),
+          ("3 · Finition standard des pièces secondaires de la villa (SE, WC, lingerie, rangement)", 152904038, 499686),
+          ("4 · Coefficient diviseur des ratios de ÷ 2 à ÷ 3", 112227692, 366757)],
+}
+
+
+def recalage(wb):
+    ws = wb.create_sheet("RECALAGE 450K")
+    titre(ws, "RECALAGE DU COÛT SUR L'OBJECTIF DE 450 000 FCFA / M² CLOS",
+          "Travaux HT (construction seule), par étape, à partir de l'estimatif précédent. Valeurs figées au 14-11-2026 ; "
+          "les onglets d'estimatif et le coût au m² sont, eux, recalculés en direct.")
+    entete(ws, 4, ["Étape", "Villa : travaux HT (FCFA)", "Villa : FCFA / m² clos", "Duplex : travaux HT (FCFA)", "Duplex : FCFA / m² clos",
+                   "Villa : gain de l'étape (FCFA / m²)", "Duplex : gain de l'étape (FCFA / m²)"], [88, 22, 20, 22, 20, 22, 22])
+    ws.row_dimensions[4].height = 44
+    for k, ((lab, tc, pc), (_, tm, pm)) in enumerate(zip(RECALAGE["C"], RECALAGE["M"])):
+        r = 5 + k
+        ws.cell(row=r, column=1, value=lab)
+        ws.cell(row=r, column=2, value=tc)
+        ws.cell(row=r, column=3, value=pc)
+        ws.cell(row=r, column=4, value=tm)
+        ws.cell(row=r, column=5, value=pm)
+        if k:
+            ws.cell(row=r, column=6, value=f"=C{r - 1}-C{r}")
+            ws.cell(row=r, column=7, value=f"=E{r - 1}-E{r}")
+        ligne(ws, r, 7, "sub" if k in (0, 4) else None, numcols=(2, 3, 4, 5, 6, 7), fmt=FCFA)
+        ws.cell(row=r, column=1).alignment = Alignment(wrap_text=True, vertical="top")
+    r = 11
+    ws.cell(row=r, column=1, value="Objectif du client : environ 450 000 FCFA / m² de surface close (travaux HT)")
+    ws.cell(row=r, column=3, value=450000)
+    ws.cell(row=r, column=5, value=450000)
+    ligne(ws, r, 7, "tot", numcols=(3, 5), fmt=FCFA)
+    r += 2
+    notes = [
+        "Ce qu'il faut retenir",
+        "· Les étapes 1 à 3 sont des corrections de méthode et des choix de spécification : elles font passer la villa de 704 000 à 608 000 FCFA / m² et les duplex de 561 000 à 500 000. "
+        "Elles ne suffisent pas à atteindre l'objectif.",
+        "· L'étape 4 est un recalage : les ratios de la base Éco-données sont divisés par 3 au lieu de 2. C'est le levier principal (environ 60 % de la baisse sur la villa). "
+        "Il fixe un niveau de prix, il ne le mesure pas : une consultation de deux ou trois entreprises ivoiriennes sur le même descriptif est nécessaire pour le confirmer.",
+        "· Conséquences sur le niveau de finition : pièces d'eau et circulations de la villa en finition standard, peau de façade en bois local, couverture à +9,00 en structure légère "
+        "(la dalle mince en béton de la variante V1 est à chiffrer en plus), mur végétalisé en treillis galvanisé, moellons limités au socle de clôture.",
+        "· Les duplex tombent plus bas que la villa (367 000 contre 458 000) : bâtiment compact, répété, en finition locative. Pour les ramener vers 450 000, on peut y remonter les finitions.",
+        "· Les honoraires, le contrôle et les imprévus (24,05 % des travaux) et la TVA (18 %) viennent en plus : voir l'onglet COUT AU M2.",
+    ]
+    for k, t in enumerate(notes):
+        c = ws.cell(row=r + k, column=1, value=t)
+        c.font = fnt(k == 0, HEAD if k == 0 else INK)
+        c.alignment = Alignment(wrap_text=True, vertical="top")
+        ws.merge_cells(start_row=r + k, start_column=1, end_row=r + k, end_column=7)
+        ws.row_dimensions[r + k].height = 18 if k == 0 else 46
+    mise_en_page(ws, "recalage")
+    return ws
+
+
 def build():
     wb = Workbook()
     wb.active.title = "SYNTHESE"
@@ -510,7 +573,9 @@ def build():
     ED = estimatif_sheet(wb, "ESTIMATIF DUPLEX", LOCATIF_M, "M", "ESTIMATIF SOMMAIRE · 2 MAISONS DUPLEX", SD, P)
     synthese(wb, SV, SD, EV, ED)
     cout_m2(wb, SV, SD, EV, ED)
-    wb.move_sheet("COUT AU M2", offset=-(len(wb.sheetnames) - 2))
+    recalage(wb)
+    ordre = ["SYNTHESE", "COUT AU M2", "RECALAGE 450K", "SURFACES VILLA", "SURFACES DUPLEX", "ESTIMATIF VILLA", "ESTIMATIF DUPLEX"]
+    wb._sheets = [wb[n] for n in ordre] + [wb["PARAMETRES"]]
     wb.move_sheet("PARAMETRES", offset=len(wb.sheetnames))
     OUT.parent.mkdir(exist_ok=True)
     wb.save(OUT)
