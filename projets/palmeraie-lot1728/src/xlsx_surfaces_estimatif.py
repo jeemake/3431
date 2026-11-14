@@ -220,6 +220,7 @@ def estimatif_sheet(wb, nom, opt, cle, titre_, S, P):
     entete(ws, 4, labels, [24, 62, 12, 40, 8, 14, 18, 10, 16, 20])
     r = 5
     subs = []
+    cles = {}
     pu = lambda row: f'=IF(H{row}="Oui",G{row}/{P["div"]},G{row})'      # noqa: E731
 
     def section(texte):
@@ -228,12 +229,14 @@ def estimatif_sheet(wb, nom, opt, cle, titre_, S, P):
         ligne(ws, r, 10, "sec")
         r += 1
 
-    def sous_total(texte, a, b):
+    def sous_total(texte, a, b, cle_=None):
         nonlocal r
         ws.cell(row=r, column=2, value=texte)
         c = ws.cell(row=r, column=10, value=f"=SUM(J{a}:J{b})")
         ligne(ws, r, 10, "sub", numcols=(10,), fmt=FCFA)
         subs.append(r)
+        if cle_:
+            cles[cle_] = r
         r += 1
 
     pieces_par_niv = {niv: [p for p in opt["pieces"] if p["niveau"] == niv] for niv in ORDRE}
@@ -259,7 +262,7 @@ def estimatif_sheet(wb, nom, opt, cle, titre_, S, P):
             ws.cell(row=r, column=8).alignment = Alignment(horizontal="center")
             saisie(ws.cell(row=r, column=8))
             r += 1
-        sous_total(f"Sous-total {NIV[niv].lower()}", a, r - 1)
+        sous_total(f"Sous-total {NIV[niv].lower()}", a, r - 1, niv)
     for titre_s, liste in (("AMÉNAGEMENTS EXTÉRIEURS ET VRD", EXTERIEURS), ("PLUS-VALUES DU PARTI (matières, façade, toiture, végétal)", PLUS_VALUES)):
         ls = [lg for lg in liste if lg[4].get(cle, 0)]
         if not ls:
@@ -284,7 +287,7 @@ def estimatif_sheet(wb, nom, opt, cle, titre_, S, P):
             for col in (6, 7, 8):
                 saisie(ws.cell(row=r, column=col))
             r += 1
-        sous_total("Sous-total", a, r - 1)
+        sous_total("Sous-total", a, r - 1, "ext" if liste is EXTERIEURS else "pv")
     # totaux
     ws.cell(row=r, column=2, value="TOTAL TRAVAUX HT")
     ws.cell(row=r, column=10, value="=" + "+".join(f"J{x}" for x in subs))
@@ -323,7 +326,7 @@ def estimatif_sheet(wb, nom, opt, cle, titre_, S, P):
     mise_en_page(ws, titre_)
     ws.print_title_rows = "4:4"
     return {"trav": f"'{nom}'!$J${trav}", "ht": f"'{nom}'!$J${ht}", "tva": f"'{nom}'!$J${tva}", "ttc": f"'{nom}'!$J${ttc}",
-            "f0": f0, "name": nom, "imp_row": f0 + len(P["frais_rows"])}
+            "f0": f0, "name": nom, "imp_row": f0 + len(P["frais_rows"]), "sub": cles}
 
 
 # =============================================================================== SYNTHESE
@@ -372,6 +375,131 @@ def synthese(wb, SV, SD, EV, ED):
     mise_en_page(ws, "synthèse")
 
 
+# =============================================================================== COUT AU M2
+def cout_m2(wb, SV, SD, EV, ED):
+    ws = wb.create_sheet("COUT AU M2")
+    titre(ws, "COÛT DE CONSTRUCTION AU M² · OPTION C v5",
+          "Même estimatif que les onglets détaillés, exprimé au m² de surface close : surface × coût au m² = coût total.")
+    for col, w in zip("ABCDEFG", (62, 18, 20, 20, 20, 20, 20)):
+        ws.column_dimensions[col].width = w
+    # ---- bloc 1 : coût au m² clos
+    entete(ws, 4, ["COÛT AU M² DE SURFACE CLOSE", "Surface close (m²)", "Coût au m² (FCFA / m²)", "Total (FCFA)",
+                   "Ordre de grandeur (FCFA / m², arrondi à 10 000)", "Écart avec l'estimatif détaillé (FCFA)"],
+           [62, 18, 20, 20, 20, 20])
+    ws.row_dimensions[4].height = 44
+    lots = [("VILLA À PATIO", SV, EV), ("2 MAISONS DUPLEX", SD, ED)]
+    r = 5
+    cles_hl = {}
+    for nom_lot, S, E in lots:
+        ws.cell(row=r, column=1, value=nom_lot)
+        ligne(ws, r, 6, "sec")
+        r += 1
+        for lab, src in (("Travaux HT, construction seule (pièces, extérieurs, plus-values)", E["trav"]),
+                         ("Total HT, avec honoraires, BET, contrôle, assurances et imprévus", E["ht"]),
+                         ("TOTAL TTC", E["ttc"])):
+            kind = "tot" if lab.startswith("TOTAL") else None
+            ws.cell(row=r, column=1, value=lab)
+            ws.cell(row=r, column=2, value=f"={S['refs'][2]}")
+            ws.cell(row=r, column=3, value=f"={src}/B{r}")
+            ws.cell(row=r, column=4, value=f"=B{r}*C{r}")
+            ws.cell(row=r, column=5, value=f"=ROUND(C{r},-4)")
+            ws.cell(row=r, column=6, value=f"=ROUND(D{r}-{src},0)")
+            ligne(ws, r, 6, kind, numcols=(2, 3, 4, 5, 6), fmt={2: M2, 3: FCFA, 4: FCFA, 5: FCFA, 6: FCFA})
+            cles_hl[(nom_lot, lab[:5])] = r
+            r += 1
+    r += 1
+    # ---- bloc 2 : decomposition
+    ws.cell(row=r, column=1, value="DÉCOMPOSITION DU COÛT AU M² CLOS (la somme des lignes redonne le total)").font = fnt(True, HEAD)
+    r += 1
+    labels = ["Poste", "Villa : total (FCFA)", "Villa : FCFA / m² clos", "Villa : % du TTC",
+              "Duplex : total (FCFA)", "Duplex : FCFA / m² clos", "Duplex : % du TTC"]
+    for i, lab in enumerate(labels, 1):
+        c = ws.cell(row=r, column=i, value=lab)
+        c.font = fnt(True, "FFFFFF")
+        c.fill = PatternFill("solid", fgColor=HEAD)
+        c.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+        c.border = BORDER
+    ws.row_dimensions[r].height = 32
+    r += 1
+    surf_v, surf_d = SV["refs"][2], SD["refs"][2]
+    postes = [("Pièces du rez-de-chaussée", "RDC"), ("Pièces de l'étage", "R+1"), ("Niveau haut (toit-terrasse, édicule, jardinière)", "TOIT"),
+              ("Aménagements extérieurs et VRD", "ext"), ("Plus-values du parti (façade bois, couverture, mur végétalisé…)", "pv")]
+    first = r
+    for lab, cle in postes:
+        ws.cell(row=r, column=1, value=lab)
+        for col0, E in ((2, EV), (5, ED)):
+            ref = f"='{E['name']}'!J{E['sub'][cle]}"
+            ws.cell(row=r, column=col0, value=ref)
+        r += 1
+    last_post = r - 1
+    rows_after = [("Total travaux HT", "sub", lambda L: f"=SUM({L}{first}:{L}{last_post})"),
+                  ("Honoraires, BET, géotechnique, contrôle, assurances", None,
+                   lambda L, E=None: None),
+                  ("Imprévus (stade esquisse)", None, None),
+                  ("Total HT", "sub", None), ("TVA", None, None), ("TOTAL TTC", "tot", None)]
+    # lignes finales construites explicitement
+    r_trav = r
+    ws.cell(row=r, column=1, value="Total travaux HT")
+    ws.cell(row=r, column=2, value=f"=SUM(B{first}:B{last_post})")
+    ws.cell(row=r, column=5, value=f"=SUM(E{first}:E{last_post})")
+    r += 1
+    ws.cell(row=r, column=1, value="Honoraires, BET, géotechnique, contrôle, assurances")
+    ws.cell(row=r, column=2, value=f"=SUM('{EV['name']}'!J{EV['f0']}:J{EV['imp_row'] - 1})")
+    ws.cell(row=r, column=5, value=f"=SUM('{ED['name']}'!J{ED['f0']}:J{ED['imp_row'] - 1})")
+    r += 1
+    ws.cell(row=r, column=1, value="Imprévus (stade esquisse)")
+    ws.cell(row=r, column=2, value=f"='{EV['name']}'!J{EV['imp_row']}")
+    ws.cell(row=r, column=5, value=f"='{ED['name']}'!J{ED['imp_row']}")
+    r += 1
+    r_ht = r
+    ws.cell(row=r, column=1, value="Total HT")
+    ws.cell(row=r, column=2, value=f"=SUM(B{r_trav}:B{r - 1})")
+    ws.cell(row=r, column=5, value=f"=SUM(E{r_trav}:E{r - 1})")
+    r += 1
+    ws.cell(row=r, column=1, value="TVA")
+    ws.cell(row=r, column=2, value=f"={EV['tva']}")
+    ws.cell(row=r, column=5, value=f"={ED['tva']}")
+    r += 1
+    r_ttc = r
+    ws.cell(row=r, column=1, value="TOTAL TTC")
+    ws.cell(row=r, column=2, value=f"=B{r_ht}+B{r - 1}")
+    ws.cell(row=r, column=5, value=f"=E{r_ht}+E{r - 1}")
+    for rr in range(first, r_ttc + 1):
+        ws.cell(row=rr, column=3, value=f"=B{rr}/{surf_v}")
+        ws.cell(row=rr, column=6, value=f"=E{rr}/{surf_d}")
+        ws.cell(row=rr, column=4, value=f"=B{rr}/B${r_ttc}")
+        ws.cell(row=rr, column=7, value=f"=E{rr}/E${r_ttc}")
+        kind = "tot" if rr == r_ttc else ("sub" if rr in (r_trav, r_ht) else None)
+        ligne(ws, rr, 7, kind, numcols=(2, 3, 4, 5, 6, 7), fmt={2: FCFA, 3: FCFA, 4: '0.0%', 5: FCFA, 6: FCFA, 7: '0.0%'})
+    r = r_ttc + 2
+    ws.cell(row=r, column=1, value="Contrôle : total TTC de la décomposition moins total TTC de l'estimatif détaillé (doit être 0)")
+    ws.cell(row=r, column=2, value=f"=ROUND(B{r_ttc}-{EV['ttc']},0)")
+    ws.cell(row=r, column=5, value=f"=ROUND(E{r_ttc}-{ED['ttc']},0)")
+    for col in (1, 2, 5):
+        ws.cell(row=r, column=col).font = fnt(italic=True)
+        ws.cell(row=r, column=col).number_format = FCFA
+    r += 2
+    notes = [
+        "Lecture et limites",
+        "· Le coût au m² est rapporté à la surface close (rez-de-chaussée et étage fermés). Les terrasses, la loggia, le toit-terrasse couvert, le patio, "
+        "les jardins, la clôture et les plus-values de façade sont dans le coût mais pas dans la surface : le coût au m² est donc un coût tout compris, "
+        "plutôt haut si on le compare à un ratio de bâti seul.",
+        "· Pour réutiliser ces ratios sur un autre projet, prendre la ligne « Travaux HT » (construction seule) et y ajouter les frais et imprévus "
+        "(24,05 % des travaux : 14,05 % de frais et 10 % d'imprévus) puis la TVA (18 %).",
+        "· Les ratios Éco-données sont divisés par le coefficient de l'onglet PARAMETRES (consigne du client) ; les postes hors base sont des prix de marché non divisés, à confirmer.",
+        "· Esquisse : les quantités viennent du modèle et restent à reprendre par le BET structure et l'économiste de la construction avant tout engagement.",
+    ]
+    for k, t in enumerate(notes):
+        c = ws.cell(row=r + k, column=1, value=t)
+        c.font = fnt(k == 0, HEAD if k == 0 else INK)
+        c.alignment = Alignment(wrap_text=True, vertical="top")
+        ws.merge_cells(start_row=r + k, start_column=1, end_row=r + k, end_column=7)
+        ws.row_dimensions[r + k].height = 18 if k == 0 else 32
+    ws.freeze_panes = "A5"
+    mise_en_page(ws, "coût au m²")
+    return ws
+
+
 def build():
     wb = Workbook()
     wb.active.title = "SYNTHESE"
@@ -381,7 +509,9 @@ def build():
     EV = estimatif_sheet(wb, "ESTIMATIF VILLA", OPTION_C, "C", "ESTIMATIF SOMMAIRE · VILLA À PATIO", SV, P)
     ED = estimatif_sheet(wb, "ESTIMATIF DUPLEX", LOCATIF_M, "M", "ESTIMATIF SOMMAIRE · 2 MAISONS DUPLEX", SD, P)
     synthese(wb, SV, SD, EV, ED)
-    wb.move_sheet("PARAMETRES", offset=4)
+    cout_m2(wb, SV, SD, EV, ED)
+    wb.move_sheet("COUT AU M2", offset=-(len(wb.sheetnames) - 2))
+    wb.move_sheet("PARAMETRES", offset=len(wb.sheetnames))
     OUT.parent.mkdir(exist_ok=True)
     wb.save(OUT)
     print(OUT)
