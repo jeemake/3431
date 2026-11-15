@@ -1,0 +1,218 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#fff}</style>
+<script type="importmap">{"imports":{"three":"file:///tmp/claude-0/-home-user-3431/7cae17a0-479c-5af5-b614-e1c26e51ae53/scratchpad/three/node_modules/three/build/three.module.js"}}</script></head><body>
+<script type="module">
+import * as THREE from 'three';
+const P = new URLSearchParams(location.search);
+const _c = JSON.parse(P.get('cam')); const W = _c.w || +P.get('w') || 1600, H = _c.h || +P.get('h') || 1000;
+const data = window.SCENE;
+const cam = JSON.parse(P.get('cam'));
+if (cam.hide) for (const k in data) if (Array.isArray(data[k])) data[k] = data[k].filter(o => !(cam.hide.includes(o.grp) || cam.hide.includes(o.m)));
+const renderer = new THREE.WebGLRenderer({antialias:true, preserveDrawingBuffer:true});
+if (cam.clip){ // coupe : {axis:'x'|'y', at, keep:'lt'|'gt'} en coordonnees du plan
+  const s = cam.clip.keep === 'lt' ? -1 : 1;
+  const n = cam.clip.axis === 'x' ? new THREE.Vector3(s,0,0) : new THREE.Vector3(0,0,s);
+  renderer.clippingPlanes = [new THREE.Plane(n, -s*cam.clip.at)];
+}
+renderer.setSize(W, H); renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = cam.exposure || 1.0;
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(cam.sky || '#e9e7e2');
+scene.fog = new THREE.Fog(cam.sky || '#e9e7e2', 35, 110);
+const M = {
+  mur: new THREE.MeshStandardMaterial({color:'#f7f5f0', roughness:0.95}),
+  socle: new THREE.MeshStandardMaterial({color:'#d9d3c8', roughness:1}),
+  dalle: new THREE.MeshStandardMaterial({color:'#e6e2da', roughness:0.95}),
+  toit: new THREE.MeshStandardMaterial({color:'#cfc9bf', roughness:0.9}),
+  bois: new THREE.MeshStandardMaterial({color:'#c9b8a0', roughness:0.9}),
+  verre: new THREE.MeshStandardMaterial({color:'#7d8a92', roughness:0.15, metalness:0.1, transparent:true, opacity:cam.glass ?? 0.55}),
+  contexte: new THREE.MeshStandardMaterial({color:'#e2dfd9', roughness:1}),
+  sol: new THREE.MeshStandardMaterial({color:'#dcd6cb', roughness:1}),
+  patio: new THREE.MeshStandardMaterial({color:'#cfd6c4', roughness:1}),
+  feuillage: new THREE.MeshStandardMaterial({color:'#c9d1bf', roughness:1}),
+  eau: new THREE.MeshStandardMaterial({color:'#9fb0b5', roughness:0.1}),
+  claustra: new THREE.MeshStandardMaterial({color:'#cdae98', roughness:1}),
+  moellons: new THREE.MeshStandardMaterial({color:'#bdb3a4', roughness:1}),
+  enduit: new THREE.MeshStandardMaterial({color:'#ece8e0', roughness:0.95}),
+  beton_brut: new THREE.MeshStandardMaterial({color:'#d6d3cc', roughness:0.95}),
+  vegetal: new THREE.MeshStandardMaterial({color:'#b9c3a3', roughness:1}),
+  vegetal_fonce: new THREE.MeshStandardMaterial({color:'#8fa178', roughness:1}),
+  fleur: new THREE.MeshStandardMaterial({color:'#d86a4a', roughness:0.9}),
+  brique: new THREE.MeshStandardMaterial({color:'#cfa489', roughness:1}),
+  beton_clair: new THREE.MeshStandardMaterial({color:'#ecebe6', roughness:0.9}),
+  btc: new THREE.MeshStandardMaterial({color:'#e8dccb', roughness:1}),
+  ombriere: new THREE.MeshStandardMaterial({color:'#f4f2ed', roughness:0.9}),
+  socle_sombre: new THREE.MeshStandardMaterial({color:'#9c968c', roughness:1}),
+  metal: new THREE.MeshStandardMaterial({color:'#4a4a48', roughness:0.6, metalness:0.3}),
+  bois_dur: new THREE.MeshStandardMaterial({color:'#b89878', roughness:0.85}),
+};
+function box(x0,y0,x1,y1,z0,z1,m){ // plan x,y ; hauteur z
+  const g = new THREE.BoxGeometry(Math.max(0.02,x1-x0), Math.max(0.02,z1-z0), Math.max(0.02,y1-y0));
+  const o = new THREE.Mesh(g, m); o.position.set((x0+x1)/2,(z0+z1)/2,(y0+y1)/2);
+  o.castShadow = true; o.receiveShadow = true; scene.add(o); return o;
+}
+// sol
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(300,300), M.sol); ground.rotation.x = -Math.PI/2;
+ground.receiveShadow = true; scene.add(ground);
+box(9.0,13.4,14.5,17.8,0,0.05,M.patio);
+// murs avec ouvertures
+const T = 0.2;
+for (const w of data.walls){
+  const ops = w.ops.slice().sort((a,b)=>a.a-b.a);
+  const WM = M[w.m] || M.mur;
+  const seg = (a,b,z0,z1,m)=>{ if (b-a<0.02||z1-z0<0.02) return;
+    if (w.sens==='h') box(a, w.line-T/2, b, w.line+T/2, z0, z1, m); else box(w.line-T/2, a, w.line+T/2, b, z0, z1, m); };
+  let cur = w.a;
+  for (const o of ops){
+    const a = Math.max(w.a,o.a), b = Math.min(w.b,o.b);
+    seg(cur, a, w.z0, w.z1, WM);
+    seg(a, b, w.z0, w.z0+o.z0, WM);           // allege
+    seg(a, b, w.z0+o.z1, w.z1, WM);           // linteau
+    const gz0 = w.z0+o.z0, gz1 = w.z0+o.z1;      // vitrage en retrait
+    if (w.sens==='h') box(a, w.line-0.02, b, w.line+0.02, gz0, gz1, M.verre); else box(w.line-0.02, a, w.line+0.02, b, gz0, gz1, M.verre);
+    cur = b;
+  }
+  seg(cur, w.b, w.z0, w.z1, WM);
+}
+for (const s of data.slabs) box(s.x0,s.y0,s.x1,s.y1,s.z-s.t,s.z, M[s.m] || (s.roof?M.toit:M.dalle));
+// claustra de briques ajourees (BTC) : rangs de 0,10 m pleins tous les 0,30 m, briques de 0,15 m decalees entre les rangs
+for (const c of (data.claustras||[])){
+  const alongX = (c.x1-c.x0) >= (c.y1-c.y0), L = alongX ? c.x1-c.x0 : c.y1-c.y0, H = c.z1-c.z0;
+  const CM = M[c.m] || M.claustra;
+  const part = (u0,u1,z0,z1)=> alongX ? box(c.x0+u0,c.y0,c.x0+u1,c.y1,c.z0+z0,c.z0+z1,CM)
+                                       : box(c.x0,c.y0+u0,c.x1,c.y0+u1,c.z0+z0,c.z0+z1,CM);
+  if (c.random){ // brique a perforations aleatoires (Casa Estudio) : rangs de 0,075 m, briques de 0,23 m, ~30 % de vides
+    let seed = Math.floor((c.x0*73.1 + c.y0*37.7 + c.z0*11.3)*1000) >>> 0;
+    const rnd = () => { seed = (seed + 0x6D2B79F5) >>> 0; let t = seed; t = Math.imul(t ^ t>>>15, t|1);
+      t ^= t + Math.imul(t ^ t>>>7, t|61); return ((t ^ t>>>14) >>> 0) / 4294967296; };
+    const rh = 0.15, bl = 0.24, nr = Math.max(1, Math.round(H/rh)), h = H/nr;
+    for (let k=0;k<nr;k++){
+      const off = (k%2) ? bl/2 : 0; let u = -off, run0 = 0;
+      const solid = [];
+      while (u < L){ const a = Math.max(0,u), b = Math.min(L, u+bl);
+        const um = (a+b)/2, dense = (c.dense||[]).some(([d0,d1]) => um>=d0 && um<=d1);
+        const hole = (k>0 && k<nr-1 && a>0.1 && b<L-0.1 && rnd() < (dense ? 0.62 : (c.p ?? 0.28)));
+        solid.push([a,b,!hole]); u += bl; }
+      let cur = null;
+      for (const [a,b,sd] of solid){ if (sd){ if (!cur) cur=[a,b]; else cur[1]=b; } else { if (cur) part(cur[0],cur[1],k*h,(k+1)*h); cur=null;
+          part(a,b,k*h,k*h+0.02); } }
+      if (cur) part(cur[0],cur[1],k*h,(k+1)*h);
+    }
+    continue;
+  }
+  const bw = c.bw || 0.15, pas = c.pas || 0.30, rh = c.rh || 0.30, jt = c.jt || 0.10;
+  const nr = Math.max(1, Math.round(H/rh));
+  const h = H/nr;
+  part(0, 0.08, 0, H); part(L-0.08, L, 0, H);
+  for (let k=0;k<nr;k++){
+    part(0, L, k*h, k*h+jt);
+    const off = (k%2) ? pas/2 : 0.0;
+    for (let u=0.08+off; u+bw<=L-0.08; u+=pas) part(u, u+bw, k*h+jt, (k+1)*h);
+  }
+  part(0, L, H-0.10, H);
+}
+// resille triangulee : barres dans le plan de facade (x, z), epaisseur w, profondeur y0..y1
+for (const d of (data.diag||[])){
+  const mat = M[d.m] || M.beton_brut, dep = d.y1 - d.y0, yc = (d.y0 + d.y1)/2;
+  for (const [xa,za,xb,zb] of d.segs){
+    // decoupe au cadre [x0,x1] x [z0,z1]
+    let t0 = 0, t1 = 1; const dx = xb-xa, dz = zb-za;
+    const clip = (p,q)=>{ if (p===0) return q>=0; const r=q/p; if (p<0){ if (r>t1) return false; if (r>t0) t0=r; } else { if (r<t0) return false; if (r<t1) t1=r; } return true; };
+    if (!(clip(-dx, xa-d.x0) && clip(dx, d.x1-xa) && clip(-dz, za-d.z0) && clip(dz, d.z1-za))) continue;
+    const ax = xa+t0*dx, az = za+t0*dz, bx = xa+t1*dx, bz = za+t1*dz;
+    const L = Math.hypot(bx-ax, bz-az); if (L < 0.02) continue;
+    const g = new THREE.BoxGeometry(L, d.w, dep);
+    const o = new THREE.Mesh(g, mat); o.position.set((ax+bx)/2, (az+bz)/2, yc);
+    o.rotation.z = Math.atan2(bz-az, bx-ax); o.castShadow = true; o.receiveShadow = true; scene.add(o);
+  }
+}
+// lames : persiennes (lames horizontales), barreaudages et portails (lames verticales)
+for (const l of (data.lames||[])){
+  const alongX = (l.x1-l.x0) >= (l.y1-l.y0), L = alongX ? l.x1-l.x0 : l.y1-l.y0, mat = M[l.m]||M.bois;
+  const ep = l.ep || 0.035;
+  if (l.dir==='h'){
+    for (let z=l.z0; z+ep<=l.z1; z+=l.pas)
+      alongX ? box(l.x0,l.y0,l.x1,l.y1,z,z+ep,mat) : box(l.x0,l.y0,l.x1,l.y1,z,z+ep,mat);
+    // cadre
+    alongX ? (box(l.x0,l.y0,l.x0+0.05,l.y1,l.z0,l.z1,mat), box(l.x1-0.05,l.y0,l.x1,l.y1,l.z0,l.z1,mat))
+           : (box(l.x0,l.y0,l.x1,l.y0+0.05,l.z0,l.z1,mat), box(l.x0,l.y1-0.05,l.x1,l.y1,l.z0,l.z1,mat));
+  } else {
+    for (let u=0; u+ep<=L; u+=l.pas)
+      alongX ? box(l.x0+u,l.y0,l.x0+u+ep,l.y1,l.z0,l.z1,mat) : box(l.x0,l.y0+u,l.x1,l.y0+u+ep,l.z0,l.z1,mat);
+    alongX ? box(l.x0,l.y0,l.x1,l.y1,l.z1-0.04,l.z1,mat) : box(l.x0,l.y0,l.x1,l.y1,l.z1-0.04,l.z1,mat);
+  }
+}
+for (const b of data.boxes) box(b.x0,b.y0,b.x1,b.y1,b.z0,b.z1, M[b.m]||M.mur);
+for (const r of data.rails){
+  if (r.claustra){ // claustra ajouree
+    const n = Math.floor((r.x1-r.x0)/0.25);
+    for (let i=0;i<n;i++) box(r.x0+i*0.25, r.y0, r.x0+i*0.25+0.14, r.y1, r.z0, r.z1, M.claustra);
+    box(r.x0, r.y0, r.x1, r.y1, r.z1-0.15, r.z1, M.claustra);
+  } else if (r.z1 - r.z0 < 1.5) { // garde-corps a lames bois
+    const L = Math.max(r.x1-r.x0, r.y1-r.y0), n = Math.floor(L/0.12);
+    for (let i=0;i<n;i++){ const t=i*0.12;
+      if (r.x1-r.x0 > r.y1-r.y0) box(r.x0+t, r.y0, r.x0+t+0.05, r.y1, r.z0, r.z1, M.bois);
+      else box(r.x0, r.y0+t, r.x1, r.y0+t+0.05, r.z0, r.z1, M.bois); }
+  } else box(r.x0,r.y0,r.x1,r.y1,r.z0,r.z1,M.mur);
+}
+for (const t of data.trees){
+  const tr = new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.18,t.h*0.6,8), M.bois);
+  tr.position.set(t.x, t.h*0.3, t.y); tr.castShadow = true; scene.add(tr);
+  for (const [dx,dz,dy,rr] of [[0,0,0,1],[0.6,0.3,-0.3,0.7],[-0.5,-0.4,-0.2,0.75],[0.2,-0.6,0.3,0.6]]){
+    const c = new THREE.Mesh(new THREE.IcosahedronGeometry(t.r*rr,1), M.feuillage);
+    c.position.set(t.x+dx, t.h*0.78+dy, t.y+dz); c.castShadow = true; c.receiveShadow = true; scene.add(c); }
+}
+// toits en croupe : rectangle de debord, egout a z, pente en degres ; sous-face plane (lames bois)
+for (const r of (data.roofs||[])){
+  const t = Math.tan((r.pente||15)*Math.PI/180), w = r.x1-r.x0, d = r.y1-r.y0, h = Math.min(w,d)/2*t;
+  const z = r.z, mat = M[r.m]||M.toit, sm = M[r.sous]||M.bois;
+  let A,B; // faitage
+  if (w >= d){ A=[r.x0+d/2,(r.y0+r.y1)/2]; B=[r.x1-d/2,(r.y0+r.y1)/2]; } else { A=[(r.x0+r.x1)/2,r.y0+w/2]; B=[(r.x0+r.x1)/2,r.y1-w/2]; }
+  const P = (x,y,zz)=>[x,zz,y];
+  const c00=P(r.x0,r.y0,z), c10=P(r.x1,r.y0,z), c11=P(r.x1,r.y1,z), c01=P(r.x0,r.y1,z), a=P(A[0],A[1],z+h), b=P(B[0],B[1],z+h);
+  const tris = w>=d ? [c00,a,b, c00,b,c10, c10,b,c11, c11,b,a, c11,a,c01, c01,a,c00]
+                    : [c00,c10,a, c10,b,a, c10,c11,b, c11,c01,b, c01,a,b, c01,c00,a];
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(tris.flat(),3));
+  g.computeVertexNormals();
+  const o = new THREE.Mesh(g, mat); o.material.side = THREE.DoubleSide; o.castShadow = true; o.receiveShadow = true; scene.add(o);
+  box(r.x0, r.y0, r.x1, r.y1, z-0.04, z, sm);          // sous-face
+  box(r.x0, r.y0, r.x1, r.y0+0.04, z-0.22, z+0.02, mat); box(r.x0, r.y1-0.04, r.x1, r.y1, z-0.22, z+0.02, mat);
+  box(r.x0, r.y0, r.x0+0.04, r.y1, z-0.22, z+0.02, mat); box(r.x1-0.04, r.y0, r.x1, r.y1, z-0.22, z+0.02, mat);
+}
+for (const e of data.water) box(e.x0,e.y0,e.x1,e.y1,0,e.z1||0.3,M.eau);
+// mode trait (elevations, coupes) : faces blanches, aretes noires, vitrages en gris uni
+if (cam.lines){
+  scene.background = new THREE.Color('#ffffff'); scene.fog = null; renderer.toneMapping = THREE.NoToneMapping;
+  const white = new THREE.MeshBasicMaterial({color:'#ffffff', polygonOffset:true, polygonOffsetFactor:1, polygonOffsetUnits:1, side:THREE.DoubleSide});
+  const grey = new THREE.MeshBasicMaterial({color:cam.glasstone||'#e4e4e4', polygonOffset:true, polygonOffsetFactor:1, polygonOffsetUnits:1});
+  const ink = new THREE.LineBasicMaterial({color:'#000000'});
+  const inkGrey = new THREE.LineBasicMaterial({color:'#8c8c8c'});
+  const meshes = []; scene.traverse(o => { if (o.isMesh && o !== ground) meshes.push(o); });
+  for (const o of meshes){
+    const glass = o.material === M.verre, ctx = o.material === M.contexte;
+    o.material = glass ? grey : white; o.castShadow = false;
+    const e = new THREE.LineSegments(new THREE.EdgesGeometry(o.geometry, 5), ctx ? inkGrey : ink);
+    e.position.copy(o.position); e.rotation.copy(o.rotation); e.scale.copy(o.scale); scene.add(e);
+  }
+  ground.visible = false;
+}
+// lumiere : soleil calcule (azimut depuis le Nord, sens horaire ; Nord = -z)
+const az = cam.sun_az*Math.PI/180, el = cam.sun_el*Math.PI/180;
+const sun = new THREE.DirectionalLight('#fff4e6', cam.sun_int ?? 2.2);
+sun.position.set(10+60*Math.sin(az)*Math.cos(el), 60*Math.sin(el), 10-60*Math.cos(az)*Math.cos(el));
+sun.target.position.set(10,0,10); scene.add(sun.target);
+sun.castShadow = true; sun.shadow.mapSize.set(4096,4096); sun.shadow.bias = -0.0005; sun.shadow.normalBias = 0.02;
+Object.assign(sun.shadow.camera, {left:-35,right:35,top:35,bottom:-35,near:1,far:200}); scene.add(sun);
+scene.add(new THREE.HemisphereLight('#f4f3f0','#c9c2b6', cam.hemi ?? 1.4));
+const camera = cam.ortho
+  ? new THREE.OrthographicCamera(-cam.ortho/2, cam.ortho/2, cam.ortho/2*H/W, -cam.ortho/2*H/W, 0.1, 400)
+  : new THREE.PerspectiveCamera(cam.fov || 55, W/H, 0.1, 400);
+if (cam.nofog) scene.fog = null;
+camera.position.set(cam.pos[0], cam.pos[2], cam.pos[1]);
+if (cam.up) camera.up.set(cam.up[0], cam.up[2], cam.up[1]);
+// perspective a 2 points de fuite : axe de visee horizontal (verticales verticales), cadrage par decentrement
+camera.lookAt(cam.target[0], cam.level ? cam.pos[2] : cam.target[2], cam.target[1]);
+if (cam.shift) camera.setViewOffset(W, H, 0, -cam.shift*H, W, H);
+renderer.render(scene, camera);
+document.title = 'done';
+</script></body></html>
