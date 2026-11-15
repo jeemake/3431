@@ -1,0 +1,587 @@
+# Maquette BIMCraft du lot 1728, option C v5 (genere par src/bimcraft_modele.py)
+new {"name": "Lot 1728 · Option C v5", "language": "fr"}
+modify {"id": 100000, "name": "RDC"}
+modify {"id": 100001, "name": "R+1", "elevation": 3300}
+level {"elevation": 6600, "name": "Toit-terrasse"}
+level {"elevation": 9000, "name": "Couverture"}
+modify {"id": 100000, "extent": [[-2500, -1500], [22500, 35500]]}
+modify {"id": 100001, "extent": [[-2500, -1500], [22500, 35500]]}
+modify {"id": 100002, "extent": [[-2500, -1500], [22500, 35500]]}
+modify {"id": 100003, "extent": [[-2500, -1500], [22500, 35500]]}
+property_line {"points": [[0, 33000], [20000, 33000], [20000, 0], [0, 0]], "name": "Lot 1728"}
+grid {"start": [2500, 35000], "end": [2500, 15600]}
+grid {"start": [5500, 35000], "end": [5500, 15600]}
+grid {"start": [9000, 35000], "end": [9000, 15600]}
+grid {"start": [12500, 35000], "end": [12500, 15600]}
+grid {"start": [14500, 35000], "end": [14500, 15600]}
+grid {"start": [18000, 35000], "end": [18000, 15600]}
+grid {"start": [-1800, 28500], "end": [20800, 28500], "name": "A"}
+grid {"start": [-1800, 27500], "end": [20800, 27500], "name": "B"}
+grid {"start": [-1800, 22000], "end": [20800, 22000], "name": "C"}
+grid {"start": [-1800, 16200], "end": [20800, 16200], "name": "D"}
+grid {"start": [-1800, 15000], "end": [20800, 15000], "name": "E"}
+# Materiaux et types (references du client : moellons, enduit, lames de bois, claustra beton)
+material {"name": "Enduit", "color": "#E6E0D6", "texture": {"kind": "plaster"}}
+material {"name": "Moellons", "color": "#8E857B", "texture": {"kind": "block"}, "cut": "crosshatch"}
+material {"name": "Béton clair", "color": "#D9D6CF", "texture": {"kind": "concrete"}, "cut": "concrete"}
+material {"name": "Bois dur", "color": "#9A6A43", "texture": {"kind": "boards"}}
+material {"name": "Lames bois (peau)", "color": "#A1714A", "texture": {"kind": "boards"}, "transparency": 35}
+material {"name": "Claustra béton", "color": "#CFCAC0", "texture": {"kind": "block"}, "transparency": 45}
+material {"name": "Végétal", "color": "#5F7F4C", "texture": {"kind": "fabric"}}
+material {"name": "Acier noir", "color": "#2B2B2B", "texture": {"kind": "metal"}}
+type {"category": "wall", "name": "Mur ext. moellons 200", "layers": [{"function": "finish", "material": "Moellons", "thickness": 40}, {"function": "structure", "material": "Bloc de béton", "thickness": 145}, {"function": "finish", "material": "Enduit", "thickness": 15}]}
+type {"category": "wall", "name": "Mur ext. enduit 200", "layers": [{"function": "finish", "material": "Enduit", "thickness": 15}, {"function": "structure", "material": "Bloc de béton", "thickness": 170}, {"function": "finish", "material": "Enduit", "thickness": 15}]}
+type {"category": "wall", "name": "Mur mitoyen 200", "layers": [{"function": "finish", "material": "Enduit", "thickness": 15}, {"function": "structure", "material": "Bloc de béton", "thickness": 170}, {"function": "finish", "material": "Enduit", "thickness": 15}]}
+type {"category": "wall", "name": "Cloison 100", "layers": [{"function": "finish", "material": "Enduit", "thickness": 15}, {"function": "structure", "material": "Bloc de béton", "thickness": 70}, {"function": "finish", "material": "Enduit", "thickness": 15}]}
+type {"category": "wall", "name": "Acrotère 150", "layers": [{"function": "structure", "material": "Béton clair", "thickness": 150}]}
+type {"category": "wall", "name": "Clôture moellons 200", "layers": [{"function": "structure", "material": "Moellons", "thickness": 200}]}
+type {"category": "wall", "name": "Clôture claustra 200", "layers": [{"function": "structure", "material": "Claustra béton", "thickness": 200}]}
+type {"category": "wall", "name": "Clôture enduite 200", "layers": [{"function": "finish", "material": "Enduit", "thickness": 15}, {"function": "structure", "material": "Bloc de béton", "thickness": 170}, {"function": "finish", "material": "Enduit", "thickness": 15}]}
+type {"category": "wall", "name": "Portail lames bois 100", "layers": [{"function": "structure", "material": "Lames bois (peau)", "thickness": 100}]}
+type {"category": "wall", "name": "Mur végétalisé 180", "layers": [{"function": "finish", "material": "Végétal", "thickness": 40}, {"function": "structure", "material": "Bloc de béton", "thickness": 100}, {"function": "finish", "material": "Végétal", "thickness": 40}]}
+type {"category": "wall", "name": "Peau lames bois 140", "layers": [{"function": "structure", "material": "Lames bois (peau)", "thickness": 140}]}
+type {"category": "floor", "name": "Dalle BA 250", "layers": [{"function": "finish", "material": "Chape", "thickness": 50}, {"function": "structure", "material": "Béton", "thickness": 200}]}
+type {"category": "floor", "name": "Dalle mince 120", "layers": [{"function": "structure", "material": "Béton clair", "thickness": 120}]}
+type {"category": "roof", "name": "Couverture mince 180", "layers": [{"function": "structure", "material": "Béton clair", "thickness": 180}]}
+material {"name": "Latérite", "color": "#B07650", "texture": {"kind": "concrete"}}
+material {"name": "Pelouse", "color": "#7E9A5A", "texture": {"kind": "fabric"}}
+type {"category": "floor", "name": "Terrain (latérite)", "layers": [{"function": "structure", "material": "Latérite", "thickness": 300}]}
+type {"category": "floor", "name": "Jardin planté", "layers": [{"function": "structure", "material": "Pelouse", "thickness": 100}]}
+family {"name": "Arbre", "category": "generic", "parameters": [{"name": "Rayon", "kind": "length", "value": 1500}, {"name": "Hauteur", "kind": "length", "value": 5200}], "types": {"6400 x 6500": {"Rayon": 2560, "Hauteur": 6500}, "4800 x 5500": {"Rayon": 1920, "Hauteur": 5500}, "3200 x 4300": {"Rayon": 1280, "Hauteur": 4300}, "5000 x 5000": {"Rayon": 2000, "Hauteur": 5000}, "3000 x 4600": {"Rayon": 1200, "Hauteur": 4600}, "2000 x 3600": {"Rayon": 800, "Hauteur": 3600}, "1600 x 3000": {"Rayon": 640, "Hauteur": 3000}, "2800 x 4000": {"Rayon": 1120, "Hauteur": 4000}, "4200 x 4500": {"Rayon": 1680, "Hauteur": 4500}, "2600 x 3500": {"Rayon": 1040, "Hauteur": 3500}}, "forms": [{"plane": "xy", "circle": {"centre": [0, 0], "radius": 110}, "from": 0, "to": "Hauteur * 0.45", "material": "Bois dur"}, {"plane": "xy", "sketch": [{"centre": [0, 0], "radius": "Rayon * 0.55"}], "top": [{"centre": [0, 0], "radius": "Rayon"}], "from": "Hauteur * 0.4", "to": "Hauteur * 0.7", "material": "Végétal"}, {"plane": "xy", "sketch": [{"centre": [0, 0], "radius": "Rayon"}], "top": [{"centre": [0, 0], "radius": "Rayon * 0.35"}], "from": "Hauteur * 0.7", "to": "Hauteur", "material": "Végétal"}]}
+type {"category": "column", "name": "Poteau acier 140", "width": 140, "depth": 140}
+type {"category": "column", "name": "Poteau bois 200", "width": 200, "depth": 200}
+# Types de portes et de fenetres a la taille des ouvertures du projet
+family {"name": "Fenêtre coulissante", "types": {"1400 x 1400": {"Width": 1400, "Height": 1400, "Sill Height": 1000}, "1200 x 1400": {"Width": 1200, "Height": 1400, "Sill Height": 1000}, "2400 x 1400": {"Width": 2400, "Height": 1400, "Sill Height": 1000}, "1500 x 1400": {"Width": 1500, "Height": 1400, "Sill Height": 1000}, "1600 x 1400": {"Width": 1600, "Height": 1400, "Sill Height": 1000}, "1600 x 1500": {"Width": 1600, "Height": 1500, "Sill Height": 900}, "2400 x 1500": {"Width": 2400, "Height": 1500, "Sill Height": 900}}}
+family {"name": "Fenêtre fixe", "types": {"3600 x 2700": {"Width": 3600, "Height": 2700, "Sill Height": 300}, "700 x 600": {"Width": 700, "Height": 600, "Sill Height": 1800}, "1500 x 600": {"Width": 1500, "Height": 600, "Sill Height": 1800}, "800 x 600": {"Width": 800, "Height": 600, "Sill Height": 1800}, "600 x 600": {"Width": 600, "Height": 600, "Sill Height": 1800}, "3600 x 2500": {"Width": 3600, "Height": 2500, "Sill Height": 300}, "1400 x 600": {"Width": 1400, "Height": 600, "Sill Height": 1800}, "2400 x 600": {"Width": 2400, "Height": 600, "Sill Height": 1800}, "3600 x 1700": {"Width": 3600, "Height": 1700, "Sill Height": 300}, "1100 x 600": {"Width": 1100, "Height": 600, "Sill Height": 1800}}}
+family {"name": "Porte coulissante", "types": {"2400 x 2400": {"Width": 2400, "Height": 2400}, "4000 x 2600": {"Width": 4000, "Height": 2600}, "2400 x 2600": {"Width": 2400, "Height": 2600}, "1600 x 2400": {"Width": 1600, "Height": 2400}, "1400 x 2400": {"Width": 1400, "Height": 2400}, "5100 x 2600": {"Width": 5100, "Height": 2600}, "2800 x 2400": {"Width": 2800, "Height": 2400}}}
+family {"name": "Porte double", "types": {"1200 x 2400": {"Width": 1200, "Height": 2400}, "1200 x 2100": {"Width": 1200, "Height": 2100}, "1600 x 2100": {"Width": 1600, "Height": 2100}}}
+family {"name": "Porte simple", "types": {"800 x 2400": {"Width": 800, "Height": 2400}, "900 x 2400": {"Width": 900, "Height": 2400}, "900 x 2100": {"Width": 900, "Height": 2100}, "700 x 2100": {"Width": 700, "Height": 2100}, "800 x 2100": {"Width": 800, "Height": 2100}, "800 x 2000": {"Width": 800, "Height": 2000}, "1000 x 2400": {"Width": 1000, "Height": 2400}}}
+# VILLA : murs par niveau, deduits des pieces de projet.py (grille de 5 cm)
+wall {"points": [[2500, 27500], [18000, 27500]], "type": "Mur ext. moellons 200", "level": "RDC"}
+wall {"points": [[9000, 22000], [14500, 22000]], "type": "Mur ext. enduit 200", "level": "RDC"}
+wall {"points": [[2500, 16200], [9000, 16200]], "type": "Mur ext. enduit 200", "level": "RDC"}
+wall {"points": [[14500, 16200], [18000, 16200]], "type": "Mur ext. enduit 200", "level": "RDC"}
+wall {"points": [[2500, 27500], [2500, 16200]], "type": "Mur ext. moellons 200", "level": "RDC"}
+wall {"points": [[9000, 22000], [9000, 16200]], "type": "Mur ext. enduit 200", "level": "RDC"}
+wall {"points": [[14500, 22000], [14500, 16200]], "type": "Mur ext. enduit 200", "level": "RDC"}
+wall {"points": [[18000, 27500], [18000, 16200]], "type": "Mur ext. enduit 200", "level": "RDC"}
+wall {"points": [[14500, 23600], [18000, 23600]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[2500, 23300], [5500, 23300]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[2500, 22000], [9000, 22000]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[14500, 22000], [18000, 22000]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[14500, 20000], [18000, 20000]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[14500, 18600], [18000, 18600]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[5500, 27500], [5500, 22000]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[7500, 27500], [7500, 22000]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[12500, 27500], [12500, 22000]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[14500, 27500], [14500, 22000]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[3300, 32700], [5700, 32700]], "type": "Clôture moellons 200", "level": "RDC", "height": 2200}
+wall {"points": [[3300, 30300], [5700, 30300]], "type": "Clôture moellons 200", "level": "RDC", "height": 2200}
+wall {"points": [[3300, 32700], [3300, 30300]], "type": "Clôture moellons 200", "level": "RDC", "height": 2200}
+wall {"points": [[5700, 32700], [5700, 30300]], "type": "Clôture moellons 200", "level": "RDC", "height": 2200}
+door {"at": [6500, 27500], "level": "RDC", "family": "Porte double", "type": "1200 x 2400", "flip_facing": true}
+window {"at": [10750, 27500], "level": "RDC", "family": "Fenêtre coulissante", "type": "1400 x 1400", "sill": 1000}
+window {"at": [13500, 27500], "level": "RDC", "family": "Fenêtre coulissante", "type": "1200 x 1400", "sill": 1000}
+door {"at": [16250, 27500], "level": "RDC", "family": "Porte double", "type": "1200 x 2400", "flip_facing": true}
+window {"at": [2500, 25400], "level": "RDC", "family": "Fenêtre fixe", "type": "3600 x 2700", "sill": 300}
+window {"at": [2500, 22650], "level": "RDC", "family": "Fenêtre fixe", "type": "700 x 600", "sill": 1800}
+window {"at": [2500, 20700], "level": "RDC", "family": "Fenêtre coulissante", "type": "1400 x 1400", "sill": 1000}
+door {"at": [2500, 17800], "level": "RDC", "family": "Porte coulissante", "type": "2400 x 2400"}
+window {"at": [5200, 16200], "level": "RDC", "family": "Fenêtre coulissante", "type": "2400 x 1400", "sill": 1000}
+window {"at": [16250, 16200], "level": "RDC", "family": "Fenêtre coulissante", "type": "1500 x 1400", "sill": 1000}
+window {"at": [18000, 25950], "level": "RDC", "family": "Fenêtre fixe", "type": "1500 x 600", "sill": 1800}
+door {"at": [18000, 22800], "level": "RDC", "family": "Porte simple", "type": "800 x 2400", "flip_facing": true}
+window {"at": [18000, 21000], "level": "RDC", "family": "Fenêtre fixe", "type": "800 x 600", "sill": 1800}
+window {"at": [18000, 19300], "level": "RDC", "family": "Fenêtre fixe", "type": "800 x 600", "sill": 1800}
+door {"at": [18000, 17400], "level": "RDC", "family": "Porte simple", "type": "800 x 2400", "flip_facing": true}
+door {"at": [9000, 19100], "level": "RDC", "family": "Porte coulissante", "type": "4000 x 2600", "flip_facing": true}
+door {"at": [10750, 22000], "level": "RDC", "family": "Porte coulissante", "type": "2400 x 2600"}
+door {"at": [14500, 21000], "level": "RDC", "family": "Porte simple", "type": "900 x 2400"}
+window {"at": [14500, 19300], "level": "RDC", "family": "Fenêtre fixe", "type": "600 x 600", "sill": 1800}
+window {"at": [14500, 17300], "level": "RDC", "family": "Fenêtre coulissante", "type": "1400 x 1400", "sill": 1000}
+door {"at": [5500, 24600], "level": "RDC", "family": "Porte simple", "type": "900 x 2100"}
+door {"at": [5500, 22650], "level": "RDC", "family": "Porte simple", "type": "700 x 2100", "flip_facing": true}
+door {"at": [7500, 25600], "level": "RDC", "family": "Porte double", "type": "1200 x 2100"}
+door {"at": [6600, 22000], "level": "RDC", "family": "Porte double", "type": "1600 x 2100", "flip_facing": true}
+door {"at": [8250, 22000], "level": "RDC", "family": "Porte double", "type": "1200 x 2100"}
+door {"at": [12500, 26600], "level": "RDC", "family": "Porte simple", "type": "900 x 2100"}
+door {"at": [14500, 22800], "level": "RDC", "family": "Porte simple", "type": "800 x 2100"}
+door {"at": [16250, 23600], "level": "RDC", "family": "Porte simple", "type": "800 x 2100", "flip_facing": true}
+door {"at": [16250, 18600], "level": "RDC", "family": "Porte simple", "type": "700 x 2100"}
+door {"at": [4500, 30300], "level": "RDC", "family": "Porte simple", "type": "800 x 2000"}
+room {"point": [4500, 31500], "level": "RDC", "name": "Guérite + WC gardien"}
+room {"point": [4000, 25400], "level": "RDC", "name": "Escalier"}
+room {"point": [4000, 22650], "level": "RDC", "name": "WC visiteurs"}
+room {"point": [6500, 24750], "level": "RDC", "name": "Hall d'entrée"}
+room {"point": [10000, 24750], "level": "RDC", "name": "Salle à manger"}
+room {"point": [13500, 24750], "level": "RDC", "name": "Cuisine"}
+room {"point": [16250, 25550], "level": "RDC", "name": "Cuisine africaine"}
+room {"point": [16250, 22800], "level": "RDC", "name": "Buanderie (sas)"}
+room {"point": [5750, 19100], "level": "RDC", "name": "Salon"}
+room {"point": [16250, 21000], "level": "RDC", "name": "Bureau"}
+room {"point": [16250, 19300], "level": "RDC", "name": "SE nounou"}
+room {"point": [16250, 17400], "level": "RDC", "name": "Chambre nounou"}
+wall {"points": [[2500, 28500], [5500, 28500]], "type": "Mur ext. enduit 200", "level": "R+1"}
+wall {"points": [[5500, 27500], [18000, 27500]], "type": "Mur ext. enduit 200", "level": "R+1"}
+wall {"points": [[9000, 22000], [18000, 22000]], "type": "Mur ext. enduit 200", "level": "R+1"}
+wall {"points": [[2500, 16200], [9000, 16200]], "type": "Mur ext. enduit 200", "level": "R+1"}
+wall {"points": [[2500, 28500], [2500, 16200]], "type": "Mur ext. enduit 200", "level": "R+1"}
+wall {"points": [[5500, 28500], [5500, 27500]], "type": "Mur ext. enduit 200", "level": "R+1"}
+wall {"points": [[9000, 22000], [9000, 16200]], "type": "Mur ext. enduit 200", "level": "R+1"}
+wall {"points": [[18000, 27500], [18000, 22000]], "type": "Mur ext. enduit 200", "level": "R+1"}
+wall {"points": [[2500, 27500], [5500, 27500]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[12500, 25350], [14500, 25350]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[2500, 23300], [5500, 23300]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[9000, 23200], [14500, 23200]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[2500, 22000], [9000, 22000]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[2500, 19400], [9000, 19400]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[5500, 27500], [5500, 19400]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[9000, 27500], [9000, 22000]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[12500, 27500], [12500, 23200]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[14500, 27500], [14500, 22000]], "type": "Cloison 100", "level": "R+1"}
+door {"at": [6500, 27500], "level": "R+1", "family": "Porte coulissante", "type": "1600 x 2400", "flip_facing": true}
+door {"at": [10750, 27500], "level": "R+1", "family": "Porte coulissante", "type": "1400 x 2400", "flip_facing": true}
+window {"at": [13500, 27500], "level": "R+1", "family": "Fenêtre fixe", "type": "700 x 600", "sill": 1800}
+door {"at": [16250, 27500], "level": "R+1", "family": "Porte coulissante", "type": "1400 x 2400", "flip_facing": true}
+window {"at": [2500, 25400], "level": "R+1", "family": "Fenêtre fixe", "type": "3600 x 2500", "sill": 300}
+window {"at": [2500, 22650], "level": "R+1", "family": "Fenêtre fixe", "type": "700 x 600", "sill": 1800}
+window {"at": [2500, 20700], "level": "R+1", "family": "Fenêtre fixe", "type": "1400 x 600", "sill": 1800}
+door {"at": [2500, 17800], "level": "R+1", "family": "Porte coulissante", "type": "2400 x 2400"}
+window {"at": [5200, 16200], "level": "R+1", "family": "Fenêtre fixe", "type": "2400 x 600", "sill": 1800}
+window {"at": [18000, 25950], "level": "R+1", "family": "Fenêtre fixe", "type": "1500 x 600", "sill": 1800}
+door {"at": [11750, 22000], "level": "R+1", "family": "Porte coulissante", "type": "5100 x 2600"}
+window {"at": [9000, 17800], "level": "R+1", "family": "Fenêtre coulissante", "type": "1600 x 1400", "sill": 1000}
+window {"at": [16250, 22000], "level": "R+1", "family": "Fenêtre coulissante", "type": "1500 x 1400", "sill": 1000}
+door {"at": [5500, 24600], "level": "R+1", "family": "Porte simple", "type": "900 x 2100"}
+door {"at": [5500, 22650], "level": "R+1", "family": "Porte simple", "type": "700 x 2100", "flip_facing": true}
+door {"at": [4000, 27500], "level": "R+1", "family": "Porte simple", "type": "800 x 2100"}
+door {"at": [7300, 22000], "level": "R+1", "family": "Porte simple", "type": "900 x 2100", "flip_facing": true}
+door {"at": [5500, 20700], "level": "R+1", "family": "Porte simple", "type": "800 x 2100", "flip_facing": true}
+door {"at": [7300, 19400], "level": "R+1", "family": "Porte simple", "type": "900 x 2100"}
+door {"at": [9000, 22600], "level": "R+1", "family": "Porte simple", "type": "900 x 2100", "flip_facing": true}
+door {"at": [10750, 23200], "level": "R+1", "family": "Porte simple", "type": "900 x 2100"}
+door {"at": [12500, 26400], "level": "R+1", "family": "Porte simple", "type": "800 x 2100"}
+door {"at": [14500, 22600], "level": "R+1", "family": "Porte simple", "type": "900 x 2100"}
+door {"at": [14500, 24300], "level": "R+1", "family": "Porte simple", "type": "800 x 2100", "flip_facing": true}
+room {"point": [4000, 28000], "level": "R+1", "name": "Rangement"}
+room {"point": [4000, 25400], "level": "R+1", "name": "Escalier"}
+room {"point": [4000, 22650], "level": "R+1", "name": "Lingerie"}
+room {"point": [7250, 24750], "level": "R+1", "name": "Salon familial"}
+room {"point": [10750, 25350], "level": "R+1", "name": "Chambre 1"}
+room {"point": [13500, 26425], "level": "R+1", "name": "SE ch.1"}
+room {"point": [13500, 24275], "level": "R+1", "name": "SE ch.2"}
+room {"point": [11750, 22600], "level": "R+1", "name": "Galerie sur patio"}
+room {"point": [16250, 24750], "level": "R+1", "name": "Chambre 2"}
+room {"point": [4000, 20700], "level": "R+1", "name": "SdB parentale"}
+room {"point": [7250, 20700], "level": "R+1", "name": "Dressing parental"}
+room {"point": [5750, 17800], "level": "R+1", "name": "Chambre principale"}
+wall {"points": [[2500, 27500], [5500, 27500]], "type": "Mur ext. enduit 200", "level": "Toit-terrasse", "height": 2150}
+wall {"points": [[2500, 23300], [5500, 23300]], "type": "Mur ext. enduit 200", "level": "Toit-terrasse", "height": 2150}
+wall {"points": [[2500, 27500], [2500, 23300]], "type": "Mur ext. enduit 200", "level": "Toit-terrasse", "height": 2150}
+wall {"points": [[5500, 27500], [5500, 23300]], "type": "Mur ext. enduit 200", "level": "Toit-terrasse", "height": 2150}
+window {"at": [2500, 25400], "level": "Toit-terrasse", "family": "Fenêtre fixe", "type": "3600 x 1700", "sill": 300}
+door {"at": [5500, 24600], "level": "Toit-terrasse", "family": "Porte simple", "type": "900 x 2400", "flip_facing": true}
+room {"point": [4000, 25400], "level": "Toit-terrasse", "name": "Édicule d'escalier"}
+# Dalles : RDC (emprise close), R+1 (RDC + terrasse couverte + loggia + jardiniere), toit-terrasse
+floor {"boundary": [[9000, 16200], [9000, 22000], [14500, 22000], [14500, 16200], [18000, 16200], [18000, 27500], [15500, 27500], [15500, 28500], [2500, 28500], [2500, 16200]], "level": "RDC", "type": "Dalle BA 250"}
+floor {"boundary": [[2500, 28500], [2500, 19400], [1700, 19400], [1700, 16200], [9000, 16200], [9000, 19600], [14500, 19600], [14500, 16200], [18000, 16200], [18000, 28500]], "level": "R+1", "type": "Dalle BA 250"}
+floor {"boundary": [[18000, 28500], [2500, 28500], [2500, 16200], [9000, 16200], [9000, 22000], [18000, 22000]], "level": "Toit-terrasse", "type": "Dalle BA 250"}
+floor {"boundary": [[5900, 32800], [5900, 30100], [3100, 30100], [3100, 32800]], "level": "RDC", "type": "Dalle mince 120", "offset": 2300}
+floor {"boundary": [[3100, 32800], [3100, 30400], [200, 30400], [200, 32800]], "level": "RDC", "type": "Dalle mince 120", "offset": 2300}
+floor {"boundary": [[18000, 30400], [18000, 28500], [15500, 28500], [15500, 30400]], "level": "RDC", "type": "Dalle mince 120", "offset": 2900}
+# Escalier en U de 3 x 4,2 m, du RDC au toit-terrasse
+stair {"start": [4750, 23500], "end": [4750, 27400], "level": "RDC", "width": 1300, "riser": 175, "tread": 280, "landings": [{"at": 10, "turn": 180}], "railings": true}
+stair {"start": [4750, 23500], "end": [4750, 27400], "level": "R+1", "width": 1300, "riser": 175, "tread": 280, "landings": [{"at": 10, "turn": 180}], "railings": true}
+# Toit-terrasse : acrotere, jardiniere Nord, poteaux acier et couverture mince a +9,00 (V1)
+wall {"points": [[2575, 23300], [2575, 16275], [8925, 16275], [8925, 21925], [17925, 21925], [17925, 27500]], "type": "Acrotère 150", "level": "Toit-terrasse", "height": 1000, "room_bounding": false}
+wall {"points": [[2500, 28570], [18000, 28570]], "type": "Acrotère 150", "level": "Toit-terrasse", "height": 600, "room_bounding": false}
+wall {"points": [[1775, 19400], [1775, 16200]], "type": "Acrotère 150", "level": "R+1", "height": 800, "room_bounding": false}
+column {"at": [5500, 27500], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [5500, 22000], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [9000, 27500], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [9000, 22000], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [12500, 27500], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [12500, 22000], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [14500, 27500], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [14500, 22000], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [18000, 27500], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [18000, 22000], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [2650, 19200], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [2650, 16350], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [5500, 19200], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [5500, 16350], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [9000, 19200], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [9000, 16350], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+roof {"boundary": [[19000, 21000], [19000, 29500], [1500, 29500], [1500, 15400], [10000, 15400], [10000, 21000]], "level": "Couverture", "slope": 0, "type": "Couverture mince 180"}
+# Terrasse couverte sur le patio (poteaux bois), preau de la cuisine africaine
+column {"at": [9100, 19700], "type": "Poteau bois 200", "level": "RDC", "height": 3050}
+column {"at": [11800, 19700], "type": "Poteau bois 200", "level": "RDC", "height": 3050}
+column {"at": [14400, 19700], "type": "Poteau bois 200", "level": "RDC", "height": 3050}
+column {"at": [15600, 30300], "type": "Poteau bois 200", "level": "RDC", "height": 2900}
+column {"at": [17900, 30300], "type": "Poteau bois 200", "level": "RDC", "height": 2900}
+# Peau de l'etage (V1 : lames de bois en damier), sur les quatre faces
+wall {"points": [[2500, 28590], [18000, 28590]], "type": "Peau lames bois 140", "level": "R+1", "height": 3900, "room_bounding": false}
+wall {"points": [[2410, 27500], [2410, 19400]], "type": "Peau lames bois 140", "level": "R+1", "height": 3100, "room_bounding": false}
+wall {"points": [[2500, 16110], [9000, 16110]], "type": "Peau lames bois 140", "level": "R+1", "height": 3100, "room_bounding": false}
+wall {"points": [[18090, 27500], [18090, 22000]], "type": "Peau lames bois 140", "level": "R+1", "height": 3100, "room_bounding": false}
+# DUPLEX : deux maisons de 8,5 m, mitoyennes
+wall {"points": [[3000, 12000], [20000, 12000]], "type": "Mur ext. enduit 200", "level": "RDC"}
+wall {"points": [[3000, 3000], [20000, 3000]], "type": "Mur ext. enduit 200", "level": "RDC"}
+wall {"points": [[3000, 12000], [3000, 3000]], "type": "Mur ext. moellons 200", "level": "RDC"}
+wall {"points": [[20000, 12000], [20000, 3000]], "type": "Mur ext. enduit 200", "level": "RDC"}
+wall {"points": [[8500, 9000], [11500, 9000]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[17000, 9000], [20000, 9000]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[3000, 5500], [20000, 5500]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[5000, 5500], [5000, 3000]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[8500, 9000], [8500, 5500]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[8600, 5500], [8600, 3000]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[10000, 5500], [10000, 3000]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[13500, 5500], [13500, 3000]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[17000, 9000], [17000, 5500]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[17100, 5500], [17100, 3000]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[18500, 5500], [18500, 3000]], "type": "Cloison 100", "level": "RDC"}
+wall {"points": [[11500, 12000], [11500, 3000]], "type": "Mur mitoyen 200", "level": "RDC"}
+door {"at": [4000, 3000], "level": "RDC", "family": "Porte simple", "type": "1000 x 2400"}
+door {"at": [10750, 3000], "level": "RDC", "family": "Porte simple", "type": "800 x 2400"}
+window {"at": [6800, 3000], "level": "RDC", "family": "Fenêtre fixe", "type": "2400 x 600", "sill": 1800}
+door {"at": [4800, 12000], "level": "RDC", "family": "Porte coulissante", "type": "2800 x 2400", "flip_facing": true}
+door {"at": [10000, 12000], "level": "RDC", "family": "Porte coulissante", "type": "2400 x 2400", "flip_facing": true}
+window {"at": [3000, 9600], "level": "RDC", "family": "Fenêtre coulissante", "type": "1600 x 1400", "sill": 1000}
+door {"at": [12500, 3000], "level": "RDC", "family": "Porte simple", "type": "1000 x 2400"}
+door {"at": [19250, 3000], "level": "RDC", "family": "Porte simple", "type": "800 x 2400"}
+window {"at": [15300, 3000], "level": "RDC", "family": "Fenêtre fixe", "type": "2400 x 600", "sill": 1800}
+door {"at": [13300, 12000], "level": "RDC", "family": "Porte coulissante", "type": "2800 x 2400", "flip_facing": true}
+door {"at": [18500, 12000], "level": "RDC", "family": "Porte coulissante", "type": "2400 x 2400", "flip_facing": true}
+door {"at": [4000, 5500], "level": "RDC", "family": "Porte simple", "type": "900 x 2100"}
+door {"at": [5000, 4250], "level": "RDC", "family": "Porte simple", "type": "900 x 2100"}
+door {"at": [8500, 7000], "level": "RDC", "family": "Porte double", "type": "1200 x 2100"}
+door {"at": [10000, 9000], "level": "RDC", "family": "Porte double", "type": "1600 x 2100"}
+door {"at": [9300, 5500], "level": "RDC", "family": "Porte simple", "type": "700 x 2100", "flip_facing": true}
+door {"at": [10750, 5500], "level": "RDC", "family": "Porte simple", "type": "700 x 2100", "flip_facing": true}
+door {"at": [12500, 5500], "level": "RDC", "family": "Porte simple", "type": "900 x 2100"}
+door {"at": [13500, 4250], "level": "RDC", "family": "Porte simple", "type": "900 x 2100"}
+door {"at": [17000, 7000], "level": "RDC", "family": "Porte double", "type": "1200 x 2100"}
+door {"at": [18500, 9000], "level": "RDC", "family": "Porte double", "type": "1600 x 2100"}
+door {"at": [17800, 5500], "level": "RDC", "family": "Porte simple", "type": "700 x 2100", "flip_facing": true}
+door {"at": [19250, 5500], "level": "RDC", "family": "Porte simple", "type": "700 x 2100", "flip_facing": true}
+room {"point": [5750, 8750], "level": "RDC", "number": "M1.01", "name": "Séjour-SAM"}
+room {"point": [10000, 7250], "level": "RDC", "number": "M1.02", "name": "Cuisine"}
+room {"point": [4000, 4250], "level": "RDC", "number": "M1.03", "name": "Entrée"}
+room {"point": [6800, 4250], "level": "RDC", "number": "M1.04", "name": "Escalier"}
+room {"point": [9300, 4250], "level": "RDC", "number": "M1.05", "name": "WC"}
+room {"point": [10750, 4250], "level": "RDC", "number": "M1.06", "name": "Cellier"}
+room {"point": [14250, 8750], "level": "RDC", "number": "M2.01", "name": "Séjour-SAM"}
+room {"point": [18500, 7250], "level": "RDC", "number": "M2.02", "name": "Cuisine"}
+room {"point": [12500, 4250], "level": "RDC", "number": "M2.03", "name": "Entrée"}
+room {"point": [15300, 4250], "level": "RDC", "number": "M2.04", "name": "Escalier"}
+room {"point": [17800, 4250], "level": "RDC", "number": "M2.05", "name": "WC"}
+room {"point": [19250, 4250], "level": "RDC", "number": "M2.06", "name": "Cellier"}
+wall {"points": [[3000, 12000], [20000, 12000]], "type": "Mur ext. enduit 200", "level": "R+1"}
+wall {"points": [[3000, 3000], [20000, 3000]], "type": "Mur ext. enduit 200", "level": "R+1"}
+wall {"points": [[3000, 12000], [3000, 3000]], "type": "Mur ext. enduit 200", "level": "R+1"}
+wall {"points": [[20000, 12000], [20000, 3000]], "type": "Mur ext. enduit 200", "level": "R+1"}
+wall {"points": [[6600, 8000], [11500, 8000]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[15100, 8000], [20000, 8000]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[3000, 6700], [6600, 6700]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[11500, 6700], [15100, 6700]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[3000, 5500], [20000, 5500]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[5000, 5500], [5000, 3000]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[6600, 12000], [6600, 6700]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[8600, 8000], [8600, 3000]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[13500, 5500], [13500, 3000]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[15100, 12000], [15100, 6700]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[17100, 8000], [17100, 3000]], "type": "Cloison 100", "level": "R+1"}
+wall {"points": [[11500, 12000], [11500, 3000]], "type": "Mur mitoyen 200", "level": "R+1"}
+window {"at": [4800, 12000], "level": "R+1", "family": "Fenêtre coulissante", "type": "1600 x 1500", "sill": 900}
+door {"at": [10000, 12000], "level": "R+1", "family": "Porte coulissante", "type": "2400 x 2400", "flip_facing": true}
+window {"at": [4000, 3000], "level": "R+1", "family": "Fenêtre fixe", "type": "800 x 600", "sill": 1800}
+window {"at": [6800, 3000], "level": "R+1", "family": "Fenêtre coulissante", "type": "2400 x 1500", "sill": 900}
+window {"at": [10750, 3000], "level": "R+1", "family": "Fenêtre fixe", "type": "1100 x 600", "sill": 1800}
+window {"at": [3000, 9600], "level": "R+1", "family": "Fenêtre coulissante", "type": "1600 x 1500", "sill": 900}
+window {"at": [13300, 12000], "level": "R+1", "family": "Fenêtre coulissante", "type": "1600 x 1500", "sill": 900}
+door {"at": [18500, 12000], "level": "R+1", "family": "Porte coulissante", "type": "2400 x 2400", "flip_facing": true}
+window {"at": [12500, 3000], "level": "R+1", "family": "Fenêtre fixe", "type": "800 x 600", "sill": 1800}
+window {"at": [15300, 3000], "level": "R+1", "family": "Fenêtre coulissante", "type": "2400 x 1500", "sill": 900}
+window {"at": [19250, 3000], "level": "R+1", "family": "Fenêtre fixe", "type": "1100 x 600", "sill": 1800}
+door {"at": [4800, 6700], "level": "R+1", "family": "Porte simple", "type": "800 x 2100"}
+door {"at": [7600, 8000], "level": "R+1", "family": "Porte simple", "type": "900 x 2100"}
+door {"at": [10000, 8000], "level": "R+1", "family": "Porte simple", "type": "800 x 2100"}
+door {"at": [10000, 5500], "level": "R+1", "family": "Porte simple", "type": "800 x 2100", "flip_facing": true}
+door {"at": [4000, 5500], "level": "R+1", "family": "Porte simple", "type": "700 x 2100", "flip_facing": true}
+door {"at": [13300, 6700], "level": "R+1", "family": "Porte simple", "type": "800 x 2100"}
+door {"at": [16100, 8000], "level": "R+1", "family": "Porte simple", "type": "900 x 2100"}
+door {"at": [18500, 8000], "level": "R+1", "family": "Porte simple", "type": "800 x 2100"}
+door {"at": [18500, 5500], "level": "R+1", "family": "Porte simple", "type": "800 x 2100", "flip_facing": true}
+door {"at": [12500, 5500], "level": "R+1", "family": "Porte simple", "type": "700 x 2100", "flip_facing": true}
+room {"point": [4800, 9350], "level": "R+1", "number": "M1.11", "name": "Chambre 2"}
+room {"point": [9050, 10000], "level": "R+1", "number": "M1.12", "name": "Chambre principale"}
+room {"point": [10050, 6750], "level": "R+1", "number": "M1.13", "name": "Dressing"}
+room {"point": [5800, 6100], "level": "R+1", "number": "M1.14", "name": "Dégagement"}
+room {"point": [6800, 4250], "level": "R+1", "number": "M1.15", "name": "Escalier"}
+room {"point": [4000, 4250], "level": "R+1", "number": "M1.16", "name": "SE"}
+room {"point": [10050, 4250], "level": "R+1", "number": "M1.17", "name": "SdB parentale"}
+room {"point": [13300, 9350], "level": "R+1", "number": "M2.11", "name": "Chambre 2"}
+room {"point": [17550, 10000], "level": "R+1", "number": "M2.12", "name": "Chambre principale"}
+room {"point": [18550, 6750], "level": "R+1", "number": "M2.13", "name": "Dressing"}
+room {"point": [14300, 6100], "level": "R+1", "number": "M2.14", "name": "Dégagement"}
+room {"point": [15300, 4250], "level": "R+1", "number": "M2.15", "name": "Escalier"}
+room {"point": [12500, 4250], "level": "R+1", "number": "M2.16", "name": "SE"}
+room {"point": [18550, 4250], "level": "R+1", "number": "M2.17", "name": "SdB parentale"}
+wall {"points": [[5000, 5500], [8600, 5500]], "type": "Mur ext. enduit 200", "level": "Toit-terrasse", "height": 2400}
+wall {"points": [[13500, 5500], [17100, 5500]], "type": "Mur ext. enduit 200", "level": "Toit-terrasse", "height": 2400}
+wall {"points": [[5000, 3000], [8600, 3000]], "type": "Mur ext. enduit 200", "level": "Toit-terrasse", "height": 2400}
+wall {"points": [[13500, 3000], [17100, 3000]], "type": "Mur ext. enduit 200", "level": "Toit-terrasse", "height": 2400}
+wall {"points": [[5000, 5500], [5000, 3000]], "type": "Mur ext. enduit 200", "level": "Toit-terrasse", "height": 2400}
+wall {"points": [[8600, 5500], [8600, 3000]], "type": "Mur ext. enduit 200", "level": "Toit-terrasse", "height": 2400}
+wall {"points": [[13500, 5500], [13500, 3000]], "type": "Mur ext. enduit 200", "level": "Toit-terrasse", "height": 2400}
+wall {"points": [[17100, 5500], [17100, 3000]], "type": "Mur ext. enduit 200", "level": "Toit-terrasse", "height": 2400}
+door {"at": [6800, 5500], "level": "Toit-terrasse", "family": "Porte simple", "type": "900 x 2400", "flip_facing": true}
+door {"at": [15300, 5500], "level": "Toit-terrasse", "family": "Porte simple", "type": "900 x 2400", "flip_facing": true}
+room {"point": [6800, 4250], "level": "Toit-terrasse", "number": "M1.21", "name": "Édicule d'escalier"}
+room {"point": [15300, 4250], "level": "Toit-terrasse", "number": "M2.21", "name": "Édicule d'escalier"}
+floor {"boundary": [[11500, 12000], [11500, 3000], [3000, 3000], [3000, 12000]], "level": "RDC", "type": "Dalle BA 250"}
+floor {"boundary": [[11500, 12160], [11500, 2840], [2840, 2840], [2840, 12160]], "level": "R+1", "type": "Dalle BA 250"}
+floor {"boundary": [[11500, 12160], [11500, 2840], [2840, 2840], [2840, 12160]], "level": "Toit-terrasse", "type": "Dalle BA 250"}
+stair {"start": [5150, 3700], "end": [8550, 3700], "level": "RDC", "width": 1150, "riser": 175, "tread": 250, "landings": [{"at": 10, "turn": 180}], "railings": true}
+stair {"start": [5150, 3700], "end": [8550, 3700], "level": "R+1", "width": 1150, "riser": 175, "tread": 250, "landings": [{"at": 10, "turn": 180}], "railings": true}
+wall {"points": [[5000, 3075], [3075, 3075], [3075, 11925], [11425, 11925], [11425, 3075], [8600, 3075]], "type": "Acrotère 150", "level": "Toit-terrasse", "height": 1000, "room_bounding": false}
+column {"at": [3150, 11700], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [3150, 5650], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [7250, 11700], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [7250, 5650], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [11350, 11700], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [11350, 5650], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+roof {"boundary": [[2600, 2600], [11450, 2600], [11450, 12600], [2600, 12600]], "level": "Couverture", "slope": 0, "type": "Couverture mince 180"}
+wall {"points": [[3000, 12090], [11500, 12090]], "type": "Peau lames bois 140", "level": "R+1", "height": 3100, "room_bounding": false}
+wall {"points": [[3000, 2910], [11500, 2910]], "type": "Peau lames bois 140", "level": "R+1", "height": 3100, "room_bounding": false}
+wall {"points": [[2910, 12000], [2910, 3000]], "type": "Peau lames bois 140", "level": "R+1", "height": 3100, "room_bounding": false}
+floor {"boundary": [[20000, 12000], [20000, 3000], [11500, 3000], [11500, 12000]], "level": "RDC", "type": "Dalle BA 250"}
+floor {"boundary": [[20000, 12160], [20000, 2840], [11500, 2840], [11500, 12160]], "level": "R+1", "type": "Dalle BA 250"}
+floor {"boundary": [[20000, 12160], [20000, 2840], [11500, 2840], [11500, 12160]], "level": "Toit-terrasse", "type": "Dalle BA 250"}
+stair {"start": [13650, 3700], "end": [17050, 3700], "level": "RDC", "width": 1150, "riser": 175, "tread": 250, "landings": [{"at": 10, "turn": 180}], "railings": true}
+stair {"start": [13650, 3700], "end": [17050, 3700], "level": "R+1", "width": 1150, "riser": 175, "tread": 250, "landings": [{"at": 10, "turn": 180}], "railings": true}
+wall {"points": [[13500, 3075], [11650, 3075]], "type": "Acrotère 150", "level": "Toit-terrasse", "height": 1000, "room_bounding": false}
+wall {"points": [[11650, 11925], [19925, 11925], [19925, 3075], [17100, 3075]], "type": "Acrotère 150", "level": "Toit-terrasse", "height": 1000, "room_bounding": false}
+column {"at": [11650, 11700], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [11650, 5650], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [15750, 11700], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [15750, 5650], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [19850, 11700], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+column {"at": [19850, 5650], "type": "Poteau acier 140", "level": "Toit-terrasse", "top_level": "Couverture", "top_offset": 0}
+roof {"boundary": [[11550, 2600], [19900, 2600], [19900, 12600], [11550, 12600]], "level": "Couverture", "slope": 0, "type": "Couverture mince 180"}
+wall {"points": [[11500, 12090], [20000, 12090]], "type": "Peau lames bois 140", "level": "R+1", "height": 3100, "room_bounding": false}
+wall {"points": [[11500, 2910], [20000, 2910]], "type": "Peau lames bois 140", "level": "R+1", "height": 3100, "room_bounding": false}
+# Clotures sur rue (socle en moellons, claustra beton), portails en lames, limites, mur vegetalise de 3,50 m
+wall {"points": [[0, 32900], [6000, 32900]], "type": "Clôture moellons 200", "level": "RDC", "height": 1000, "room_bounding": false}
+wall {"points": [[0, 32900], [6000, 32900]], "type": "Clôture claustra 200", "level": "RDC", "height": 1200, "base_offset": 1000, "room_bounding": false}
+wall {"points": [[12500, 32900], [18500, 32900]], "type": "Clôture moellons 200", "level": "RDC", "height": 1000, "room_bounding": false}
+wall {"points": [[12500, 32900], [18500, 32900]], "type": "Clôture claustra 200", "level": "RDC", "height": 1200, "base_offset": 1000, "room_bounding": false}
+wall {"points": [[19500, 32900], [20000, 32900]], "type": "Clôture moellons 200", "level": "RDC", "height": 1000, "room_bounding": false}
+wall {"points": [[19500, 32900], [20000, 32900]], "type": "Clôture claustra 200", "level": "RDC", "height": 1200, "base_offset": 1000, "room_bounding": false}
+wall {"points": [[100, 32800], [100, 15180]], "type": "Clôture moellons 200", "level": "RDC", "height": 1000, "room_bounding": false}
+wall {"points": [[100, 32800], [100, 15180]], "type": "Clôture claustra 200", "level": "RDC", "height": 1200, "base_offset": 1000, "room_bounding": false}
+wall {"points": [[100, 15000], [100, 14500]], "type": "Clôture moellons 200", "level": "RDC", "height": 1000, "room_bounding": false}
+wall {"points": [[100, 15000], [100, 14500]], "type": "Clôture claustra 200", "level": "RDC", "height": 1200, "base_offset": 1000, "room_bounding": false}
+wall {"points": [[100, 3000], [100, 2800]], "type": "Clôture moellons 200", "level": "RDC", "height": 1000, "room_bounding": false}
+wall {"points": [[100, 3000], [100, 2800]], "type": "Clôture claustra 200", "level": "RDC", "height": 1200, "base_offset": 1000, "room_bounding": false}
+wall {"points": [[6000, 32910], [7000, 32910]], "type": "Portail lames bois 100", "level": "RDC", "height": 2200, "room_bounding": false}
+wall {"points": [[18500, 32910], [19500, 32910]], "type": "Portail lames bois 100", "level": "RDC", "height": 2200, "room_bounding": false}
+wall {"points": [[7000, 32710], [12500, 32710]], "type": "Portail lames bois 100", "level": "RDC", "height": 2200, "room_bounding": false}
+wall {"points": [[90, 14500], [90, 3000]], "type": "Portail lames bois 100", "level": "RDC", "height": 2200, "room_bounding": false}
+wall {"points": [[90, 2800], [90, 0]], "type": "Portail lames bois 100", "level": "RDC", "height": 2200, "room_bounding": false}
+wall {"points": [[19900, 33000], [19900, 15180]], "type": "Clôture enduite 200", "level": "RDC", "height": 2200, "room_bounding": false}
+wall {"points": [[19900, 15000], [19900, 12000]], "type": "Clôture enduite 200", "level": "RDC", "height": 2200, "room_bounding": false}
+wall {"points": [[19900, 3000], [19900, 0]], "type": "Clôture enduite 200", "level": "RDC", "height": 2200, "room_bounding": false}
+wall {"points": [[0, 100], [19800, 100]], "type": "Clôture enduite 200", "level": "RDC", "height": 2200, "room_bounding": false}
+wall {"points": [[0, 15090], [20000, 15090]], "type": "Mur végétalisé 180", "level": "RDC", "height": 3500, "room_bounding": false}
+wall {"points": [[300, 32700], [3000, 32700], [3000, 30500], [300, 30500]], "closed": true, "type": "Clôture moellons 200", "level": "RDC", "height": 2180, "room_bounding": false}
+# Mobilier et sanitaires (familles de BIMCraft)
+component {"family": "Canapé", "type": "2000 x 900", "at": [5200, 16750], "level": "RDC", "angle": 0}
+component {"family": "Canapé", "type": "1600 x 900", "at": [3050, 19700], "level": "RDC", "angle": -90}
+component {"family": "Table", "type": "2000 x 1000", "at": [10000, 24750], "level": "RDC", "angle": 0}
+component {"family": "Lit", "type": "900 x 2000", "at": [15000, 17300], "level": "RDC", "angle": 90}
+component {"family": "Bureau", "type": "1400 x 700", "at": [17600, 21000], "level": "RDC", "angle": -90}
+component {"family": "WC", "type": "400 x 650", "at": [3000, 22650], "level": "RDC", "angle": -90}
+component {"family": "Lavabo", "type": "500 x 400", "at": [17750, 19300], "level": "RDC", "angle": -90}
+component {"family": "Douche", "type": "800 x 800", "at": [15000, 19500], "level": "RDC", "angle": 0}
+component {"family": "WC", "type": "400 x 650", "at": [16600, 19600], "level": "RDC", "angle": 0}
+component {"family": "Meuble bas", "type": "1800 x 600", "at": [13000, 23400], "level": "RDC", "angle": 0}
+component {"family": "Évier de cuisine", "type": "1200 x 550", "at": [12850, 25500], "level": "RDC", "angle": -90}
+component {"family": "Évier de cuisine", "type": "800 x 500", "at": [17650, 26000], "level": "RDC", "angle": -90}
+component {"family": "Meuble bas", "type": "1800 x 600", "at": [16000, 27150], "level": "RDC", "angle": 180}
+component {"family": "Lit", "type": "1800 x 2000", "at": [5750, 17350], "level": "R+1", "angle": 0}
+component {"family": "Lit", "type": "1600 x 2000", "at": [10750, 26400], "level": "R+1", "angle": 180}
+component {"family": "Lit", "type": "1600 x 2000", "at": [17100, 24750], "level": "R+1", "angle": -90}
+component {"family": "Canapé", "type": "2000 x 900", "at": [7250, 22600], "level": "R+1", "angle": 0}
+component {"family": "Baignoire", "type": "1700 x 750", "at": [3400, 20700], "level": "R+1", "angle": 90}
+component {"family": "Lavabo", "type": "600 x 450", "at": [5150, 20300], "level": "R+1", "angle": -90}
+component {"family": "Armoire", "type": "1200 x 600", "at": [6400, 21600], "level": "R+1", "angle": 180}
+component {"family": "Armoire", "type": "1200 x 600", "at": [8000, 21600], "level": "R+1", "angle": 180}
+component {"family": "Douche", "type": "800 x 800", "at": [14000, 27000], "level": "R+1", "angle": 0}
+component {"family": "WC", "type": "400 x 650", "at": [13000, 25800], "level": "R+1", "angle": 0}
+component {"family": "Douche", "type": "800 x 800", "at": [14000, 23700], "level": "R+1", "angle": 0}
+component {"family": "WC", "type": "400 x 650", "at": [13000, 24850], "level": "R+1", "angle": 180}
+component {"family": "Canapé", "type": "2000 x 900", "at": [4800, 8800], "level": "RDC", "angle": 0}
+component {"family": "Table", "type": "1600 x 900", "at": [10000, 10400], "level": "RDC", "angle": 90}
+component {"family": "Meuble bas", "type": "1800 x 600", "at": [10000, 5800], "level": "RDC", "angle": 0}
+component {"family": "Évier de cuisine", "type": "1200 x 550", "at": [11200, 7600], "level": "RDC", "angle": -90}
+component {"family": "WC", "type": "400 x 650", "at": [9300, 3400], "level": "RDC", "angle": 0}
+component {"family": "Lit", "type": "1600 x 2000", "at": [9000, 10850], "level": "R+1", "angle": 180}
+component {"family": "Lit", "type": "900 x 2000", "at": [3600, 10400], "level": "R+1", "angle": 90}
+component {"family": "Armoire", "type": "1200 x 600", "at": [10000, 5850], "level": "R+1", "angle": 0}
+component {"family": "Baignoire", "type": "1700 x 750", "at": [10050, 3450], "level": "R+1", "angle": 0}
+component {"family": "Douche", "type": "800 x 800", "at": [4000, 5000], "level": "R+1", "angle": 0}
+component {"family": "Canapé", "type": "2000 x 900", "at": [13300, 8800], "level": "RDC", "angle": 0}
+component {"family": "Table", "type": "1600 x 900", "at": [18500, 10400], "level": "RDC", "angle": 90}
+component {"family": "Meuble bas", "type": "1800 x 600", "at": [18500, 5800], "level": "RDC", "angle": 0}
+component {"family": "Évier de cuisine", "type": "1200 x 550", "at": [19700, 7600], "level": "RDC", "angle": -90}
+component {"family": "WC", "type": "400 x 650", "at": [17800, 3400], "level": "RDC", "angle": 0}
+component {"family": "Lit", "type": "1600 x 2000", "at": [17500, 10850], "level": "R+1", "angle": 180}
+component {"family": "Lit", "type": "900 x 2000", "at": [12100, 10400], "level": "R+1", "angle": 90}
+component {"family": "Armoire", "type": "1200 x 600", "at": [18500, 5850], "level": "R+1", "angle": 0}
+component {"family": "Baignoire", "type": "1700 x 750", "at": [18550, 3450], "level": "R+1", "angle": 0}
+component {"family": "Douche", "type": "800 x 800", "at": [12500, 5000], "level": "R+1", "angle": 0}
+# Terrain (rues en laterite), jardins et patio plantes, arbres (positions de rendu/scene.py)
+floor {"boundary": [[-14000, -14000], [34000, -14000], [34000, 47000], [-14000, 47000]], "level": "RDC", "type": "Terrain (latérite)", "offset": -150}
+floor {"boundary": [[14500, 19600], [14500, 15180], [9000, 15180], [9000, 19600]], "level": "RDC", "type": "Jardin planté", "offset": -60}
+floor {"boundary": [[2500, 30200], [2500, 15180], [200, 15180], [200, 30200]], "level": "RDC", "type": "Jardin planté", "offset": -60}
+floor {"boundary": [[19800, 15000], [19800, 12000], [3000, 12000], [3000, 15000]], "level": "RDC", "type": "Jardin planté", "offset": -60}
+component {"family": "Arbre", "type": "6400 x 6500", "at": [12900, 17100], "level": "RDC", "offset": -150}
+component {"family": "Arbre", "type": "4800 x 5500", "at": [900, 24800], "level": "RDC", "offset": -150}
+component {"family": "Arbre", "type": "3200 x 4300", "at": [1100, 28600], "level": "RDC", "offset": -150}
+component {"family": "Arbre", "type": "5000 x 5000", "at": [800, 17600], "level": "RDC", "offset": -150}
+component {"family": "Arbre", "type": "3000 x 4600", "at": [1300, 21000], "level": "RDC", "offset": -150}
+component {"family": "Arbre", "type": "2000 x 3600", "at": [19000, 26800], "level": "RDC", "offset": -150}
+component {"family": "Arbre", "type": "1600 x 3000", "at": [19100, 25400], "level": "RDC", "offset": -150}
+component {"family": "Arbre", "type": "2800 x 4000", "at": [13500, 31000], "level": "RDC", "offset": -150}
+component {"family": "Arbre", "type": "4200 x 4500", "at": [4700, 13700], "level": "RDC", "offset": -150}
+component {"family": "Arbre", "type": "2600 x 3500", "at": [7000, 13500], "level": "RDC", "offset": -150}
+component {"family": "Arbre", "type": "4200 x 4500", "at": [13300, 13800], "level": "RDC", "offset": -150}
+component {"family": "Arbre", "type": "2000 x 3600", "at": [19000, 14000], "level": "RDC", "offset": -150}
+# Noms des espaces ouverts, sur les plans
+text_type {"name": "Notes", "font": "BIMCraft Lettering", "size": 2.2}
+text_type {"name": "Rues", "font": "BIMCraft Lettering", "size": 3.5}
+text {"text": "PATIO PLANTÉ", "at": [10200, 17400], "view": "RDC", "type": "Notes"}
+text {"text": "TERRASSE COUVERTE", "at": [9600, 21400], "view": "RDC", "type": "Notes"}
+text {"text": "PASSAGE COUVERT", "at": [8000, 28200], "view": "RDC", "type": "Notes"}
+text {"text": "SÉCHOIR", "at": [15000, 31900], "view": "RDC", "type": "Notes"}
+text {"text": "PRÉAU", "at": [16000, 29700], "view": "RDC", "type": "Notes"}
+text {"text": "STATIONNEMENT (2 PL.)", "at": [7300, 30700], "view": "RDC", "type": "Notes"}
+text {"text": "JARDIN OUEST", "at": [400, 21000], "view": "RDC", "type": "Notes"}
+text {"text": "JARDIN M1", "at": [5500, 13800], "view": "RDC", "type": "Notes"}
+text {"text": "JARDIN M2", "at": [14000, 13800], "view": "RDC", "type": "Notes"}
+text {"text": "COUR M1", "at": [5500, 1600], "view": "RDC", "type": "Notes"}
+text {"text": "COUR M2", "at": [14000, 1600], "view": "RDC", "type": "Notes"}
+text {"text": "PASSAGE DE SERVICE", "at": [18150, 24000], "view": "RDC", "type": "Notes"}
+text {"text": "PARKING", "at": [400, 9000], "view": "RDC", "type": "Notes"}
+text {"text": "LOGGIA", "at": [9000, 28200], "view": "R+1", "type": "Notes"}
+text {"text": "TOITURE VÉGÉTALISÉE", "at": [15000, 19000], "view": "R+1", "type": "Notes"}
+text {"text": "TOIT-TERRASSE COUVERT", "at": [9500, 25000], "view": "Toit-terrasse", "type": "Notes"}
+text {"text": "TOIT-TERRASSE", "at": [5000, 9000], "view": "Toit-terrasse", "type": "Notes"}
+text {"text": "TOIT-TERRASSE", "at": [13500, 9000], "view": "Toit-terrasse", "type": "Notes"}
+text {"text": "RUE NORD (VOIE EN TERRE)", "at": [7000, 33900], "view": "RDC", "type": "Rues"}
+text {"text": "RUE OUEST", "at": [-1300, 7000], "view": "RDC", "angle": 90, "type": "Rues"}
+# Cotes : trame (axes 1 a 6, files A a E) et parcelle
+dimension {"refs": [[2500, 34000], [5500, 34000], [9000, 34000], [12500, 34000], [14500, 34000], [18000, 34000]], "at": [10000, 34750], "level": "RDC"}
+dimension {"refs": [[20300, 28500], [20300, 27500], [20300, 22000], [20300, 16200], [20300, 15000]], "at": [20600, 22000], "level": "RDC"}
+dimension {"refs": [[2500, 34000], [5500, 34000], [9000, 34000], [12500, 34000], [14500, 34000], [18000, 34000]], "at": [10000, 34750], "level": "R+1"}
+dimension {"refs": [[20300, 28500], [20300, 27500], [20300, 22000], [20300, 16200], [20300, 15000]], "at": [20600, 22000], "level": "R+1"}
+# Vues : plans recadres (villa, duplex), coupes AA / BB / CC, quatre elevations, 3D, cameras
+duplicate_view {"view": "RDC", "name": "RDC — Villa", "mode": "detailing"}
+crop {"view": "RDC — Villa", "region": [[-2200, 14400], [21000, 35200]]}
+scale {"view": "RDC — Villa", "scale": 100}
+duplicate_view {"view": "RDC", "name": "RDC — Duplex", "mode": "detailing"}
+crop {"view": "RDC — Duplex", "region": [[-2200, -1000], [21000, 15600]]}
+scale {"view": "RDC — Duplex", "scale": 100}
+duplicate_view {"view": "R+1", "name": "R+1 — Villa", "mode": "detailing"}
+crop {"view": "R+1 — Villa", "region": [[-2200, 14400], [21000, 35200]]}
+scale {"view": "R+1 — Villa", "scale": 100}
+duplicate_view {"view": "R+1", "name": "R+1 — Duplex", "mode": "detailing"}
+crop {"view": "R+1 — Duplex", "region": [[-2200, -1000], [21000, 15600]]}
+scale {"view": "R+1 — Duplex", "scale": 100}
+duplicate_view {"view": "Toit-terrasse", "name": "Toit-terrasse — Villa", "mode": "detailing"}
+crop {"view": "Toit-terrasse — Villa", "region": [[-2200, 14400], [21000, 35200]]}
+scale {"view": "Toit-terrasse — Villa", "scale": 100}
+duplicate_view {"view": "Toit-terrasse", "name": "Toit-terrasse — Duplex", "mode": "detailing"}
+crop {"view": "Toit-terrasse — Duplex", "region": [[-2200, -1000], [21000, 15600]]}
+scale {"view": "Toit-terrasse — Duplex", "scale": 100}
+section {"start": [10750, 34500], "end": [10750, 12000], "name": "Coupe AA", "depth": 9000}
+section {"start": [-1500, 18200], "end": [21500, 18200], "name": "Coupe BB", "depth": 9000}
+section {"start": [7500, 14700], "end": [7500, -1500], "name": "Coupe CC", "depth": 9000}
+elevation {"start": [21500, 36000], "end": [-1500, 36000], "name": "Élévation Nord"}
+elevation {"start": [-1500, -3000], "end": [21500, -3000], "name": "Élévation Sud"}
+elevation {"start": [-3000, 34500], "end": [-3000, -1500], "name": "Élévation Ouest"}
+elevation {"start": [23000, -1500], "end": [23000, 34500], "name": "Élévation Est"}
+graphics {"view": "{3D}", "hide": ["level", "grid", "section", "elevation", "text", "tag", "dimension", "propertyline"]}
+scale {"view": "Coupe AA", "scale": 100}
+scale {"view": "Coupe BB", "scale": 100}
+scale {"view": "Coupe CC", "scale": 100}
+scale {"view": "Élévation Nord", "scale": 100}
+scale {"view": "Élévation Ouest", "scale": 100}
+scale {"view": "Élévation Sud", "scale": 100}
+scale {"view": "Élévation Est", "scale": 100}
+crop {"view": "Coupe AA", "region": [[0, -900], [21000, 10200]]}
+crop {"view": "Coupe BB", "region": [[0, -900], [23000, 10200]]}
+crop {"view": "Coupe CC", "region": [[0, -900], [16200, 10200]]}
+crop {"view": "Élévation Nord", "region": [[0, -900], [23000, 10200]]}
+crop {"view": "Élévation Sud", "region": [[0, -900], [23000, 10200]]}
+crop {"view": "Élévation Ouest", "region": [[0, -900], [36000, 10200]]}
+crop {"view": "Élévation Est", "region": [[0, -900], [36000, 10200]]}
+graphics {"view": "Coupe AA", "hide": ["generic"]}
+graphics {"view": "Coupe BB", "hide": ["generic"]}
+graphics {"view": "Coupe CC", "hide": ["generic"]}
+graphics {"view": "Élévation Nord", "hide": ["generic"]}
+graphics {"view": "Élévation Ouest", "hide": ["generic"]}
+graphics {"view": "Élévation Sud", "hide": ["generic"]}
+graphics {"view": "Élévation Est", "hide": ["generic"]}
+graphics {"view": "Coupe AA", "categories": {"wall": {"cut": {"fill": "#000000"}}, "floor": {"cut": {"fill": "#000000"}}, "roof": {"cut": {"fill": "#000000"}}, "stair": {"cut": {"fill": "#000000"}}, "column": {"cut": {"fill": "#000000"}}}}
+graphics {"view": "Coupe BB", "categories": {"wall": {"cut": {"fill": "#000000"}}, "floor": {"cut": {"fill": "#000000"}}, "roof": {"cut": {"fill": "#000000"}}, "stair": {"cut": {"fill": "#000000"}}, "column": {"cut": {"fill": "#000000"}}}}
+graphics {"view": "Coupe CC", "categories": {"wall": {"cut": {"fill": "#000000"}}, "floor": {"cut": {"fill": "#000000"}}, "roof": {"cut": {"fill": "#000000"}}, "stair": {"cut": {"fill": "#000000"}}, "column": {"cut": {"fill": "#000000"}}}}
+graphics {"view": "RDC — Villa", "categories": {"wall": {"cut": {"fill": "#000000"}}, "floor": {"cut": {"fill": "#000000"}}, "roof": {"cut": {"fill": "#000000"}}, "stair": {"cut": {"fill": "#000000"}}, "column": {"cut": {"fill": "#000000"}}}}
+graphics {"view": "RDC — Duplex", "categories": {"wall": {"cut": {"fill": "#000000"}}, "floor": {"cut": {"fill": "#000000"}}, "roof": {"cut": {"fill": "#000000"}}, "stair": {"cut": {"fill": "#000000"}}, "column": {"cut": {"fill": "#000000"}}}}
+graphics {"view": "R+1 — Villa", "categories": {"wall": {"cut": {"fill": "#000000"}}, "floor": {"cut": {"fill": "#000000"}}, "roof": {"cut": {"fill": "#000000"}}, "stair": {"cut": {"fill": "#000000"}}, "column": {"cut": {"fill": "#000000"}}}}
+graphics {"view": "R+1 — Duplex", "categories": {"wall": {"cut": {"fill": "#000000"}}, "floor": {"cut": {"fill": "#000000"}}, "roof": {"cut": {"fill": "#000000"}}, "stair": {"cut": {"fill": "#000000"}}, "column": {"cut": {"fill": "#000000"}}}}
+graphics {"view": "Toit-terrasse — Villa", "categories": {"wall": {"cut": {"fill": "#000000"}}, "floor": {"cut": {"fill": "#000000"}}, "roof": {"cut": {"fill": "#000000"}}, "stair": {"cut": {"fill": "#000000"}}, "column": {"cut": {"fill": "#000000"}}}}
+graphics {"view": "Toit-terrasse — Duplex", "categories": {"wall": {"cut": {"fill": "#000000"}}, "floor": {"cut": {"fill": "#000000"}}, "roof": {"cut": {"fill": "#000000"}}, "stair": {"cut": {"fill": "#000000"}}, "column": {"cut": {"fill": "#000000"}}}}
+# Vues de presentation : copies des plans recadres, annotations masquees ; plan masse au 1:200
+duplicate_view {"view": "RDC — Villa", "name": "Présentation RDC — Villa", "mode": "duplicate"}
+graphics {"view": "Présentation RDC — Villa", "hide": ["grid", "room", "roomreference", "tag", "text", "dimension", "section", "elevation", "generic", "propertyline", "level"]}
+duplicate_view {"view": "R+1 — Villa", "name": "Présentation R+1 — Villa", "mode": "duplicate"}
+graphics {"view": "Présentation R+1 — Villa", "hide": ["grid", "room", "roomreference", "tag", "text", "dimension", "section", "elevation", "generic", "propertyline", "level"]}
+duplicate_view {"view": "Toit-terrasse — Villa", "name": "Présentation Toit-terrasse — Villa", "mode": "duplicate"}
+graphics {"view": "Présentation Toit-terrasse — Villa", "hide": ["grid", "room", "roomreference", "tag", "text", "dimension", "section", "elevation", "generic", "propertyline", "level"]}
+duplicate_view {"view": "RDC — Duplex", "name": "Présentation RDC — Duplex", "mode": "duplicate"}
+graphics {"view": "Présentation RDC — Duplex", "hide": ["grid", "room", "roomreference", "tag", "text", "dimension", "section", "elevation", "generic", "propertyline", "level"]}
+duplicate_view {"view": "R+1 — Duplex", "name": "Présentation R+1 — Duplex", "mode": "duplicate"}
+graphics {"view": "Présentation R+1 — Duplex", "hide": ["grid", "room", "roomreference", "tag", "text", "dimension", "section", "elevation", "generic", "propertyline", "level"]}
+duplicate_view {"view": "Toit-terrasse — Duplex", "name": "Présentation Toit-terrasse — Duplex", "mode": "duplicate"}
+graphics {"view": "Présentation Toit-terrasse — Duplex", "hide": ["grid", "room", "roomreference", "tag", "text", "dimension", "section", "elevation", "generic", "propertyline", "level"]}
+duplicate_view {"view": "RDC", "name": "Plan masse", "mode": "duplicate"}
+crop {"view": "Plan masse", "region": [[-3000, -3000], [23000, 36000]]}
+scale {"view": "Plan masse", "scale": 200}
+graphics {"view": "Plan masse", "hide": ["grid", "room", "roomreference", "tag", "text", "dimension", "section", "elevation", "generic", "propertyline", "level"], "categories": {"wall": {"cut": {"fill": "#000000"}}, "column": {"cut": {"fill": "#000000"}}, "stair": {"cut": {"fill": "#000000"}}}}
+# Jeu de planches A3 (cartouche de BIMCraft)
+project_info {"name": "Lot 1728 · option C v5", "number": "1728-C5", "client": "Maître d'ouvrage privé", "address": "Lot 1728, îlot 174, Djorogobité 1\nCocody, Abidjan", "status": "Esquisse, option C v5", "issue_date": "15.11.2026", "building": "Villa à patio + 2 maisons duplex"}
+sheet {"number": "A101", "name": "Villa — rez-de-chaussée", "size": "ISO A3"}
+place {"sheet": "A101", "view": "RDC — Villa", "at": [175, 165], "scale": 100}
+sheet {"number": "A102", "name": "Villa — étage", "size": "ISO A3"}
+place {"sheet": "A102", "view": "R+1 — Villa", "at": [175, 165], "scale": 100}
+sheet {"number": "A103", "name": "Villa — toit-terrasse", "size": "ISO A3"}
+place {"sheet": "A103", "view": "Toit-terrasse — Villa", "at": [175, 165], "scale": 100}
+sheet {"number": "A104", "name": "Coupes AA et BB", "size": "ISO A3"}
+place {"sheet": "A104", "view": "Coupe AA", "at": [190, 215], "scale": 150}
+place {"sheet": "A104", "view": "Coupe BB", "at": [190, 110], "scale": 150}
+sheet {"number": "A105", "name": "Élévations Nord et Ouest", "size": "ISO A3"}
+place {"sheet": "A105", "view": "Élévation Nord", "at": [200, 215], "scale": 200}
+place {"sheet": "A105", "view": "Élévation Ouest", "at": [200, 105], "scale": 200}
+sheet {"number": "A106", "name": "Élévations Sud et Est", "size": "ISO A3"}
+place {"sheet": "A106", "view": "Élévation Sud", "at": [200, 215], "scale": 200}
+place {"sheet": "A106", "view": "Élévation Est", "at": [200, 105], "scale": 200}
+sheet {"number": "A107", "name": "Duplex — rez-de-chaussée et étage", "size": "ISO A3"}
+place {"sheet": "A107", "view": "RDC — Duplex", "at": [110, 150], "scale": 150}
+place {"sheet": "A107", "view": "R+1 — Duplex", "at": [280, 150], "scale": 150}
+sheet {"number": "A108", "name": "Duplex — toit et coupe CC", "size": "ISO A3"}
+place {"sheet": "A108", "view": "Toit-terrasse — Duplex", "at": [110, 150], "scale": 150}
+place {"sheet": "A108", "view": "Coupe CC", "at": [290, 150], "scale": 150}
+sheet {"number": "A109", "name": "Vue 3D", "size": "ISO A3"}
+place {"sheet": "A109", "view": "{3D}", "at": [190, 165], "scale": 300, "azimuth": -130, "elevation": 28}

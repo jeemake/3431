@@ -14,6 +14,8 @@ A (villa compacte, nounou à l'étage), B (villa avec aile de service, recommand
 | 3. Business plan de l'investissement locatif | `03_Business_Plan_Lot1728_Palmeraie.pdf`, `.xlsx` (hypothèses modifiables) |
 | 4. Option C v4 (markup du 07-11-2026) et locatif en 3 duplex : plans aux conventions Capitude avec blocs Archibooks, coupes, élévations, double peau en 2 variantes, rendus IA, surfaces, estimatif | `04_Dossier_Option_C_Lot1728.pdf` |
 | 5. Option C v5 (markups du 10-11-2026) et locatif en 2 duplex : dossier A3 au gabarit Capitude (PRESENTATION-PROJETS-ARCHI v4, GABARIT-VISUEL-PLANS v3), façades V1 / V2 d'après les références du client harmonisées villa + duplex, détails de façade, vues d'ambiance Sume (GPT Image 2.6), surfaces, estimatif | `05_Dossier_Option_C_v5_Lot1728.pdf` |
+| 7. Option C v5 remodelée dans BIMCraft et dossier refait aux règles Capitude de Supabase (PRESENTATION-PROJETS-ARCHI v4, GABARIT-VISUEL-PLANS v4) : plan masse, plans numérotés avec légende, coupes et façades au 1:100, axonométries, vues d'ambiance, surfaces de la maquette, estimatif ; même mise en page en .pptx éditable | `07_Dossier_BIMCraft_Lot1728.pdf`, `.pptx` |
+| Maquette BIMCraft : projet, IFC4, glTF, 9 planches A3, nomenclature des pièces, script de commandes, vues ; compte rendu de vérification | `bimcraft/` |
 | Option C, façades et patio (références Capitude Palinda Kannangara : Casa Lineal, Casa Estudio) : élévations annotées, vues | `C_Facades_Lot1728.pdf` |
 
 Les plans sont aussi fournis en SVG et PNG (`out/svg`, `out/png`).
@@ -44,6 +46,9 @@ python3 doc_dossier_C.py  # dossier de presentation de l'option C v4 (version pr
 python3 rendu/scene.py && python3 rendu/vues.py  # maquette 3D, vues clay et rendus au trait (elevations, coupes)
 python3 doc_dossier_v5.py  # dossier A3 de l'option C v5 (05_Dossier_Option_C_v5_Lot1728.pdf)
 python3 doc_facade.py   # planches facades (apres rendu des vues clay, voir rendu/render_clay.js)
+python3 bimcraft_modele.py      # maquette BIMCraft (bimcraft-cli : BIMCRAFT_CLI=...), IFC, planches, vues
+python3 doc_dossier_bimcraft.py # dossier 07 (PDF + PPTX) ; plans_bimcraft.py : dessins au gabarit Capitude
+# cache .cache_blocs (police URW Gothic, blocs Archibooks) : /functions/v1/blocs/lib et /blocs/batch du projet capitude
 ```
 
 
